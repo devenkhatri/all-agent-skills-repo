@@ -1,4 +1,4 @@
-# This is collection of custom claude code skills created for various use cases
+# This is collection of custom agent skills created for various use cases
 
 ## Skill Builder
 Use when creating new skills, optimizing existing skills, or auditing skill quality. Guides skill development following Claude Code official best practices.
