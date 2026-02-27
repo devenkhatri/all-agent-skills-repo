@@ -1,7 +1,10 @@
 # This is collection of custom claude code skills created for various use cases
 
 ## Skill Builder
-### It can create new skills for claude code
+---
+name: skill-builder
+description: Use when creating new skills, optimizing existing skills, or auditing skill quality. Guides skill development following Claude Code official best practices.
+---
 **How to install the Skill Builder skill:**
 1. In your project folder, create the directory `.claude/skills/skill-builder/`
 2. Drop both files into that folder:
@@ -13,7 +16,10 @@
 That's it. Claude will walk you through the rest.
 
 ## Excalidraw Diagrams
-### Create Excalidraw Diagrams
+---
+name: excalidraw-diagram
+description: Use when someone asks to draw a diagram, make an Excalidraw diagram, or build an editable diagram. Default for all diagram requests.
+---
 **How to install the Excalidraw Diagram skill:**
 1. In your project folder, create the directory `.claude/skills/excalidraw-diagram/`
 2. Drop the `SKILL.md` file into that folder.
