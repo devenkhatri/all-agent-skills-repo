@@ -27,6 +27,7 @@ npx skills add devenkhatri/all-agent-skills-repo/<skill-name>
 | `/frontend-slides` | "Create a presentation" / "Make slides" |
 | `/skill-builder` | "Help me build a skill" / "Audit this skill" |
 | `/remotion-generator` | "Generate a video" / "Create a video" / "Generate remotion" |
+| `/visa-validator` | "Scan visa documents, validate against country checklists, perform gap analysis, and generate approval probability scores" |
 
 ## Skill Architecture
 

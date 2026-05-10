@@ -1,0 +1,101 @@
+{
+  "country": "Canada",
+  "visa_type": "Visitor Visa (Temporary Resident Visa)",
+  "required_documents": [
+    {
+      "name": "Passport",
+      "description": "Valid passport or travel document",
+      "required": true,
+      "validation_rules": [
+        "Must be valid for the duration of your stay",
+        "Must have at least one blank page for visa stamp"
+      ]
+    },
+    {
+      "name": "Application Forms",
+      "description": "Completed visitor visa application forms",
+      "required": true,
+      "validation_rules": [
+        "IMM 5257 Application for Visitor Visa (Temporary Resident Visa)",
+        "Family Information form (IMM 5645 or IMM 5707)",
+        "All forms must be completed and signed"
+      ]
+    },
+    {
+      "name": "Photos",
+      "description": "Two recent passport-style photos",
+      "required": true,
+      "validation_rules": [
+        "Two identical photos",
+        "35mm x 45mm size",
+        "Taken within last 6 months",
+        "White background",
+        "Full face visible"
+      ]
+    },
+    {
+      "name": "Proof of Financial Support",
+      "description": "Evidence of sufficient funds for stay in Canada",
+      "required": true,
+      "validation_rules": [
+        "Bank statements for past 4 months",
+        "Proof of employment and income",
+        "Or proof of support from host in Canada",
+        "Minimum required funds vary by length of stay"
+      ]
+    },
+    {
+      "name": "Travel Itinerary",
+      "description": "Details of planned travel to Canada",
+      "required": false,
+      "validation_rules": [
+        "Flight itinerary (if booked)",
+        "Hotel bookings or letter of invitation from host",
+        "Planned activities in Canada"
+      ]
+    },
+    {
+      "name": "Letter of Invitation",
+      "description": "Letter from friend or family in Canada (if applicable)",
+      "required": false,
+      "validation_rules": [
+        "Host's status in Canada (citizen or permanent resident)",
+        "Host's contact information",
+        "Details of your relationship to host",
+        "Information about your visit"
+      ]
+    },
+    {
+      "name": "Proof of Employment",
+      "description": "Evidence of current employment status",
+      "required": true,
+      "validation_rules": [
+        "Employment letter from employer",
+        "Recent pay stubs",
+        "Business registration if self-employed",
+        "Proof of leave approval (if applicable)"
+      ]
+    },
+    {
+      "name": "Proof of Ties to Home Country",
+      "description": "Evidence of strong ties to home country",
+      "required": true,
+      "validation_rules": [
+        "Property documents",
+        "Family information",
+        "Employment verification",
+        "Evidence of return to home country after visit"
+      ]
+    }
+  ],
+  "scoring_weights": {
+    "passport": 0.15,
+    "application_forms": 0.2,
+    "photos": 0.1,
+    "financial_support": 0.2,
+    "travel_itinerary": 0.05,
+    "letter_of_invitation": 0.05,
+    "proof_of_employment": 0.15,
+    "ties_to_home_country": 0.1
+  }
+}

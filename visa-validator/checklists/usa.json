@@ -1,0 +1,84 @@
+{
+  "country": "USA",
+  "visa_type": "B1/B2 Tourist Visa",
+  "required_documents": [
+    {
+      "name": "Passport",
+      "description": "Valid passport with at least 6 months validity beyond intended stay",
+      "required": true,
+      "validation_rules": [
+        "Must be valid for at least 6 months beyond intended stay",
+        "Must have at least 2 blank pages"
+      ]
+    },
+    {
+      "name": "DS-160 Confirmation",
+      "description": "Confirmation page of DS-160 online application",
+      "required": true,
+      "validation_rules": [
+        "Must be complete and submitted online",
+        "Must have barcode visible"
+      ]
+    },
+    {
+      "name": "Photo",
+      "description": "2x2 inch color photo meeting US visa requirements",
+      "required": true,
+      "validation_rules": [
+        "2x2 inches (51x51 mm)",
+        "Taken within last 6 months",
+        "White background",
+        "Full face visible"
+      ]
+    },
+    {
+      "name": "Appointment Confirmation",
+      "description": "Confirmation of visa interview appointment",
+      "required": true,
+      "validation_rules": [
+        "Must match DS-160 information",
+        "Must show appointment date and time"
+      ]
+    },
+    {
+      "name": "Financial Documents",
+      "description": "Proof of sufficient funds for stay in USA",
+      "required": true,
+      "validation_rules": [
+        "Bank statements for last 3 months",
+        "Or proof of employment and income",
+        "Or sponsorship documents if applicable"
+      ]
+    },
+    {
+      "name": "Travel Itinerary",
+      "description": "Details of planned travel to USA",
+      "required": false,
+      "validation_rules": [
+        "Flight reservations (if booked)",
+        "Hotel bookings (if applicable)",
+        "Daily activity plan"
+      ]
+    },
+    {
+      "name": "Ties to Home Country",
+      "description": "Evidence of strong ties to home country",
+      "required": true,
+      "validation_rules": [
+        "Employment letter",
+        "Property documents",
+        "Family relationship documents",
+        "Enrollment proof for students"
+      ]
+    }
+  ],
+  "scoring_weights": {
+    "passport": 0.15,
+    "ds160_confirmation": 0.15,
+    "photo": 0.1,
+    "appointment_confirmation": 0.1,
+    "financial_documents": 0.25,
+    "travel_itinerary": 0.05,
+    "ties_to_home_country": 0.2
+  }
+}
