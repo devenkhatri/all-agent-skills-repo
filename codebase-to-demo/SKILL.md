@@ -97,7 +97,7 @@ Structure the demo as **6-9 modules** following the Pitch Arc below. Each module
 | 6 — Why These Tools | "Why not just use [X]?" | Tech Stack Justification — one card per tool, with the business reason it was chosen over alternatives. |
 | 7 — Integrations | "What does it plug into?" | Integration Map detail — each connected platform with logo, what data flows in/out, and setup complexity. |
 | 8 — Going Live | "How do we actually run this?" | Deployment & Scaling Notes — hosting, maintenance, calculated API costs (INR with USD toggle), who to call when something breaks. |
-| 8.5 — See It In Action | "Is this real or just a concept?" | Screenshots gallery: 3-6 actual screenshots of the running app and codebase. Lightbox layout. Plain-language captions. Proof it's built and working. |
+
 | 9 — Next Steps | "What happens after I say yes?" | A clear, confident close: implementation timeline, what you need from them, and what they get. |
 
 **Hook Writing Rules (Module 0):**
@@ -119,8 +119,7 @@ Generate a single HTML file with embedded CSS and JavaScript. The file must be c
 
 **Build order:**
 
-0. **Screenshots first** — Before writing any HTML, attempt to capture real screenshots using Playwright browser tools (see Interactive Element 8). Start the app, navigate to key screens, capture and base64-encode 3-6 images. Store them as variables for embedding later. If the app can't be started, note which placeholder slots to leave.
-1. **Foundation first** — HTML shell, complete CSS, navigation bar with module titles (not numbers — use the question the module answers, e.g., "How It Works"), scroll-snap behavior, keyboard navigation. Module order: Hook → Problem → Solution → How It Works → Architecture → What Could Break → Why These Tools → Integrations → Going Live → Screenshots → Next Steps.
+1. **Foundation first** — HTML shell, complete CSS, navigation bar with module titles (not numbers — use the question the module answers, e.g., "How It Works"), scroll-snap behavior, keyboard navigation. Module order: Hook → Problem → Solution → How It Works → Architecture → What Could Break → Why These Tools → Integrations → Going Live → Next Steps.
 2. **One module at a time** — Build Module 0 (Hook) first, verify it looks right, then Module 1. Never try to write all modules in one pass.
 3. **Interactive elements pass** — Add the Clickable Architecture Map, Sequence Diagram, Before/After Toggle, and "What Would Break" Explorer after the content scaffold is in place.
 4. **Polish pass** — Transitions, mobile responsiveness, visual consistency, animation timing.
@@ -140,7 +139,7 @@ After generating the HTML file, open it in the browser. Walk through each module
 
 Also verify:
 - **The Hook (Module 0):** Read the two lines aloud. Do they land in under 5 seconds? Does Line 1 name a specific cost? Does Line 2 create genuine anticipation? If not, rewrite.
-- **Screenshots (Module 8.5):** Are all images loading? Are captions in plain buyer language? Does the lightbox open and close correctly with both click and ESC?
+- **Code Translation Panel (Interactive Element 8):** Do all tabs switch correctly? Is code readable without horizontal scrolling? Are plain-English explanations in buyer language, not developer language?
 
 ---
 
@@ -328,80 +327,62 @@ If disconnected: Queued until reconnected
 
 **Tone:** Calm and reassuring. The buyer should feel like they're buying a managed service, not inheriting a DIY project.
 
-### 8. Screenshots Gallery
+### 8. Code ↔ English Translation Blocks
 
-**Purpose:** Prove the implementation is real and working — not just a concept deck. Show the buyer what they'd actually see if they opened the app today.
+**Purpose:** Give technically curious buyers a window into the craft — showing that the implementation is real, thoughtful, and well-structured — without requiring them to read code.
 
 **Implementation:**
-
-**Step 1 — Capture screenshots before writing HTML.**
-
-Try to capture real screenshots using Playwright browser tools:
-
-1. Read the project's `package.json`, `Makefile`, or README to find the start command
-2. Launch the app locally (e.g., `npm run dev`, `python app.py`, `uvicorn main:app`)
-3. Use `mcp__plugin_playwright_playwright__browser_navigate` to open the running app
-4. Use `mcp__plugin_playwright_playwright__browser_take_screenshot` to capture 2-4 app UI screens (landing page, main dashboard, a key workflow result, a data output view)
-5. For code screenshots: navigate to a key source file and capture it rendered with syntax highlighting (open in a browser-based viewer or the IDE)
-6. Encode each screenshot as a base64 data URI for embedding directly in the HTML `<img src="data:image/png;base64,...">`
-
-**Fallback:** If Playwright is unavailable or the app cannot be started, build placeholder cards — a styled `<div>` per screenshot slot labelled *"Screenshot [N]: [describe what to capture here]"* — and add a comment in the HTML instructing the user to replace them.
-
-**Target: 3-6 screenshots.** Suggested breakdown:
-- 2-3 app UI screens (what the buyer would actually see and interact with)
-- 1-2 code/architecture screenshots as proof-of-craft (the main workflow file, syntax highlighted)
-
-**Exception to the "No Code" rule:** This module is the one place where a screenshot of code is appropriate — it signals craftsmanship without asking the buyer to read code. Caption code screenshots as: *"Under the hood: the automation logic, built for reliability."*
-
-**Step 2 — Build the gallery module.**
+- 2-3 short, self-contained code snippets (5-10 lines each) from the most important parts of the codebase
+- Split panel: LEFT shows the real code with syntax highlighting; RIGHT shows a line-by-line plain-English explanation of what each line does in buyer language
+- Label each snippet with its filename and a one-sentence business context: *"This runs every time a new lead is submitted"*
+- A tab bar at the top lets buyers flip between snippets (e.g., "Lead Capture", "AI Processing", "Notification")
+- Below the panel: a calm, confident callout — *"Under the hood: built with care."*
 
 ```html
-<!-- Gallery structure pattern -->
-<section class="module screenshots-gallery">
-  <h2 class="module-headline">See It In Action</h2>
-  <p class="module-subhead">Real screens from the live implementation — not mockups.</p>
-  <div class="gallery-grid">
-    <div class="gallery-card" data-lightbox="1">
-      <img src="data:image/png;base64,..." alt="The main dashboard after a lead is processed" loading="lazy">
-      <p class="gallery-caption">The dashboard updates the moment a new lead comes in — no refresh needed.</p>
+<!-- Structure pattern -->
+<div class="code-translation-panel">
+  <div class="translation-tabs">
+    <button class="tab-btn active" data-tab="snippet-1">Lead Capture</button>
+    <button class="tab-btn" data-tab="snippet-2">AI Processing</button>
+  </div>
+  <div class="translation-body active" id="snippet-1">
+    <div class="code-side">
+      <pre><code class="language-js">// Real code from the codebase here</code></pre>
     </div>
-    <!-- repeat for each screenshot -->
+    <div class="english-side">
+      <div class="line-translation">
+        <span class="line-num">1</span>
+        <p>When a form is submitted, this function runs automatically.</p>
+      </div>
+      <!-- repeat for each line -->
+    </div>
   </div>
-
-  <!-- Lightbox overlay -->
-  <div class="lightbox" id="lightbox" hidden>
-    <button class="lightbox-close" aria-label="Close">✕</button>
-    <img class="lightbox-img" src="" alt="">
-    <p class="lightbox-caption"></p>
-  </div>
-</section>
+</div>
 ```
 
-**Gallery CSS rules:**
-- Grid: `display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem`
-- Cards: `border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); cursor: zoom-in`
-- Images: `width: 100%; aspect-ratio: 16/9; object-fit: cover`
-- Captions: DM Sans, 14px, muted color, padding 12px
-
-**Lightbox JavaScript:**
+**Tab switching JavaScript:**
 ```javascript
-// Lightbox handler
-document.querySelectorAll('.gallery-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const img = card.querySelector('img');
-    const caption = card.querySelector('.gallery-caption').textContent;
-    document.getElementById('lightbox').removeAttribute('hidden');
-    document.querySelector('.lightbox-img').src = img.src;
-    document.querySelector('.lightbox-caption').textContent = caption;
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.translation-body').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
   });
 });
-document.querySelector('.lightbox-close').addEventListener('click', () => {
-  document.getElementById('lightbox').setAttribute('hidden', '');
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('lightbox').setAttribute('hidden', '');
-});
 ```
+
+**CSS rules:**
+- Panel: `display: grid; grid-template-columns: 1fr 1fr; border-radius: 12px; overflow: hidden`
+- Code side: dark background (`#1E1E2E`), `font-family: 'JetBrains Mono'`, `white-space: pre-wrap` (no horizontal scrollbars)
+- English side: warm light background, DM Sans 15px, line-height 1.6
+- Line numbers: muted monospace, visually aligned with corresponding code lines
+
+**Critical rules:**
+- Use code **exactly as-is** from the codebase — never modify, simplify, or trim
+- Choose naturally short snippets (5-10 lines) that illustrate one concept — every codebase has compact, self-contained moments, find those
+- All code must use `white-space: pre-wrap` so it wraps — readability beats preserving indentation structure
+- Caption the panel as: *"Under the hood — the automation logic, built for reliability"*
 
 ---
 
@@ -444,9 +425,16 @@ Example output format:
 └─────────────────────────────────────────┘
 ```
 
-### No Code in the Demo
+### Code ↔ English Translations
 
-This demo is for buyers, not developers. **Never show raw code.** If you need to illustrate something technical, use a diagram, a plain-language description, or a visual trace — never a code block. The one exception: a very short, heavily commented snippet in the "Behind the Scenes" expandable sections — and even then, only if it genuinely adds value for a technically curious buyer.
+When including code in the demo — in "Behind the Scenes" expandable sections or the Code Translation Panel (Interactive Element 8) — always pair it with a side-by-side plain-English explanation. A raw code block with no translation is never acceptable for a non-technical audience.
+
+**Left panel:** Real code from the project with syntax highlighting.
+**Right panel:** Line-by-line plain-English explanation — what each line does in buyer language, not developer language.
+
+**Critical:** Use original code exactly as-is from the codebase. Never modify, simplify, or trim snippets. Instead, choose naturally short (5-10 lines), self-contained moments from the codebase that illustrate the concept well.
+
+**No horizontal scrollbars on code.** Use `white-space: pre-wrap` on all `<pre>` elements so code wraps instead of scrolling.
 
 ### Plain Language, Always
 
@@ -468,7 +456,7 @@ The visual design should feel like a **polished agency deliverable** — profess
 
 * **Clean, premium palette**: White or very light neutral backgrounds. One strong accent color (deep teal, electric blue, or rich amber — pick based on the client's brand if known). No purple gradients.
 * **Typography**: Display font for module titles (Bricolage Grotesque or Cabinet Grotesk). Clean sans-serif for body (DM Sans or Inter at a pinch). Never Comic Sans, never Times New Roman.
-* **No code fonts**: Since there's no code in the demo, JetBrains Mono is only used for data values, IDs, or endpoint paths in technical callouts.
+* **Code fonts**: JetBrains Mono is used in the Code Translation Panel (Interactive Element 8) and for data values, IDs, or endpoint paths in technical callouts.
 * **Generous whitespace**: Every module breathes. Decision-makers skim — make every screen scannable in 5 seconds.
 * **Subtle animation**: Flows, fades, and slides. Nothing that flashes, spins, or distracts. The animation should feel inevitable, not showy.
 * **Mobile-first thinking**: Demos are often opened on phones. Every interactive element must work with touch. No hover-only interactions.
@@ -498,6 +486,9 @@ Any tooltips must use `position: fixed` and be appended to `document.body`. Calc
 
 ### Scroll-Snap Mandatory
 Always use `scroll-snap-type: y proximity`, never `mandatory`.
+
+### Code Modifications
+Trimming, simplifying, or "cleaning up" code snippets from the codebase. If a technically curious buyer opens the real file, the code must match exactly what they saw in the demo. Instead of editing code to be shorter, *choose* naturally short snippets (5-10 lines) from the codebase that fit on screen without modification.
 
 ### Module Quality Degradation
 Build one module at a time and verify each before moving on. Later modules built in one pass are always thinner and weaker.
