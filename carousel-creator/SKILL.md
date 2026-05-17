@@ -313,7 +313,7 @@ When slides have been saved, present the three export options and, if the user c
 
 ```bash
 # Make all scripts executable (first time only)
-chmod +x scripts/export-carousel-pdf.zsh scripts/export-carousel-mp4.zsh scripts/export-carousel-hyperframes.zsh
+chmod +x scripts/export-carousel-*.zsh
 
 # Export PDF
 ./scripts/export-carousel-pdf.zsh YYYYMMDD-HHMMSS
@@ -323,6 +323,9 @@ chmod +x scripts/export-carousel-pdf.zsh scripts/export-carousel-mp4.zsh scripts
 
 # Export Hyperframes cinematic video (3 s per slide, 0.6 s dissolve)
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 3.0 0.6
+
+# Or, run all three exports sequentially with a single command
+./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS
 ```
 
 After export, confirm the output files and their paths to the user.
@@ -402,4 +405,4 @@ Always optimize for:
 - **Save all SVG files to `YYYYMMDD-HHMMSS/slides/`** (using actual current date and time)
 - **Generate caption with hashtags and save to `YYYYMMDD-HHMMSS/caption.md`**
 - **After saving, offer PDF, MP4, and Hyperframes export via the scripts in `scripts/`**
-- **Run `export-carousel-pdf.zsh`, `export-carousel-mp4.zsh`, and/or `export-carousel-hyperframes.zsh` if the user confirms**
+- **Run `export-carousel-pdf.zsh`, `export-carousel-mp4.zsh`, `export-carousel-hyperframes.zsh`, or `export-carousel-all.zsh` if the user confirms**
