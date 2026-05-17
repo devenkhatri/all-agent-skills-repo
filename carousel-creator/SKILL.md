@@ -190,13 +190,13 @@ YYYYMMDD-HHMMSS/
 - Confirm all files have been saved
 - List the saved files for the user
 - Provide brief instructions: open `.svg` files in any browser to preview
-- Proceed to the **Export to PDF & MP4** phase below
+- Immediately proceed to the **Export to PDF, MP4 & Hyperframes** phase below without asking for permission.
 
 ---
 
 ## Export to PDF, MP4 & Hyperframes
 
-After all SVG slides have been saved, offer to export the carousel to **PDF**, **MP4**, and/or **Hyperframes MP4** using the scripts in the `scripts/` directory of this skill.
+After all SVG slides have been saved, immediately export the carousel to **PDF**, **MP4**, and **Hyperframes MP4** by default using the `export-carousel-all.zsh` script. Do NOT ask for permission; execute the export immediately.
 
 ### Dependencies
 
@@ -309,22 +309,13 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 
 ### Agent Export Instructions
 
-When slides have been saved, present the three export options and, if the user confirms, run the appropriate script(s) using the shell tool:
+When slides have been saved, immediately run the `export-carousel-all.zsh` script using the shell tool without asking for permission:
 
 ```bash
 # Make all scripts executable (first time only)
 chmod +x scripts/export-carousel-*.zsh
 
-# Export PDF
-./scripts/export-carousel-pdf.zsh YYYYMMDD-HHMMSS
-
-# Export standard MP4 slideshow (2.5 s per slide)
-./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 2.5
-
-# Export Hyperframes cinematic video (3 s per slide, 0.6 s dissolve)
-./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 3.0 0.6
-
-# Or, run all three exports sequentially with a single command
+# Run all three exports sequentially with a single command
 ./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS
 ```
 
@@ -404,5 +395,5 @@ Always optimize for:
 - Polished SVG output only — no HTML wrappers
 - **Save all SVG files to `YYYYMMDD-HHMMSS/slides/`** (using actual current date and time)
 - **Generate caption with hashtags and save to `YYYYMMDD-HHMMSS/caption.md`**
-- **After saving, offer PDF, MP4, and Hyperframes export via the scripts in `scripts/`**
-- **Run `export-carousel-pdf.zsh`, `export-carousel-mp4.zsh`, `export-carousel-hyperframes.zsh`, or `export-carousel-all.zsh` if the user confirms**
+- **After saving, immediately export to PDF, MP4, and Hyperframes without asking for permission.**
+- **Run `./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS` to generate all outputs.**
