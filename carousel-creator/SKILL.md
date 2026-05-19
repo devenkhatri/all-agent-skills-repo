@@ -245,10 +245,10 @@ Rasterises each SVG slide to PNG (1080 × 1350 px, white background), then stitc
 ./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS
 
 # Custom seconds per slide
-./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 3
+./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 5
 
 # Custom seconds per slide + custom output path
-./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 2.5 path/to/output.mp4
+./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 5 path/to/output.mp4
 ```
 
 **Arguments:**
@@ -256,7 +256,7 @@ Rasterises each SVG slide to PNG (1080 × 1350 px, white background), then stitc
 | Argument | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `CAROUSEL_FOLDER` | ✅ | — | Path to the dated carousel folder |
-| `SECONDS_PER_SLIDE` | ❌ | `2.5` | How many seconds each slide is shown |
+| `SECONDS_PER_SLIDE` | ❌ | `5` | How many seconds each slide is shown |
 | `OUTPUT_MP4` | ❌ | `CAROUSEL_FOLDER/{topic-slug}.mp4` | Custom output path for the MP4 |
 
 **Output:** `YYYYMMDD-HHMMSS/{topic-slug}.mp4`
@@ -276,13 +276,13 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS
 
 # Custom seconds per slide
-./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 3.0
+./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 5.0
 
 # Custom seconds + custom transition duration
-./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 3.0 0.6
+./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 5.0 0.6
 
 # Fully custom
-./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 3.0 0.6 path/to/output.mp4
+./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 5.0 0.6 path/to/output.mp4
 ```
 
 **Arguments:**
@@ -290,7 +290,7 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 | Argument | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `CAROUSEL_FOLDER` | ✅ | — | Path to the dated carousel folder |
-| `SECONDS_PER_SLIDE` | ❌ | `3.0` | Visible duration of each slide (min 1.5 s recommended) |
+| `SECONDS_PER_SLIDE` | ❌ | `5.0` | Visible duration of each slide (min 1.5 s recommended) |
 | `TRANSITION_DURATION` | ❌ | `0.6` | Cross-dissolve blend length in seconds |
 | `OUTPUT_MP4` | ❌ | `CAROUSEL_FOLDER/{topic-slug}-hyperframes.mp4` | Custom output path |
 

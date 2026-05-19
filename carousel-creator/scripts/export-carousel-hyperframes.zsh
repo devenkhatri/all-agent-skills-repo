@@ -33,12 +33,12 @@ fi
 
 if [[ $# -lt 1 || $# -gt 4 ]]; then
   print "Usage: ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4]" >&2
-  print "Example: ./export-carousel-hyperframes.zsh 20260515-141152 3.0 0.6" >&2
+  print "Example: ./export-carousel-hyperframes.zsh 20260515-141152 5.0 0.6" >&2
   exit 1
 fi
 
 carousel_dir="${1:A}"
-seconds_per_slide="${2:-3.0}"
+seconds_per_slide="${2:-5.0}"
 transition_dur="${3:-0.6}"
 output_mp4="${4:-$carousel_dir/carousel-hyperframes.mp4}"
 slides_dir="$carousel_dir/slides"
