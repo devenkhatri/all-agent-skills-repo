@@ -11,6 +11,7 @@ A collection of Claude Code skills for various use cases. Install individual ski
 | [carousel-creator](#carousel-creator) | Create premium Instagram and LinkedIn carousel posts as SVG slides with swipe-worthy design |
 | [excalidraw-diagram](#excalidraw-diagram) | Generate Excalidraw diagrams with JSON from natural language descriptions |
 | [frontend-slides](#frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files |
+| [short-form-studio](#short-form-studio) | Run the end-to-end production loop for a short-form talking-head video (YouTube Shorts, Reels, TikTok) built with Hyperframes |
 | [skill-builder](#skill-builder) | Create new skills, optimize existing skills, or audit skill quality following Claude Code best practices |
 
 ---
@@ -53,6 +54,12 @@ npx skills add devenkhatri/all-agent-skills-repo/excalidraw-diagram
 
 ```bash
 npx skills add devenkhatri/all-agent-skills-repo/frontend-slides
+```
+
+#### Short-Form Studio
+
+```bash
+npx skills add devenkhatri/all-agent-skills-repo/short-form-studio
 ```
 
 #### Skill Builder
@@ -206,6 +213,8 @@ carousel-creator/
 
 ---
 
+### excalidraw-diagram
+
 Generate Excalidraw diagrams using JSON from natural language descriptions. Default for all diagram requests.
 
 **Use Cases:**
@@ -258,6 +267,46 @@ frontend-slides/
 
 ---
 
+### short-form-studio
+
+Run the end-to-end production loop for a short-form talking-head video (YouTube Shorts, Reels, TikTok) built with Hyperframes. Use this skill whenever the work is scripting, storyboarding, building, or finishing a short, including "let's make today's short", "write a script about this feature", "here's my recorded clip, storyboard it", "what should we put on screen", "build the Hyperframes video", "add the overlays / B-roll / SFX", or "render the final and put it in the folder". It encodes the gated loop (script, you record and cut, storyboard, approval plus assets, Hyperframes build, quiet SFX, render at delivery quality) and the two human approval gates. Do NOT use it to cut raw footage (you cut your own), for generic web or website compositions, or for plain how-to questions.
+
+**The loop:**
+```
+script (agent) -> record (you) -> cut (you) -> storyboard (agent) -🚦-> assets (you) -> Hyperframes build + quiet SFX + render (agent) -🚦-> deliver to folder
+```
+
+**Key Features:**
+- Gated production loop with two human approval gates (storyboard and final render)
+- You record and cut footage; agent handles script, storyboard, Hyperframes build, and render
+- Uses Hyperframes (HTML to video) for overlays and render
+- Includes local fallback for cutting footage when explicitly requested
+- House style: glass bubbles, serif + grotesque font pairing, one accent color
+- SFX kept quiet (whooshes and ambient at 0.05-0.15, accents at or below 0.3)
+- Never deletes source cut until delivery confirmed
+- High-quality render matching source footage quality
+
+**Trigger Phrases:**
+- "Let's make today's short"
+- "Write a script about this feature"
+- "Here's my recorded clip, storyboard it"
+- "What should we put on screen"
+- "Build the Hyperframes video"
+- "Add the overlays / B-roll / SFX"
+- "Render the final and put it in the folder"
+
+**Files:**
+```
+short-form-studio/
+├── SKILL.md                    # Main skill instructions (the gated production loop)
+├── README.md                   # Documentation
+├── GUIDELINES.md               # Full craft playbook: hooks, length, glass-bubble style, SFX, quality rules
+├── edit/                       # Optional local cut tools (whisper + ffmpeg)
+└── hf/                         # Hyperframes composition templates
+```
+
+---
+
 ### skill-builder
 
 Guide for creating new Claude Code skills, optimizing existing skills, or auditing skill quality. Follows official Claude Code best practices.
@@ -288,17 +337,18 @@ skill-builder/
 ## Quick Start
 
 1. Add skills to your project:
-   ```bash
-   npx skills add devenkhatri/all-agent-skills-repo
-   ```
+    ```bash
+    npx skills add devenkhatri/all-agent-skills-repo
+    ```
 
 2. Use a skill by typing its name or trigger phrase:
-   - `/codebase-to-course` → "Turn this codebase into a course"
-   - `/codebase-to-demo` → "Create a demo for this"
-   - `/carousel-creator` → "Create a carousel about..."
-   - `/excalidraw-diagram` → "Draw a diagram of..."
-   - `/frontend-slides` → "Create a presentation" or "Make slides"
-   - `/skill-builder` → "Help me build a skill"
+    - `/codebase-to-course` → "Turn this codebase into a course"
+    - `/codebase-to-demo` → "Create a demo for this"
+    - `/carousel-creator` → "Create a carousel about..."
+    - `/excalidraw-diagram` → "Draw a diagram of..."
+    - `/frontend-slides` → "Create a presentation" or "Make slides"
+    - `/short-form-studio` → "Let's make today's short about [topic]"
+    - `/skill-builder` → "Help me build a skill"
 
 ---
 
