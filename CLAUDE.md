@@ -23,6 +23,7 @@ npx skills add devenkhatri/all-agent-skills-repo/<skill-name>
 | `/carousel-creator` | "Create a carousel about..." / "Make an Instagram carousel" |
 | `/codebase-to-course` | "Turn this into a course" / "Teach me how this code works" |
 | `/codebase-to-demo` | "Create a demo for this" / "Make a pitch deck from this codebase" |
+| `/content-pipeline` | "Run the content pipeline on..." / "Create a LinkedIn + Skool package" / "Repurpose for LinkedIn and Skool" |
 | `/excalidraw-diagram` | "Draw a diagram of..." / Default for all diagram requests |
 | `/frontend-slides` | "Create a presentation" / "Make slides" |
 | `/skill-builder` | "Help me build a skill" / "Audit this skill" |
@@ -79,11 +80,21 @@ Supporting reference files are **not loaded automatically** — they load only w
 - Uses reference files: `references/design-system.md` for visual styling, `references/script-format.md` for input format
 - Output: MP4 file in current directory with timestamp prefix
 
+### content-pipeline
+- Merges the LinkedIn writer + cover image + Skool converter gems with `/carousel-creator` into one 4-stage pipeline
+- Runs all four stages from a single topic input — no permission prompt between stages
+- Stage 1 outputs `linkedin-post.md` (copy-paste ready, includes ♻️ Repost + ➕ Follow Deven Goratela)
+- Stage 2 outputs `cover.svg` (1200×627, central safe zone) + `cover-prompt.md` (for Midjourney/DALL-E)
+- Stage 3 outputs `skool-post.md` (30–40% shorter, casual peer tone, no hashtags, bolded closing question)
+- Stage 4 delegates to `/carousel-creator` via a subagent — pre-collected intake prevents re-prompting; subagent reconciles timestamp drift so all files land in the same `YYYYMMDD-HHMM/` folder as Stages 1–3
+- CTA tone (urgent/educational/inspirational) is inferred from the topic and applied consistently across all four stages
+
 ## Output Conventions
 
 - `carousel-creator` → `YYYYMMDD-HHMM/` in current directory
 - `codebase-to-demo` → `<project-name>-demo.html` in current directory
 - `codebase-to-course` → `<project-name>-course.html` in current directory
+- `content-pipeline` → `YYYYMMDD-HHMM/` in current directory with `linkedin-post.md`, `cover.svg`, `cover-prompt.md`, `skool-post.md`, plus `slides/`, `caption.md`, and carousel exports (`.pdf`, `.mp4`, `-hyperframes.mp4`) from Stage 4
 - `frontend-slides` → single `.html` file in current directory
 - `excalidraw-diagram` → `.excalidraw` file in current directory
 - `remotion-generator` → `YYYYMMDD-HHMM-video.mp4` in current directory

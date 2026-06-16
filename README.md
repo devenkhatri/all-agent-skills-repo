@@ -9,6 +9,7 @@ A collection of Claude Code skills for various use cases. Install individual ski
 | [codebase-to-course](#codebase-to-course) | Transform any codebase into a beautiful, interactive single-page HTML course that teaches how the code works to non-technical people |
 | [codebase-to-demo](#codebase-to-demo) | Transform any codebase or automation into a polished, interactive HTML demo deck for non-technical buyers and decision-makers |
 | [carousel-creator](#carousel-creator) | Create premium Instagram and LinkedIn carousel posts as SVG slides with swipe-worthy design |
+| [content-pipeline](#content-pipeline) | Repurpose one idea into a full content package: LinkedIn post, 1200×627 cover image, Skool post, and Instagram/LinkedIn carousel |
 | [excalidraw-diagram](#excalidraw-diagram) | Generate Excalidraw diagrams with JSON from natural language descriptions |
 | [frontend-slides](#frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files |
 | [short-form-studio](#short-form-studio) | Run the end-to-end production loop for a short-form talking-head video (YouTube Shorts, Reels, TikTok) built with Hyperframes |
@@ -42,6 +43,12 @@ npx skills add devenkhatri/all-agent-skills-repo/codebase-to-demo
 
 ```bash
 npx skills add devenkhatri/all-agent-skills-repo/carousel-creator
+```
+
+#### Content Pipeline
+
+```bash
+npx skills add devenkhatri/all-agent-skills-repo/content-pipeline
 ```
 
 #### Excalidraw Diagram
@@ -213,6 +220,53 @@ carousel-creator/
 
 ---
 
+### content-pipeline
+
+Transform one idea into a complete multi-platform content package — a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, and a premium Instagram/LinkedIn carousel — all from a single input, in one folder. This skill merges previously-separate Gemini gems (LinkedIn writer, cover image generator, Skool converter) with `/carousel-creator` into one sequential pipeline.
+
+**Target Audience:** Creators, personal brands, and community operators who publish the same idea across LinkedIn and a Skool community and want to stop writing the same thing three times.
+
+**Output:** A date-wise folder (`YYYYMMDD-HHMM/`) with all four stages' deliverables:
+
+| File | Stage | Purpose |
+|---|---|---|
+| `linkedin-post.md` | 1 | Full LinkedIn post (title + hook + body + CTAs + hashtags) — copy-paste ready |
+| `cover.svg` | 2 | 1200×627 LinkedIn cover image with central safe zone and core insight as hero text |
+| `cover-prompt.md` | 2 | Detailed AI-image prompt for Midjourney / DALL-E / Flux (upgrade path beyond SVG) |
+| `skool-post.md` | 3 | Casual 30–40% shorter Skool post, no hashtags, bolded closing question |
+| `slides/{slug}-slide-*.svg` | 4 | Individual premium SVG carousel slides (≥5) |
+| `caption.md` | 4 | Carousel caption (bonus LinkedIn post variant) |
+| `{slug}.pdf` | 4 | Multi-page PDF of all slides |
+| `{slug}.mp4` | 4 | 5s/slide MP4 slideshow |
+| `{slug}-hyperframes.mp4` | 4 | Ken Burns + cross-dissolve cinematic MP4 |
+
+**Key Features:**
+
+- **Four-stage pipeline** — LinkedIn → cover → Skool → carousel. No permission prompt between stages.
+- **Tone inference** — Detects urgent / educational / inspirational and applies the right CTA voice across all four stages.
+- **Copy-paste ready output** — LinkedIn post has hook under 8 words, ♻️ Repost + ➕ Follow Deven Goratela, 3–5 hashtags, no bold in the body.
+- **Cover safety** — All critical content sits in the center 1000×500 px safe zone so the image works as both a link preview and an article header.
+- **Skool reframe** — Strips LinkedIn-isms, humble-brags, and hashtags. Reframes tools/tips as "here's what worked for me." Ends with one bolded open-ended question.
+- **Stage 4 delegation** — A subagent runs `/carousel-creator` with pre-collected intake (no re-prompting), then reconciles timestamp drift so all carousel output lands in the same folder as Stages 1–3.
+
+**Trigger Phrases:**
+
+- "Run the content pipeline on [topic]"
+- "Create a LinkedIn + Skool + carousel package for [idea]"
+- "Repurpose this for LinkedIn and Skool"
+- "Make a content package about [topic]"
+- "Turn this into a full post package"
+- "Build me a carousel + LinkedIn post for [topic]"
+
+**Files:**
+```
+content-pipeline/
+├── SKILL.md    # Main skill instructions (4-stage workflow + carousel delegation + quality checklist)
+└── README.md   # Documentation
+```
+
+---
+
 ### excalidraw-diagram
 
 Generate Excalidraw diagrams using JSON from natural language descriptions. Default for all diagram requests.
@@ -345,6 +399,7 @@ skill-builder/
     - `/codebase-to-course` → "Turn this codebase into a course"
     - `/codebase-to-demo` → "Create a demo for this"
     - `/carousel-creator` → "Create a carousel about..."
+    - `/content-pipeline` → "Run the content pipeline on [topic]" / "Build me a carousel + LinkedIn post"
     - `/excalidraw-diagram` → "Draw a diagram of..."
     - `/frontend-slides` → "Create a presentation" or "Make slides"
     - `/short-form-studio` → "Let's make today's short about [topic]"
