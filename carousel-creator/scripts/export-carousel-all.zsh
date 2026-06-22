@@ -3,16 +3,28 @@
 # Runs all three export scripts (PDF, MP4, Hyperframes) sequentially for a given carousel folder.
 #
 # Usage:
-#   ./export-carousel-all.zsh CAROUSEL_FOLDER
+#   ./export-carousel-all.zsh CAROUSEL_FOLDER [--no-music]
 #
 # Example:
 #   ./export-carousel-all.zsh 20260515-141152
+#   ./export-carousel-all.zsh 20260515-141152 --no-music
+#
+# Options:
+#   --no-music          Skip background music in both MP4 outputs (default: include music).
+#                       PDF is unaffected.
 
 set -euo pipefail
 
+typeset -A opts
+zparseopts -D -E -A opts -- -no-music || true
+_no_music=""
+(( ${+opts[--no-music]} )) && _no_music="yes"
+
 if [[ $# -lt 1 || $# -gt 1 ]]; then
-  print "Usage: ./export-carousel-all.zsh CAROUSEL_FOLDER" >&2
+  print "Usage: ./export-carousel-all.zsh CAROUSEL_FOLDER [--no-music]" >&2
   print "Example: ./export-carousel-all.zsh 20260515-141152" >&2
+  print "Options:" >&2
+  print "  --no-music    Skip background music in both MP4 outputs (PDF unaffected)" >&2
   exit 1
 fi
 
@@ -36,11 +48,11 @@ print "\n--- 1. Exporting PDF ---"
 
 # 2. MP4 Export (Slideshow)
 print "\n--- 2. Exporting Standard MP4 (Slideshow) ---"
-"$script_dir/export-carousel-mp4.zsh" "$carousel_dir"
+"$script_dir/export-carousel-mp4.zsh" "$carousel_dir" ${_no_music:+--no-music}
 
 # 3. Hyperframes MP4 Export (Cinematic)
 print "\n--- 3. Exporting Hyperframes MP4 (Cinematic) ---"
-"$script_dir/export-carousel-hyperframes.zsh" "$carousel_dir"
+"$script_dir/export-carousel-hyperframes.zsh" "$carousel_dir" ${_no_music:+--no-music}
 
 print "\n============================================================"
 print " ✅ All exports completed successfully!"

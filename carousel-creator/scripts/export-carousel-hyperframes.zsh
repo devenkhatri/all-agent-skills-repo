@@ -8,12 +8,15 @@
 # rendered natively using the HeyGen Hyperframes framework.
 #
 # Usage:
-#   ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4]
+#   ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4] [--no-music]
 #
 # Defaults:
 #   SECONDS_PER_SLIDE   = 3.0   (minimum 1.5 s recommended)
 #   TRANSITION_DURATION = 0.6   (cross-dissolve blend in seconds)
 #   OUTPUT_MP4          = CAROUSEL_FOLDER/carousel-hyperframes.mp4
+#
+# Options:
+#   --no-music          Skip background music in the output MP4 (default: include music)
 
 set -euo pipefail
 
@@ -29,11 +32,27 @@ if ! command -v awk >/dev/null 2>&1; then
   exit 1
 fi
 
+script_dir="${0:a:h}"
+music_file="$script_dir/youtube-shorts-bt-music.mp3"
+
+typeset -A opts
+zparseopts -D -E -A opts -- -no-music || true
+_no_music=""
+(( ${+opts[--no-music]} )) && _no_music="yes"
+
+if [[ -z "$_no_music" && ! -f "$music_file" ]]; then
+  print "Error: music file not found: $music_file" >&2
+  print "       Pass --no-music to skip background music, or restore the file." >&2
+  exit 1
+fi
+
 # ── argument parsing ─────────────────────────────────────────────────────────
 
 if [[ $# -lt 1 || $# -gt 4 ]]; then
-  print "Usage: ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4]" >&2
+  print "Usage: ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4] [--no-music]" >&2
   print "Example: ./export-carousel-hyperframes.zsh 20260515-141152 5.0 0.6" >&2
+  print "Options:" >&2
+  print "  --no-music    Skip background music in the output MP4" >&2
   exit 1
 fi
 
@@ -154,7 +173,21 @@ EOF
 
 print "\nEncoding hyperframes video via hyperframes CLI …"
 
-npx -y hyperframes render "$tmp_dir" -o "$output_mp4"
+npx -y hyperframes render "$tmp_dir" -o "$tmp_dir/video.mp4"
 
-print "\n✅ Hyperframes MP4 created: $output_mp4"
-print "   Slides: ${n}  |  Duration per slide: ${seconds_per_slide}s  |  Dissolve: ${transition_dur}s"
+if [[ -n "$_no_music" ]]; then
+  mv "$tmp_dir/video.mp4" "$output_mp4"
+  print "\n✅ Hyperframes MP4 created (no music): $output_mp4"
+  print "   Slides: ${n}  |  Duration per slide: ${seconds_per_slide}s  |  Dissolve: ${transition_dur}s"
+else
+  ffmpeg -y \
+    -i "$tmp_dir/video.mp4" \
+    -stream_loop -1 -i "$music_file" \
+    -filter:a "volume=0.3,afade=in:st=0:d=1" \
+    -map 0:v -map 1:a \
+    -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
+    -shortest -movflags +faststart \
+    "$output_mp4"
+  print "\n✅ Hyperframes MP4 created (with background music): $output_mp4"
+  print "   Slides: ${n}  |  Duration per slide: ${seconds_per_slide}s  |  Dissolve: ${transition_dur}s"
+fi

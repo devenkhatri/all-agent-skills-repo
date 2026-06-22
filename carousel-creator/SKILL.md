@@ -249,6 +249,9 @@ Rasterises each SVG slide to PNG (1080 × 1350 px, white background), then stitc
 
 # Custom seconds per slide + custom output path
 ./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS 5 path/to/output.mp4
+
+# Silent variant — skip the default background music
+./scripts/export-carousel-mp4.zsh YYYYMMDD-HHMMSS --no-music
 ```
 
 **Arguments:**
@@ -258,10 +261,13 @@ Rasterises each SVG slide to PNG (1080 × 1350 px, white background), then stitc
 | `CAROUSEL_FOLDER` | ✅ | — | Path to the dated carousel folder |
 | `SECONDS_PER_SLIDE` | ❌ | `5` | How many seconds each slide is shown |
 | `OUTPUT_MP4` | ❌ | `CAROUSEL_FOLDER/{topic-slug}.mp4` | Custom output path for the MP4 |
+| `--no-music` | ❌ | music included | Skip the default background music track |
 
 **Output:** `YYYYMMDD-HHMMSS/{topic-slug}.mp4`
 
 > **Note:** The MP4 script uses a temporary directory (auto-cleaned on exit) to store intermediate PNG frames. The final video uses `yuv420p` pixel format and `+faststart` for broad playback compatibility.
+>
+> **Background music:** by default, the track from `scripts/youtube-shorts-bt-music.mp3` is looped to fit the video, mixed at 30% volume with a 1-second fade-in, and encoded as AAC 192 kbps / 48 kHz stereo. Use `--no-music` to skip it.
 
 ---
 
@@ -283,6 +289,9 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 
 # Fully custom
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 5.0 0.6 path/to/output.mp4
+
+# Silent variant — skip the default background music
+./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS --no-music
 ```
 
 **Arguments:**
@@ -293,6 +302,7 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 | `SECONDS_PER_SLIDE` | ❌ | `5.0` | Visible duration of each slide (min 1.5 s recommended) |
 | `TRANSITION_DURATION` | ❌ | `0.6` | Cross-dissolve blend length in seconds |
 | `OUTPUT_MP4` | ❌ | `CAROUSEL_FOLDER/{topic-slug}-hyperframes.mp4` | Custom output path |
+| `--no-music` | ❌ | music included | Skip the default background music track |
 
 **Output:** `YYYYMMDD-HHMMSS/{topic-slug}-hyperframes.mp4`
 
@@ -304,6 +314,8 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 - `yuv420p` + `+faststart` for maximum platform compatibility
 
 > **Note:** Encoding time scales with slide count. A 10-slide carousel at 3 s/slide takes ~30–60 s on a modern Mac.
+>
+> **Background music:** by default, the track from `scripts/youtube-shorts-bt-music.mp3` is looped to fit the video, mixed at 30% volume with a 1-second fade-in, and encoded as AAC 192 kbps / 48 kHz stereo. Use `--no-music` to skip it.
 
 ---
 
@@ -315,8 +327,11 @@ When slides have been saved, immediately run the `export-carousel-all.zsh` scrip
 # Make all scripts executable (first time only)
 chmod +x scripts/export-carousel-*.zsh
 
-# Run all three exports sequentially with a single command
+# Run all three exports sequentially with a single command (default: music included)
 ./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS
+
+# Skip background music in both MP4 outputs (PDF is unaffected)
+./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS --no-music
 ```
 
 After export, confirm the output files and their paths to the user.

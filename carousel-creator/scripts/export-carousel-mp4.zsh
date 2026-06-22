@@ -11,9 +11,25 @@ if ! command -v ffmpeg >/dev/null 2>&1; then
   exit 1
 fi
 
+script_dir="${0:a:h}"
+music_file="$script_dir/youtube-shorts-bt-music.mp3"
+
+typeset -A opts
+zparseopts -D -E -A opts -- -no-music || true
+_no_music=""
+(( ${+opts[--no-music]} )) && _no_music="yes"
+
+if [[ -z "$_no_music" && ! -f "$music_file" ]]; then
+  print "Error: music file not found: $music_file" >&2
+  print "       Pass --no-music to skip background music, or restore the file." >&2
+  exit 1
+fi
+
 if [[ $# -lt 1 || $# -gt 3 ]]; then
-  print "Usage: ./export-carousel-mp4.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [OUTPUT_MP4]" >&2
+  print "Usage: ./export-carousel-mp4.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [OUTPUT_MP4] [--no-music]" >&2
   print "Example: ./export-carousel-mp4.zsh 20260515-141152 2.5" >&2
+  print "Options:" >&2
+  print "  --no-music    Skip background music in the output MP4" >&2
   exit 1
 fi
 
@@ -60,6 +76,19 @@ ffmpeg -y \
   -vf "fps=30,format=yuv420p" \
   -c:v libx264 \
   -movflags +faststart \
-  "$output_mp4"
+  "$tmp_dir/video.mp4"
 
-print "Created MP4: $output_mp4"
+if [[ -n "$_no_music" ]]; then
+  mv "$tmp_dir/video.mp4" "$output_mp4"
+  print "Created MP4 (no music): $output_mp4"
+else
+  ffmpeg -y \
+    -i "$tmp_dir/video.mp4" \
+    -stream_loop -1 -i "$music_file" \
+    -filter:a "volume=0.3,afade=in:st=0:d=1" \
+    -map 0:v -map 1:a \
+    -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
+    -shortest -movflags +faststart \
+    "$output_mp4"
+  print "Created MP4 (with background music): $output_mp4"
+fi

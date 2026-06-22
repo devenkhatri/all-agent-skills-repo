@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(zsh -n /Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/export-carousel-mp4.zsh)",
+      "Bash(zsh -n /Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/export-carousel-hyperframes.zsh)",
+      "Bash(zsh -n /Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/export-carousel-all.zsh)",
+      "Bash(zsh *)",
+      "Bash(mv /Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/youtube-shorts-bt-music.mp3 /tmp/_yt_bt_music_backup.mp3)",
+      "Bash(/Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/export-carousel-mp4.zsh /tmp/mp3_test/fake-carousel)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(mv /tmp/_yt_bt_music_backup.mp3 /Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/youtube-shorts-bt-music.mp3)",
+      "Bash(/Users/devengoratela/Work/all-agent-skills-repo/carousel-creator/scripts/export-carousel-mp4.zsh /tmp/mp3_test/fake-carousel --no-music)",
+      "Bash(command -v magick)",
+      "Bash(command -v ffmpeg)",
+      "Bash(command -v ffprobe)",
+      "Bash(./carousel-creator/scripts/export-carousel-mp4.zsh /tmp/carousel-test 1.5 /tmp/carousel-test/carousel-silent.mp4 --no-music)",
+      "Bash(ffprobe -v error -show_streams /tmp/carousel-test/carousel-silent.mp4)",
+      "Bash(./carousel-creator/scripts/export-carousel-all.zsh /tmp/carousel-test-orch-music)",
+      "Bash(./carousel-creator/scripts/export-carousel-all.zsh /tmp/carousel-test-orch-music --no-music)"
+    ]
+  }
+}
