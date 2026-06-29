@@ -16,7 +16,15 @@
       "Bash(./carousel-creator/scripts/export-carousel-mp4.zsh /tmp/carousel-test 1.5 /tmp/carousel-test/carousel-silent.mp4 --no-music)",
       "Bash(ffprobe -v error -show_streams /tmp/carousel-test/carousel-silent.mp4)",
       "Bash(./carousel-creator/scripts/export-carousel-all.zsh /tmp/carousel-test-orch-music)",
-      "Bash(./carousel-creator/scripts/export-carousel-all.zsh /tmp/carousel-test-orch-music --no-music)"
+      "Bash(./carousel-creator/scripts/export-carousel-all.zsh /tmp/carousel-test-orch-music --no-music)",
+      "Read(//Users/devengoratela/.agents/skills/pptx-custom/**)",
+      "Bash(npm list *)",
+      "Bash(npm root *)",
+      "Bash(NODE_PATH=$\\(npm root -g\\) node dotnet-migration-presentation.js)",
+      "Bash(awk 'NR>=929 && NR<=960' /Users/devengoratela/Work/all-agent-skills-repo/all-agent-skills-demo.html)",
+      "Bash(awk 'NR>=1031 && NR<=1063' /Users/devengoratela/Work/all-agent-skills-repo/all-agent-skills-demo.html)",
+      "Bash(awk 'NR>=970 && NR<=1031' /Users/devengoratela/Work/all-agent-skills-repo/all-agent-skills-demo.html)",
+      "Bash(NODE_PATH=$\\(npm root -g\\) node all-agent-skills-demo.js)"
     ]
   }
 }

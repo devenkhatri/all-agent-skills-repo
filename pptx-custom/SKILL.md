@@ -267,6 +267,23 @@ Academic QA checklist:
 
 ---
 
+## Cleanup (Temporary Files)
+
+When creating a `.pptx` file, Claude writes a temporary PptxGenJS script (e.g., `create_presentation.js` or similar) and executes it with `node`. **This file is temporary and must be deleted automatically after the `.pptx` is confirmed to exist.**
+
+After every successful `.pptx` generation, run:
+
+```bash
+rm <script_name>.js
+```
+
+**Rules:**
+- Only delete the `.js` file **after** confirming the `.pptx` was created and is non-empty (`ls -lh <output>.pptx`).
+- If the script fails and no `.pptx` is produced, **keep** the `.js` file so the user can inspect and debug it.
+- Never delete the `.pptx`, any supporting assets, or any user-provided files.
+
+---
+
 ## Dependencies
 
 - `pip install "markitdown[pptx]"` — text extraction for QA
