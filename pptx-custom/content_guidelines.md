@@ -1,4 +1,4 @@
-# Academic Presentation Content Guidelines
+# Presentation Content Guidelines (Academic + Corporate)
 
 ## 1. Argument Structure
 
@@ -243,3 +243,189 @@ When you say "I'll stop there," the conclusions slide should already be on scree
 | Ending on "Thank You" | End on conclusions slide; it stays up during Q&A |
 | Burying the research question | State it explicitly, on its own slide, in slides 2–3 |
 | No references slide | Always include one |
+
+---
+
+---
+
+# Corporate Presentation Content Guidelines
+
+Apply this section for all corporate/professional deck types: solution proposals, sales pitches, strategy decks, executive briefings, business cases, QBRs, capability showcases, and project kickoffs.
+
+---
+
+## C1. Narrative Structures
+
+Always choose a narrative spine before planning a single slide. The choice depends on the deck type and audience.
+
+### Spine A — Problem → Solution → Proof (default for proposals and pitches)
+- Open with the client's specific, vivid problem (not a generic industry trend).
+- Introduce the solution clearly and crisply — one slide, one idea.
+- Back it with evidence: metrics, case studies, architecture, or a demo.
+- Close with a concrete next step.
+
+**Best for:** Solution proposals, sales pitches, capability showcases.
+
+### Spine B — Situation / Complication / Resolution (SCR)
+- Situation: what is true today (agree on the baseline).
+- Complication: what has changed or what is broken (create tension).
+- Resolution: your recommended path forward (resolve the tension).
+
+**Best for:** Strategy decks, executive briefings, business cases. Particularly powerful when the audience already knows the context.
+
+### Spine C — Answer First (Pyramid Principle)
+- Lead with your recommendation or conclusion.
+- Support it with 3–4 key arguments.
+- Each argument is supported by evidence.
+
+**Best for:** Senior executive briefings, time-pressured audiences, board presentations. Use when the audience would rather see the answer immediately and drill down if they want to.
+
+### Spine D — Current State → Future State → Bridge
+- Current state: here is where we are (and why it's a problem).
+- Future state: here is what success looks like.
+- Bridge: here is how we get there (your approach, roadmap, investment).
+
+**Best for:** Roadmap and transformation decks, project kickoffs, QBRs with a forward-looking component.
+
+**Choosing the right spine:** If in doubt, use Problem → Solution → Proof. It works across audiences and deck types. For senior executives, prefer Answer First. For transformation and strategy, prefer SCR or Current → Future → Bridge.
+
+---
+
+## C2. Headline Discipline
+
+Every slide title in a corporate deck is a **business headline** — a statement of the outcome, insight, or recommendation, not a topic label.
+
+| Instead of (topic label) | Use (business headline) |
+|--------------------------|------------------------|
+| Our Solution | Our platform reduces manual reconciliation time by 70% |
+| Timeline | Phase 1 is live in 8 weeks, full deployment by Q3 |
+| Case Study | Acme Corp cut operational costs by $1.2M in the first year |
+| Approach | We embed with your team for 2 weeks before writing a line of code |
+| Pricing | Total investment for Phase 1 is $180K — ROI breaks even at month 7 |
+| Risks | Three risks identified; all are mitigated with built-in controls |
+
+**Headline test:** Read only the slide titles in sequence. Does the story hold? Can a senior executive understand the key argument without reading the body text? If not, rewrite the headlines.
+
+---
+
+## C3. Exhibit Discipline
+
+### Architecture Diagrams
+Use for solution proposals and capability decks to show *how* your solution works.
+- Show components, integrations, and data flows — not just logos.
+- Annotate the diagram: label each component with a short functional description (not just the product name).
+- Highlight the client's existing environment in one color, your solution layer in another.
+- Keep it readable at slide scale: max 6–8 components on one diagram. Move detailed architecture to the appendix.
+
+### Timeline / Roadmap Slides
+Use for proposals, strategy decks, and project kickoffs.
+- Use a horizontal timeline with phases (not a Gantt chart unless explicitly requested).
+- Each phase has a name, a duration, and 2–3 key deliverables.
+- Mark milestones as distinct visual anchors (diamonds or circles on the track).
+- Include a brief note on what the client does vs. what you do per phase (responsibility split).
+- Highlight the "quick win" — the earliest visible value delivery.
+
+### Case Study / Proof Slides
+Use for external decks when proposing to a new client.
+- Structure: **Client context → Challenge → Approach → Outcome**.
+- The outcome must be quantified wherever possible (revenue impact, cost saved, time reduced, risk mitigated).
+- Use a client logo if you have permission; otherwise use an industry + company-size descriptor (e.g., "Global Tier-1 bank, 40,000 employees").
+- Keep each case study to one slide. If you have multiple, show the most relevant one in the main deck; put others in the appendix.
+- The case study client should be comparable to the deck's recipient in industry, size, or challenge.
+
+### KPI / Metric Callout Boxes
+Use when a single number carries the argument.
+- Large, bold number (36–48 pt) as the focal point.
+- Short label below (14–16 pt, muted) describing what it measures.
+- Context note (12 pt, muted) showing source or comparison baseline.
+- Example: **70%** / Time saved on reconciliation / vs. prior manual process.
+
+---
+
+## C4. Text Discipline
+
+### Maximum body text: ~30 words per slide
+Corporate audiences are often multi-tasking or reading ahead. Dense slides lose them.
+
+### Headlines carry the message; bullets carry the support
+If the headline is strong, the bullets only need to provide brief supporting evidence — they don't need to repeat the headline's message.
+
+### Bullets: 3–5 per slide, one idea each
+More than 5 bullets signals the slide is doing too much. Split it.
+
+### Use bold sparingly
+Bold the one term or metric per bullet that is the "so what." Don't bold decoratively.
+
+### Avoid jargon mismatch
+- For C-suite audiences: plain language, business outcomes, financial terms.
+- For technical audiences: precise technical terms are appropriate.
+- For mixed audiences: plain language in headlines, technical precision in the appendix.
+
+---
+
+## C5. CTA / Next Steps Discipline
+
+The Next Steps slide is the most important slide in a corporate deck. A weak CTA is the most common failure mode.
+
+**A strong CTA must be:**
+- **Specific** — names an exact action ("Schedule a 2-hour discovery workshop"), not a vague invite ("Let us know if you have questions").
+- **Time-bound** — includes a deadline or proposed date ("By end of July", "Before your Q3 planning cycle").
+- **Owned** — assigns responsibility ("Action for [Client Name]: nominate a technical lead").
+- **Low-friction** — the first step should be small enough that saying yes is easy (a call, a workshop, a pilot) — not a full contract.
+
+**CTA examples by deck type:**
+
+| Deck Type | Strong CTA Example |
+|-----------|-------------------|
+| Solution Proposal | "Confirm Phase 1 scope by July 15 so we can begin onboarding in August" |
+| Sales Pitch | "Schedule a 45-minute discovery call this week — we'll come with a tailored diagnostic" |
+| Strategy Deck | "Approve the recommended direction in the leadership offsite on Aug 3" |
+| QBR | "Align on the 3 priorities for Q3 by end of this week; we'll send a follow-up memo" |
+| Capability Showcase | "Identify a pilot use case from your backlog — we can scope it in 2 weeks" |
+
+---
+
+## C6. Deck Architecture by Type
+
+### Executive Summary Slide (required for all decks > 8 slides)
+
+One slide. Self-sufficient — a busy executive who reads only this slide should understand:
+1. The situation / problem
+2. The recommended solution or decision
+3. The headline outcome or benefit
+4. The ask / next step
+
+Format: 4-box grid, or 3–4 short bullet points. Never more than 80 words total.
+
+### Appendix (required for all corporate decks)
+
+The appendix is not a dumping ground — it is a pre-built answer library.
+
+Always include:
+- Technical deep-dives that were too detailed for the main deck
+- Detailed pricing breakdown (if main deck shows summary pricing only)
+- Risk register (full table)
+- Biographies or team profiles (if a team slide in the main deck is too brief)
+- Additional case studies
+- FAQ page (for proposals and pitches — anticipate the 3–5 most likely objections)
+
+Label each appendix section clearly ("Appendix A: Technical Architecture", "Appendix B: Pricing Detail", etc.).
+
+---
+
+## C7. Common Mistakes (Corporate)
+
+| Mistake | Fix |
+|---------|-----|
+| Generic problem framing | Name the client's specific pain — show you listened and researched |
+| Weak CTA ("happy to discuss") | Make the ask specific, time-bound, and low-friction |
+| No storytelling — data dump | Pick a narrative spine (PSP, SCR, Answer First) and follow it |
+| Audience mismatch | Calibrate depth and language to who is actually in the room |
+| Topic-label slide titles | Write business headlines — outcome, recommendation, or insight |
+| Bullet walls | Max 5 bullets, ~30 words. If more, split the slide |
+| Generic case study | Use the most relevant comparable client; quantify the outcome |
+| Architecture diagram without labels | Annotate every component; show integration points |
+| Timeline without responsibility split | Label who does what per phase (client vs. your team) |
+| No executive summary | Always include for decks > 8 slides |
+| Ending on "Thank You" | End on Next Steps / CTA — it stays visible as the conversation continues |
+| No appendix | Always include — it shows depth and prepares you for Q&A |
