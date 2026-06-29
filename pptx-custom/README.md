@@ -38,7 +38,7 @@ This skill works alongside Anthropic's built-in PPTX skill, which handles the te
 ## File Structure
 
 ```
-academic-pptx-skill/
+pptx-custom/
 ├── SKILL.md                  # Entry point: routing logic and design standards
 ├── content_guidelines.md     # Argument structure, action titles, citations, deck architecture
 ├── slide_patterns.md         # Per-slide-type implementation patterns with PptxGenJS code
