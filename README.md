@@ -636,11 +636,7 @@ visa-validator/
 MIT
 
 
----
 
-## Installation
-
-### Add All Skills (Recommended)
 
 ```bash
 npx skills add devenkhatri/all-agent-skills-repo
@@ -1007,27 +1003,5 @@ skill-builder/
 └── README.md     # Documentation
 ```
 
----
-
-## Quick Start
-
-1. Add skills to your project:
-    ```bash
-    npx skills add devenkhatri/all-agent-skills-repo
-    ```
-
-2. Use a skill by typing its name or trigger phrase:
-    - `/codebase-to-course` → "Turn this codebase into a course"
-    - `/codebase-to-demo` → "Create a demo for this"
-    - `/carousel-creator` → "Create a carousel about..."
-    - `/content-pipeline` → "Run the content pipeline on [topic]" / "Build me a carousel + LinkedIn post"
-    - `/excalidraw-diagram` → "Draw a diagram of..."
-    - `/frontend-slides` → "Create a presentation" or "Make slides"
-    - `/short-form-studio` → "Let's make today's short about [topic]"
-    - `/skill-builder` → "Help me build a skill"
-
----
-
-## License
 
 MIT
