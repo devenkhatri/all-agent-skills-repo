@@ -11,6 +11,7 @@ A collection of Claude Code skills for various use cases. Install individual ski
 | [carousel-creator](#carousel-creator) | Create premium Instagram and LinkedIn carousel posts as SVG slides with swipe-worthy design |
 | [content-pipeline](#content-pipeline) | Repurpose one idea into a full content package: LinkedIn post, 1200×627 cover image, Skool post, and Instagram/LinkedIn carousel |
 | [excalidraw-diagram](#excalidraw-diagram) | Generate Excalidraw diagrams with JSON from natural language descriptions |
+| [fable-mode](#fable-mode) | Apply Fable 5's working discipline — the five-gate task loop and standing habits — to any hard multi-step session |
 | [frontend-slides](#frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files |
 | [generate-video](#generate-video) | Convert text, HTML, YouTube URLs, PDFs, or images into automated video sequences using the Hyperframes framework |
 | [pptx-custom](#pptx-custom) | Create high-quality presentations in two modes: Academic (conference talks, thesis defenses, grant briefings) and Corporate (proposals, sales pitches, strategy decks, executive briefings) |
@@ -61,6 +62,12 @@ npx skills add devenkhatri/all-agent-skills-repo/content-pipeline
 
 ```bash
 npx skills add devenkhatri/all-agent-skills-repo/excalidraw-diagram
+```
+
+#### Fable Mode
+
+```bash
+npx skills add devenkhatri/all-agent-skills-repo/fable-mode
 ```
 
 #### Frontend Slides
@@ -235,8 +242,13 @@ Create premium, polished Instagram and LinkedIn carousel posts as individual SVG
 │   ├── {topic}-slide-1.svg
 │   ├── {topic}-slide-2.svg
 │   └── ...
-└── caption.md
+├── caption.md
+├── {topic}.pdf               ← multi-page PDF export
+├── {topic}.mp4               ← 5s/slide MP4 slideshow
+└── {topic}-hyperframes.mp4   ← Ken Burns + cross-dissolve cinematic MP4
 ```
+
+After saving SVGs, the skill automatically exports to **PDF**, **MP4**, and **Hyperframes MP4** via `./scripts/export-carousel-all.zsh YYYYMMDD-HHMM` — no permission prompt.
 
 **Content Strategy:**
 - Hook slide: Bold, premium, curiosity-driven
@@ -256,8 +268,10 @@ Create premium, polished Instagram and LinkedIn carousel posts as individual SVG
 **Files:**
 ```
 carousel-creator/
-├── SKILL.md    # Main skill instructions
-└── README.md   # Documentation
+├── SKILL.md              # Main skill instructions
+├── README.md             # Documentation
+├── references/           # Supporting reference files (content strategy, design system, SVG templates)
+└── scripts/              # Export scripts: PDF, MP4 slideshow, Hyperframes MP4, combined all-in-one
 ```
 
 ---
@@ -330,6 +344,62 @@ Generate Excalidraw diagrams using JSON from natural language descriptions. Defa
 ```
 excalidraw-diagram/
 └── SKILL.md  # Main skill instructions
+```
+
+---
+
+### fable-mode
+
+Apply Fable 5's working discipline — the **five-gate task loop** plus standing habits — to any hard, multi-step session. A method skill, not a workflow: it changes how you execute the current task and produces no files of its own. Use it the moment you notice a task has many layers, unknowns that could change the approach, debugging where the first theory might be wrong, or anything that needs verification before handoff. Also use when a task keeps failing or stalling.
+
+**Trigger Phrases:**
+- "fable mode"
+- "think like Fable"
+- "use the Fable skill / method"
+- "work like Fable"
+- "slow down and do this right"
+- "think this through first"
+
+**The Loop: Five Gates, in Order**
+
+Every hard task passes through five gates. A gate must pass before the next one opens. When a task stalls or a result surprises you, name which gate you're at and re-run it.
+
+1. **Gate 1 — Scope before work.** Define what "done" looks like before touching anything, including how you'll check it. Check standing rules (CLAUDE.md, skills, memory). Name the load-bearing unknowns. Ask one question if the request is ambiguous in a way that changes what you'd build; otherwise pick the sensible default and proceed.
+2. **Gate 2 — Evidence before reasoning.** Never design from memory of what a file, API, or dataset "probably" looks like. Open it. Prefer a thin end-to-end pass over a complete first stage. Keep a live plan for anything with 3+ steps.
+3. **Gate 3 — Reason adversarially.** Before committing to an answer, switch roles and try to kill it. Steelman what survives. Treat "already solid" as a legitimate review result — never manufacture findings to look thorough. Re-decide after every tool result.
+4. **Gate 4 — Verify before declaring done.** "It ran" is not verification. Verify at the layer of the claim. Re-open what you wrote; run the code; screenshot the page. Sample the tails, not just the middle. Zero-context test for anything user-facing.
+5. **Gate 5 — Report calibrated.** Lead with the answer, then the support. Separate verified from assumed, out loud. Cite evidence with specifics: paths, line numbers, the command you ran, the number you saw. Report what you observed, not what you intended.
+
+**Standing Habits (Always On)**
+
+- Convert relative dates to absolute ("tomorrow" → a date, "latest version" → a version number).
+- Surface constraints proactively — limits, risks, trade-offs the user didn't ask about.
+- Pick the next action by information per unit cost: cheapest probe of the biggest remaining unknown.
+- Sort actions by reversibility — reversible and in scope: just do it. Irreversible or outward-facing (sending, posting, deleting, paying): stop and confirm.
+- Unblock yourself before escalating; bundle questions for the user.
+- Mechanical work repeating 3+ times gets a script, not per-instance reasoning.
+- Preserve by default — touch only what the task requires.
+
+**Smells That Mean a Gate Got Skipped**
+
+- Building something without opening the real data / file / API response it depends on (Gate 2)
+- Saying "should work" about anything you can test right now (Gate 4)
+- Third attempt at the same fix (Gate 3)
+- Last three actions came from the original plan with no check against intermediate results (Gate 3)
+- About to report done but the evidence is your intention, not an observation (Gate 4)
+- A result came back surprisingly clean and you moved on without asking why (Gate 4)
+- Cannot say in one sentence what "done" looks like (Gate 1)
+
+Any one of these: stop, go back to that gate.
+
+**Stacks With Task-Specific Skills**
+
+`fable-mode` is the "when" of discipline (use it on hard work). Task-specific skills like `/verify` and `/code-review` are the "how to check" tools. Together they make planning, debugging, and review noticeably more careful on Opus and Sonnet.
+
+**Files:**
+```
+fable-mode/
+└── SKILL.md  # Main skill instructions (the five-gate loop + standing habits + smell list)
 ```
 
 ---
@@ -550,6 +620,7 @@ Phase 0: Scope → Phase 1: 5 parallel expert agents → Phase 2: Contradiction 
 ```
 storm-research/
 ├── SKILL.md               # Main skill instructions (4-phase pipeline)
+├── README.md              # Documentation
 └── report-template.html   # HTML report template (clone and fill — do not rebuild CSS)
 ```
 
@@ -673,6 +744,7 @@ visa-validator/
     - `/carousel-creator` → "Create a carousel about..."
     - `/content-pipeline` → "Run the content pipeline on [topic]" / "Build me a carousel + LinkedIn post"
     - `/excalidraw-diagram` → "Draw a diagram of..."
+    - `/fable-mode` → "Fable mode" / "Think this through first" / "Slow down and do this right"
     - `/frontend-slides` → "Create a presentation" or "Make slides"
     - `/generate-video` → "Create a video from this [URL / PDF / image]"
     - `/pptx-custom` → "Make slides for my conference paper" / "Create a solution proposal for [Client]"
