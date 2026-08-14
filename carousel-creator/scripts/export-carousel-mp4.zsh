@@ -6,6 +6,12 @@ if ! command -v magick >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! command -v rsvg-convert >/dev/null 2>&1; then
+  print "Error: 'rsvg-convert' is not installed or not in PATH." >&2
+  print "Install with: brew install librsvg" >&2
+  exit 1
+fi
+
 if ! command -v ffmpeg >/dev/null 2>&1; then
   print "Error: ffmpeg is not installed or not in PATH." >&2
   exit 1
@@ -59,8 +65,12 @@ concat_file="$tmp_dir/slides.txt"
 index=1
 last_png=""
 for slide in "${slides[@]}"; do
+  raw_png="$tmp_dir/raw-$(printf '%03d' "$index").png"
   png="$tmp_dir/slide-$(printf '%03d' "$index").png"
-  magick -density 144 "$slide" -resize 1080x1350! -background white -alpha remove -alpha off "$png"
+
+  rsvg-convert -d 144 -p 144 "$slide" -o "$raw_png"
+  magick "$raw_png" -resize 1080x1350! -background white -alpha remove -alpha off "$png"
+
   print "file '$png'" >> "$concat_file"
   print "duration $seconds_per_slide" >> "$concat_file"
   last_png="$png"
