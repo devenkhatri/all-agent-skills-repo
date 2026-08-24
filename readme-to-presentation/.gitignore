@@ -1,0 +1,2 @@
+# Ignore generated presentations — these are user output, not tracked in the skill repo
+output/

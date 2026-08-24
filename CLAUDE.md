@@ -26,6 +26,7 @@ npx skills add devenkhatri/all-agent-skills-repo/<skill-name>
 | `/content-pipeline` | "Run the content pipeline on..." / "Create a LinkedIn + Skool package" / "Repurpose for LinkedIn and Skool" |
 | `/excalidraw-diagram` | "Draw a diagram of..." / Default for all diagram requests |
 | `/frontend-slides` | "Create a presentation" / "Make slides" |
+| `/readme-to-presentation` | "Turn this GitHub README into slides" / "Create a presentation from this repo" / "Convert README to HTML deck" |
 | `/skill-builder` | "Help me build a skill" / "Audit this skill" |
 | `/remotion-generator` | "Generate a video" / "Create a video" / "Generate remotion" |
 | `/visa-validator` | "Scan visa documents, validate against country checklists, perform gap analysis, and generate approval probability scores" |
@@ -89,6 +90,16 @@ Supporting reference files are **not loaded automatically** — they load only w
 - Stage 4 delegates to `/carousel-creator` via a subagent — pre-collected intake prevents re-prompting; subagent reconciles timestamp drift so all files land in the same `YYYYMMDD-HHMM/` folder as Stages 1–3
 - CTA tone (urgent/educational/inspirational) is inferred from the topic and applied consistently across all four stages
 
+### readme-to-presentation
+- Accepts GitHub repo URLs (`https://github.com/user/repo`) or raw README URLs
+- Auto-converts repo URL to raw URL; tries `main` branch then `master`
+- AI-infers slide structure — does NOT create one slide per heading
+- Output: single self-contained HTML (inline CSS/JS, no external dependencies except Google Fonts/Fontshare)
+- Dark mode is default; toggle button persists preference via `localStorage`
+- Navigation: keyboard arrow keys + on-screen buttons + clickable dot indicators
+- Reference files: `references/design-system.md` (CSS tokens, fonts, slide specs, syntax highlighting)
+- Style can be overridden by user: `minimal`, `bold`, `techy`, `corporate`, `elegant`, `colorful`
+
 ## Output Conventions
 
 - `carousel-creator` → `YYYYMMDD-HHMM/` in current directory
@@ -98,3 +109,4 @@ Supporting reference files are **not loaded automatically** — they load only w
 - `frontend-slides` → single `.html` file in current directory
 - `excalidraw-diagram` → `.excalidraw` file in current directory
 - `remotion-generator` → `YYYYMMDD-HHMM-video.mp4` in current directory
+- `readme-to-presentation` → `readme-to-presentation/output/<project-name>-presentation.html`
