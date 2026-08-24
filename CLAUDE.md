@@ -109,4 +109,4 @@ Supporting reference files are **not loaded automatically** — they load only w
 - `frontend-slides` → single `.html` file in current directory
 - `excalidraw-diagram` → `.excalidraw` file in current directory
 - `remotion-generator` → `YYYYMMDD-HHMM-video.mp4` in current directory
-- `readme-to-presentation` → `readme-to-presentation/output/<project-name>-presentation.html`
+- `readme-to-presentation` → `YYYYMMDD-<project-name>-presentation.html` in current working directory
