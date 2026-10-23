@@ -15,6 +15,7 @@ A collection of Claude Code skills for various use cases. Install individual ski
 | [frontend-slides](#frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files |
 | [generate-video](#generate-video) | Convert text, HTML, YouTube URLs, PDFs, or images into automated video sequences using the Hyperframes framework |
 | [pptx-custom](#pptx-custom) | Create high-quality presentations in two modes: Academic (conference talks, thesis defenses, grant briefings) and Corporate (proposals, sales pitches, strategy decks, executive briefings) |
+| [raw-video-editor](#raw-video-editor) | Edit a raw recording level by level — clean cut (silences, fillers, retakes), captions, B-roll, music, reference-style and Apple-style motion graphics — always as a new file, never touching the original |
 | [short-form-studio](#short-form-studio) | Run the end-to-end production loop for a short-form talking-head video (YouTube Shorts, Reels, TikTok) built with Hyperframes |
 | [skill-builder](#skill-builder) | Create new skills, optimize existing skills, or audit skill quality following Claude Code best practices |
 | [storm-research](#storm-research) | Run a 4-phase, multi-perspective, citation-verified HTML research briefing on any topic using five expert lenses |
@@ -86,6 +87,12 @@ npx skills add devenkhatri/all-agent-skills-repo/generate-video
 
 ```bash
 npx skills add devenkhatri/all-agent-skills-repo/pptx-custom
+```
+
+#### Raw Video Editor
+
+```bash
+npx skills add devenkhatri/all-agent-skills-repo/raw-video-editor
 ```
 
 #### Short-Form Studio
@@ -509,6 +516,36 @@ pptx-custom/
 ├── slide_patterns.md         # Per-slide-type PptxGenJS implementation patterns
 └── README.md                 # Documentation
 ```
+
+---
+
+### raw-video-editor
+
+Hand over a raw, unedited video and get back a finished edit, built one pass at a time like a tireless junior editor would do it. The method is distilled from two Claude video-editing masterclasses: Aaghaz's "Edit 10 Videos a Day With Claude" and Last Moment Tuitions' "Master AI Video Editing in 20 Minutes".
+
+**The level ladder:**
+```
+1 quick polish · 2 clean cut · 3 stock B-roll + music · 4 personal B-roll library
+5 reference-style edit · 6 Apple-style premium
+```
+
+**Key Features:**
+- **Original is never modified.** SHA-256 recorded at start, verified at delivery; scripts refuse to write to the source path
+- Every iteration is a new file (`<stem>-edited-v1.mp4`, `-v2.mp4`, …), never an overwrite
+- Watches first: transcribes, reads frames, proposes a time-coded `edit-plan.md` before editing
+- No Python helpers: runs on ffmpeg, shasum and the HyperFrames CLI (transcription, composition, lint/inspect, render)
+- Automatic cut list for silences, fillers and repeated takes (keeps the best take, never cuts mid-sentence), with a human-readable review
+- Self-verifies rendered frames: captions and graphics never cover the face
+- Copyright-safe assets with an auto-maintained `credits.md` for the description
+- Saves decoded reference styles and B-roll catalogs for reuse across videos
+
+**Trigger Phrases:**
+- "/raw-video-editor ~/Videos/raw.mp4 clean cut + captions"
+- "Remove silences and retakes from this video"
+- "Edit my video in the style of <reference URL>"
+- "Use my own B-roll folder for this edit"
+
+**Output:** `YYYYMMDD-HHMM-<stem>-edit/` in the current directory with `renders/<stem>-edited-vN.mp4`, `edit-plan.md`, `credits.md`, `original.sha256`
 
 ---
 

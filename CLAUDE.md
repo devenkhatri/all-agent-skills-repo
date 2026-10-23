@@ -26,6 +26,7 @@ npx skills add devenkhatri/all-agent-skills-repo/<skill-name>
 | `/content-pipeline` | "Run the content pipeline on..." / "Create a LinkedIn + Skool package" / "Repurpose for LinkedIn and Skool" |
 | `/excalidraw-diagram` | "Draw a diagram of..." / Default for all diagram requests |
 | `/frontend-slides` | "Create a presentation" / "Make slides" |
+| `/raw-video-editor` | "Edit this raw video" / "Remove silences and retakes" / "Edit it in the style of this reference" |
 | `/readme-to-presentation` | "Turn this GitHub README into slides" / "Create a presentation from this repo" / "Convert README to HTML deck" |
 | `/skill-builder` | "Help me build a skill" / "Audit this skill" |
 | `/remotion-generator` | "Generate a video" / "Create a video" / "Generate remotion" |
@@ -90,6 +91,15 @@ Supporting reference files are **not loaded automatically** — they load only w
 - Stage 4 delegates to `/carousel-creator` via a subagent — pre-collected intake prevents re-prompting; subagent reconciles timestamp drift so all files land in the same `YYYYMMDD-HHMM/` folder as Stages 1–3
 - CTA tone (urgent/educational/inspirational) is inferred from the topic and applied consistently across all four stages
 
+### raw-video-editor
+- **No Python helpers:** everything runs as inline shell in SKILL.md (ffmpeg/ffprobe, shasum, awk) plus the HyperFrames CLI (`npx -y hyperframes` with a Node ≥ 22 found inline via nvm/fnm/volta). The skill has no `scripts/` folder. Claude builds the Level 2 cut plan itself from the transcript (`work/keep.txt` → awk filter graph → ffmpeg)
+- **Never modifies the original:** `shasum -a 256` at start, `shasum -c` must print OK before delivery; every ffmpeg write uses `-n` (never overwrite); user B-roll folders are catalogued, never renamed
+- Each iteration renders a new `renders/<stem>-edited-vN.mp4`; never overwrite
+- 6-level ladder in `references/levels.md`; one pass per round, Level 2 (clean cut) always before overlay passes
+- Transcription is `hf transcribe` (whisper.cpp): ~30× realtime on this Intel Mac and it can corrupt Devanagari, so SKILL.md checks for U+FFFD and offers English (`small.en`) or an imported SRT
+- Any generated speech uses the creator's cloned voice first: `~/tools/chatterbox/say.py` (voice `voices/deven.wav`; slow on CPU, run in the background); Kokoro `hf tts` only if Chatterbox is missing
+- Persistent styles, B-roll catalogs and preferences live in `~/.raw-video-editor/`
+
 ### readme-to-presentation
 - Accepts GitHub repo URLs (`https://github.com/user/repo`) or raw README URLs
 - Auto-converts repo URL to raw URL; tries `main` branch then `master`
@@ -109,4 +119,5 @@ Supporting reference files are **not loaded automatically** — they load only w
 - `frontend-slides` → single `.html` file in current directory
 - `excalidraw-diagram` → `.excalidraw` file in current directory
 - `remotion-generator` → `YYYYMMDD-HHMM-video.mp4` in current directory
+- `raw-video-editor` → `YYYYMMDD-HHMM-<stem>-edit/` in current directory with `renders/<stem>-edited-vN.mp4`, `edit-plan.md`, `credits.md`, `original.sha256`, `probe.json`, `work/`, `assets/`
 - `readme-to-presentation` → `YYYYMMDD-<project-name>-presentation.html` in current working directory
