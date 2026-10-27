@@ -1,486 +1,534 @@
 ---
 name: content-pipeline
-description: Use when someone asks to repurpose one idea into a LinkedIn post + cover image + Skool post, run a content distribution pipeline, or create a multi-platform content package from a single input.
-argument-hint: [topic or idea]
+description: Repurpose one idea into a complete multi-platform content package (LinkedIn, Instagram, Twitter, YouTube, Facebook, Skool, cover image, and carousel) or fill missing channels in an existing content folder.
+argument-hint: [topic/idea OR existing-folder-path]
 ---
 
 # Content Pipeline
 
-Transform one idea into a complete multi-platform content package — a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, and a premium carousel — all from a single input, run as four sequential stages.
+Transform one idea into a complete multi-platform content package — a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, a premium carousel, an Instagram caption, a Twitter thread/post, a YouTube video description, and a Facebook post — all from a single input, or by completing missing channels in an existing folder.
+
+## Core Principles
+
+1. **One Idea, Native Execution**: Never copy-paste identical text across platforms. Every channel has unique algorithms, formatting limits, and audience expectations.
+2. **Zero Extra Markdown Characters**: Social platforms (LinkedIn, Instagram, Twitter, Facebook) do NOT render markdown. Raw markdown syntax (`**bold**`, `*italic*`, `### headings`, `[links](url)`, `---`) displays as literal, ugly symbols when pasted. All generated copyable posts must be **100% clean and copy-paste ready**, using natural line breaks, standard capitalization, and emojis for emphasis. Files must never be wrapped in outer markdown code fences (` ```markdown `).
+3. **Folder Continuation & Missing Channel Detection**: If an existing folder path/name is provided as input, the pipeline inspects existing files in that folder, extracts the topic and context, identifies which channels are missing, and generates only the missing deliverables directly into that folder without overwriting existing files.
+4. **Autonomous Pipeline Execution**: Run all stages in sequence from a single input without pausing for intermediate permission prompts.
 
 ## When to Use This Skill
 
 Trigger this skill when the user wants to:
 
-- Repurpose one idea across LinkedIn and Skool
-- Run a full content pipeline from a single topic
-- Create a "content package" for a post
-- Distribute content across multiple platforms at once
-- Save time by writing a LinkedIn post, cover, and Skool post in one shot
+- Repurpose one idea across all major social channels in one command
+- Generate a full content package (LinkedIn, Instagram, Twitter, YouTube, Facebook, Skool, Carousel, Cover Image)
+- Fill in missing platform content for a previously generated post folder
+- Distribute an article, tutorial, announcement, or insight across multiple platforms
+- Get clean, copy-paste ready social copy without markdown artifacts
 
 **Trigger phrases:**
 
 - "Run the content pipeline on [topic]"
-- "Create a LinkedIn + Skool package for [idea]"
-- "Repurpose this for LinkedIn and Skool"
-- "Make a content package about [topic]"
-- "Turn this into a full post package"
+- "Create a content package for [idea]"
+- "Repurpose this for all platforms"
+- "Fill missing channels for folder [folder-name]"
+- "Turn this topic into posts for LinkedIn, Instagram, Twitter, YouTube, Facebook, and Skool"
+
+---
+
+## Deliverables & Channels
+
+| Channel / Deliverable | Output File | Format & Style Highlights |
+|---|---|---|
+| **LinkedIn** | `linkedin-post.md` | Mobile hook (<8 words), re-hook, emojis at sentence ends, soft CTA, ♻️ Repost + ➕ Follow, 3–5 hashtags. Clean text, no markdown. |
+| **Cover Image** | `cover.svg` & `cover-prompt.md` | 1200×627 SVG (1.91:1) with central 1000×500 safe zone, hero insight text, `@devengoratela` branding + AI image prompt. |
+| **Skool Post** | `skool-post.md` | 30–40% shorter, casual peer-to-peer tone, no hashtags, tool/tip focus, prominent closing question. Clean text, no markdown. |
+| **Carousel** | `slides/`, `caption.md`, exports | 5–10 premium SVG slides (4:5 or 1:1), caption, PDF, MP4, and Hyperframes MP4 via `/carousel-creator`. |
+| **Instagram** | `instagram-post.md` | High-hook caption, clean spacing, emoji bullet points, save/share CTA, 10–15 hashtags at the bottom. Clean text, no markdown. |
+| **Twitter / X** | `twitter-post.md` | Single punchy tweet (<280 chars) PLUS a full numbered thread (`1/`, `2/`, ... `N/`) with follow/repost CTA. Clean text, no markdown. |
+| **YouTube** | `youtube.md` | 3 clickable title options, SEO video description with hook, chapters/timestamps placeholder, links, and tags. Clean text, no markdown. |
+| **Facebook** | `facebook-post.md` | Conversational storytelling/educational post, readable paragraphs, community discussion CTA, 0–2 hashtags. Clean text, no markdown. |
+
+---
 
 ## Pipeline Overview
 
 ```
-[Topic / Idea / Key Points]
+[Topic / Idea] OR [Existing Folder Path]
             │
             ▼
-┌────────────────────────────────────┐
-│ Stage 1: LinkedIn Post             │
-│   • Hook + re-hook                 │
-│   • Body + single takeaway         │
-│   • Soft CTA                       │
-│   • Repost + Follow lines          │
-│   • Hashtags                       │
-└────────────────────────────────────┘
-            │  linkedin-post.md
-            ▼
-┌────────────────────────────────────┐
-│ Stage 2: Cover Image               │
-│   • 1200×627 SVG (1.91:1)          │
-│   • Central safe zone              │
-│   • Core insight as hero           │
-│   • Subtle branding                │
-│   • + text prompt for AI tools     │
-└────────────────────────────────────┘
-            │  cover.svg + cover-prompt.md
-            ▼
-┌────────────────────────────────────┐
-│ Stage 3: Skool Post                │
-│   • 30–40% shorter                 │
-│   • Casual peer tone               │
-│   • No hashtags                    │
-│   • Tool/tip/insight leads         │
-│   • Bold closing question          │
-└────────────────────────────────────┘
-            │  skool-post.md
-            ▼
-┌────────────────────────────────────┐
-│ Stage 4: Carousel                  │
-│   • Delegates to /carousel-creator │
-│   • Pre-collected intake (no       │
-│     re-prompting)                  │
-│   • Premium SVG slides             │
-│   • Caption + exports              │
-│   • Outputs land in the SAME       │
-│     folder as Stages 1–3           │
-└────────────────────────────────────┘
-            │  slides/, caption.md, exports
-            ▼
-[Four deliverables, one input, one folder]
+┌────────────────────────────────────────────────────────────────────────┐
+│ Step 0: Intake & Mode Selection                                        │
+│ • If folder path provided → inspect existing files, extract context,   │
+│   identify missing channels, and target existing folder                │
+│ • If topic/idea provided → compute TS = YYYYMMDD-HHMM, create folder   │
+└────────────────────────────────────────────────────────────────────────┘
+            │
+            ├─────────────────────────────────────────────┐
+            ▼ (generate all OR only missing channels)    ▼
+┌────────────────────────────────────┐       ┌────────────────────────────────────┐
+│ Stage 1: LinkedIn Post             │       │ Stage 5: Instagram Post            │
+│   • linkedin-post.md               │       │   • instagram-post.md              │
+│   • Hook + body + CTAs + hashtags  │       │   • Visual hook + spaced paragraphs│
+│   • 100% clean copy-paste text     │       │   • Emoji bullets + save/share CTA │
+└────────────────────────────────────┘       │   • 10–15 hashtags at bottom       │
+            │                                └────────────────────────────────────┘
+            ▼                                             │
+┌────────────────────────────────────┐                    ▼
+│ Stage 2: Cover Image & Prompt      │       ┌────────────────────────────────────┐
+│   • cover.svg (1200×627 SVG)       │       │ Stage 6: Twitter / X               │
+│   • cover-prompt.md (AI prompt)    │       │   • twitter-post.md                │
+│   • Central 1000×500 safe zone     │       │   • Standalone tweet (<280 chars)  │
+└────────────────────────────────────┘       │   • Full numbered thread (1/ to N/)│
+            │                                └────────────────────────────────────┘
+            ▼                                             │
+┌────────────────────────────────────┐                    ▼
+│ Stage 3: Skool Community Post      │       ┌────────────────────────────────────┐
+│   • skool-post.md                  │       │ Stage 7: YouTube Video Description │
+│   • Casual peer reframe            │       │   • youtube.md                     │
+│   • Tool/tip leads, no hashtags    │       │   • 3 clickable title options      │
+│   • Bold open-ended question       │       │   • Chapters / timestamps & tags   │
+└────────────────────────────────────┘       └────────────────────────────────────┘
+            │                                             │
+            ▼                                             ▼
+┌────────────────────────────────────┐       ┌────────────────────────────────────┐
+│ Stage 4: Carousel                  │       │ Stage 8: Facebook Post             │
+│   • Delegates to /carousel-creator │       │   • facebook-post.md               │
+│   • slides/, caption.md, exports   │       │   • Conversational & community tone│
+│   • Reconciles into target folder  │       │   • Discussion CTA, 0–2 hashtags   │
+└────────────────────────────────────┘       └────────────────────────────────────┘
+            │                                             │
+            └───────────────────────┬─────────────────────┘
+                                    ▼
+       [Complete multi-channel content package in target folder]
 ```
 
-## Inputs
+---
 
-**Required:**
+## Output Folder Structure
 
-- **Topic or idea** — The core insight, news, tip, or concept to publish
-
-**Optional** (gathered during the intake if not provided):
-
-- **Key points or outline** — 2–5 bullet points or notes to weave into the post
-- **Tone preference** — Urgent, educational, or inspirational (auto-inferred if missing)
-- **Target audience** — Who the post is for (defaults to AI/automation practitioners)
-- **Tools, prompts, frameworks** — Specific AI tools, prompt templates, or systems the post should mention
-
-## Outputs
-
-All saved to a date-wise folder in the current working directory using `YYYYMMDD-HHMM` (real current date/time, computed at intake so all four stages share the same folder):
+All deliverables are saved in a unified folder. For new runs, the folder is `YYYYMMDD-HHMM/` in the current working directory. For existing folders, deliverables are added directly into that folder.
 
 ```
-YYYYMMDD-HHMM/
-├── linkedin-post.md         # Stage 1: Title + full post (caption + content + CTAs + hashtags)
-├── cover.svg                # Stage 2: 1200×627 SVG cover image
+YYYYMMDD-HHMM/ (or existing folder)
+├── linkedin-post.md         # Stage 1: Full LinkedIn post (hook + body + CTAs + hashtags)
+├── cover.svg                # Stage 2: 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md          # Stage 2: Detailed prompt for Midjourney / DALL-E / Flux
 ├── skool-post.md            # Stage 3: Casual Skool community post
 ├── slides/                  # Stage 4: SVG carousel slides (from /carousel-creator)
 │   ├── {slug}-slide-1.svg
 │   └── ...
 ├── caption.md               # Stage 4: Carousel caption (from /carousel-creator)
-├── {slug}.pdf               # Stage 4: Carousel export
-├── {slug}.mp4               # Stage 4: Carousel export
-└── {slug}-hyperframes.mp4   # Stage 4: Carousel export
+├── {slug}.pdf               # Stage 4: Carousel PDF export
+├── {slug}.mp4               # Stage 4: Carousel MP4 export
+├── {slug}-hyperframes.mp4   # Stage 4: Hyperframes cinematic MP4
+├── instagram-post.md        # Stage 5: Instagram post / reel caption + hashtags
+├── twitter-post.md          # Stage 6: Standalone tweet + full numbered thread
+├── youtube.md               # Stage 7: 3 title options + SEO description + timestamps + tags
+└── facebook-post.md         # Stage 8: Conversational Facebook post + engagement CTA
 ```
 
-> **Why a folder:** Each stage produces a distinct deliverable. Bundling them in one folder makes the package easy to share, archive, or re-render. Stage 4 is delegated to `/carousel-creator` and the subagent is responsible for landing all carousel output into the same `YYYYMMDD-HHMM/` folder Stages 1–3 already use.
+---
+
+## Strict Formatting Rule: Zero Extra Markdown Characters
+
+Social media platforms do not support markdown. Every markdown character pasted into a social app becomes visible clutter that harms engagement and requires manual editing.
+
+Enforce these rules across **all text post files** (`linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `youtube.md`, `facebook-post.md`):
+
+1. **NO markdown bolding or italics**: Never use `**bold**`, `*italic*`, or `_italic_`. For emphasis, use UPPERCASE words sparingly, unicode bold if appropriate, or natural sentence construction.
+2. **NO markdown heading markers**: Never put `#`, `##`, `###`, or `####` inside the copyable post body. Use an empty line, a relevant emoji, or an uppercase header line instead.
+3. **NO markdown horizontal rules**: Never insert `---` or `***` dividers.
+4. **NO markdown links**: Never use `[anchor text](https://...)`. Write the bare URL directly (e.g. `https://linkedin.com/in/devengoratela`) or use phrases like "link in bio" or "link in the first comment".
+5. **NO markdown bullet characters**: When making lists, use visual emojis (e.g. `•`, `🔹`, `👉`, `⚡`) or numbers (`1.`, `2.`), never raw markdown `- ` or `* `.
+6. **NO outer code blocks**: Never wrap the entire file inside ```` ```markdown ... ``` ````. The file must directly contain the copy-ready text from line 1.
 
 ---
 
 ## Workflow
 
-### Step 0: Intake
+### Step 0: Intake & Mode Selection
 
-Before generating anything, gather the following. **Compute the timestamp `TS = YYYYMMDD-HHMM` once at the start of intake and use it for all four stages** — this keeps every stage's output in the same folder.
+Check the input argument:
 
-#### Content intake (used by Stages 1–3)
+#### Mode A: Existing Folder Provided (Fill Missing Channels)
 
-1. **Topic or idea** — If not provided in the argument, ask. Never invent a topic.
-2. **Key points** — Ask for 2–5 bullet points or supporting material, or extract them from the topic.
-3. **Tone** — Default to "educational" unless the topic implies urgency, controversy, or inspiration.
-4. **Tools / frameworks** — Ask if the post should mention specific AI tools, prompts, or systems.
+If the user provides an existing directory name or path (e.g., `20261027-1030` or `./20261027-1030` or an absolute folder path):
 
-#### Carousel intake (used by Stage 4)
+1. **Inspect existing files** in the folder:
+   - Check presence of: `linkedin-post.md`, `cover.svg`, `cover-prompt.md`, `skool-post.md`, `slides/` / `caption.md`, `instagram-post.md`, `twitter-post.md`, `youtube.md`, `facebook-post.md`.
+2. **Extract source context**:
+   - Read the existing post files (prioritizing `linkedin-post.md` or `skool-post.md`) to extract:
+     - Core topic and primary insight
+     - Key bullet points and supporting facts
+     - Tone (urgent, educational, inspirational)
+     - Named tools, frameworks, and workflows
+3. **Determine missing channels**:
+   - Identify every file from the standard roster that is missing from the folder.
+4. **Target directory**:
+   - Set target directory to this existing folder. Do NOT create a new timestamped folder.
+5. **Execute only missing stages**:
+   - Generate only the missing deliverables directly into the existing folder.
+   - Do NOT overwrite existing files unless the user explicitly requested regeneration.
 
-These are passed to the `carousel-creator` subagent so it can skip the carousel's own intake questions.
+#### Mode B: New Topic / Idea Provided (Full Pipeline Run)
 
-5. **Platform** — Instagram (1080×1350, 4:5) or LinkedIn (1080×1080, 1:1). Default: **LinkedIn** to match the post platform.
-6. **Handle** — The CTA handle. Default: **`@devengoratela`** (matches the LinkedIn Follow CTA).
-7. **Audience** — Defaults to the same audience inferred for the LinkedIn post.
-8. **Brand colors** — Optional. If provided, pass to the carousel. Otherwise the carousel-creator's premium defaults apply (which already match the cover's dark navy + LinkedIn blue accent).
-9. **Slide count** — Optional. If not provided, let the carousel-creator decide based on topic complexity (default range: 6–8).
+If the user provides a topic or idea:
 
-If the user provides minimal input (just a topic), make reasonable inferences for all fields and proceed. Note inferred choices inline in the LinkedIn post output (e.g., "(tone: educational, platform: LinkedIn, handle: @devengoratela — say so if you want any of this changed)").
-
----
-
-### Stage 1: LinkedIn Post
-
-**Role:** Senior LinkedIn Content Strategist. Your job is a high-engagement, mobile-readable, professional post designed to drive likes, comments, and shares — and funnel interested readers into the Practical AI Skool community.
-
-#### Hook (lines 1–2)
-
-- **Line 1: under 8 words.** This is the only line visible before "...see more" on mobile.
-- **Line 2: a punchy re-hook** that earns the click-to-expand.
-- Both lines must stop the scroll. No "Today I want to talk about…"
-
-#### Body
-
-- Short paragraphs. White space between them. No walls of text.
-- Emojis at the end of logical sentences (professional, not decorative).
-- Adopt a human-to-peer voice.
-- **Avoid AI slop:** `delve`, `landscape`, `unlock`, `tapestry`, `navigate`, `realm`, `leverage`, `in today's fast-paced world`, `in conclusion`, `game-changer`, `revolutionize`.
-- One clear takeaway or insight. Don't try to teach five things.
-
-#### Soft CTA (before the closing lines)
-
-A question or invitation to share experiences. **Tone-matched** to the post:
-
-- Urgent / provocative post → punchy, direct question
-- Educational post → value-driven invitation
-- Inspirational post → warm, community-focused prompt
-
-#### Mandatory closing lines (in this exact order, after the soft CTA, before hashtags)
-
-1. **♻️ Repost** — A line emphasizing the article's value and why the reader's network needs to see it.
-2. **➕ Follow** — A line positioning **Deven Goratela** (https://www.linkedin.com/in/devengoratela/) as the go-to authority for staying ahead in AI and automation.
-
-The three CTA blocks (soft CTA + Repost + Follow) must all match the article's tone.
-
-#### Output format for `linkedin-post.md`
-
-```markdown
-# [Post Title] [relevant emoji]
+1. **Intake parameters**:
+   - Topic / idea (required)
+   - Key points / outline (2–5 bullet points; extract or infer if not provided)
+   - Tone (default: "educational" unless topic implies urgency or controversy)
+   - Tools / frameworks mentioned
+   - Carousel preferences (default: platform LinkedIn, handle `@devengoratela`, 6–8 slides)
+2. **Folder creation**:
+   - Compute timestamp `TS = YYYYMMDD-HHMM` from current date/time.
+   - Target directory: `{cwd}/{TS}/`.
+3. **Run all stages** sequentially (Stages 1 through 8).
 
 ---
+
+### Stage 1: LinkedIn Post (`linkedin-post.md`)
+
+**Role:** Senior LinkedIn Content Strategist. High-engagement, mobile-readable professional post designed to drive reach, discussion, and followers.
+
+#### Rules
+- **Line 1 (Hook):** Under 8 words. Visible before "...see more" on mobile. Must stop the scroll.
+- **Line 2 (Re-hook):** Punchy sentence that earns the expand click.
+- **Body:** Short 1–2 sentence paragraphs with whitespace. Emojis at sentence ends where natural.
+- **Banned AI slop:** `delve`, `landscape`, `unlock`, `tapestry`, `navigate`, `realm`, `leverage`, `in today's fast-paced world`, `in conclusion`, `game-changer`, `revolutionize`.
+- **Soft CTA:** Thoughtful question or invitation matched to the post's tone.
+- **Mandatory closing CTAs:**
+  - `♻️ Repost` line explaining why reader's network benefits from seeing this.
+  - `➕ Follow` line positioning Deven Goratela (`https://www.linkedin.com/in/devengoratela/`) as the AI & automation authority.
+- **Hashtags:** 3–5 relevant hashtags on their own line.
+- **Zero markdown syntax:** No `#`, no `---`, no `**bold**`.
+
+#### Template for `linkedin-post.md`
+
+```
+[Post Title with relevant emoji]
 
 [Hook line 1 — under 8 words]
 [Re-hook line 2 — punchy]
 
-[Body — short paragraphs with emojis at the end of sentences]
+[Body paragraph 1 — 1 to 2 sentences with emoji]
 
-[Soft CTA — question or invitation]
+[Body paragraph 2 — 1 to 2 sentences with emoji]
 
-♻️ [Repost line]
-➕ Follow [Follow line positioning Deven Goratela as the AI/automation authority]
+[Key takeaways using emoji bullets]
+• [Point 1]
+• [Point 2]
+• [Point 3]
 
-[Hashtags on their own line, separated by spaces, 3–5 relevant tags]
+[Soft CTA — engaging question or invitation]
+
+♻️ [Repost line emphasizing value to network]
+➕ Follow Deven Goratela (https://www.linkedin.com/in/devengoratela/) for practical AI workflows and automation systems.
+
+#[Tag1] #[Tag2] #[Tag3] #[Tag4]
 ```
-
-#### Output rules
-
-- Title ends with a relevant emoji.
-- No bold formatting anywhere in the post body.
-- Hashtags are always included.
-- The output must be **copy-paste ready**. No further editing.
 
 ---
 
-### Stage 2: Cover Image
+### Stage 2: Cover Image (`cover.svg` & `cover-prompt.md`)
 
-**Role:** Senior visual designer for a high-performing LinkedIn infographic. Visual reinforcement of the post's core insight.
+**Role:** Senior Visual Designer. Visual reinforcement of the post's core insight.
 
 #### Specifications
-
 - **Dimensions:** 1200 × 627 px (1.91:1 widescreen).
-- **Aspect ratio:** 1.91:1.
-- **Safe zone:** Keep all critical content in the **center 1000 × 500 px** (≈100 px margin on all sides). The image is used both as a shared link preview and as an article header — corners may be cropped on different devices.
-- **No author photo.** Do not render or include any image of the author.
-- **No tool branding** like "LinkedIn Cover Image Generator" or any AI tool name on the image.
-- **Subtle branding:** A small handle (`@devengoratela`) or wordmark in a corner is fine but must not dominate.
+- **Safe zone:** Keep all critical content in the **center 1000 × 500 px** (corners cropped on mobile previews).
+- **Hero text:** Core insight extracted from Stage 1 (6–12 words), wrapped into 2–3 lines.
+- **Branding:** Subtle `@devengoratela` handle in bottom-left or corner. No author photo. No AI tool logos.
+- **Validation:** Must parse cleanly with Python `xml.etree.ElementTree`.
 
-#### Design system (defaults — override with user brand colors if provided)
-
-| Element | Default | Purpose |
-|---|---|---|
-| Background | `#0a0e27` → `#1a1f4e` subtle gradient | Professional, eye-catching on light/dark feeds |
-| Hero text | `#ffffff`, 64–72 px, bold sans-serif | The core insight or hook |
-| Subtitle | `#a0aec0`, 22–26 px | Supporting context or category tag |
-| Accent shape | `#4f9eff` (LinkedIn blue variant) | Vertical bar on left edge or geometric shape |
-| Footer | `#718096`, 16–18 px | `@devengoratela` and post topic |
-| Font stack | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif` | Clean, native, no font loading required |
-
-#### SVG layout template
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  ▌                                                          │
-│  ▌   [CATEGORY / TOPIC TAG]                                 │
-│  ▌                                                          │
-│      [CORE INSIGHT — HERO TEXT]                             │
-│      [wrapped to 2–3 lines max]                             │
-│                                                             │
-│      [supporting visual — icon, stat, or shape]            │
-│                                                             │
-│  @devengoratela                              [year/date]    │
-└─────────────────────────────────────────────────────────────┘
-```
-
-#### Process for `cover.svg`
-
-1. Read the LinkedIn post from Stage 1.
-2. Extract the **core insight** (the single biggest takeaway, usually 6–12 words). If the hook itself works, use it.
-3. Extract the **category / topic** (e.g., "AI Tools", "Automation", "Career", "Prompting").
-4. Build the SVG with the layout above. Use `text-anchor="middle"` for centered hero text. Wrap hero text into 2–3 lines manually (use `<tspan>` with `x` and `dy` for line breaks).
-5. Validate the SVG:
-   ```bash
-   python3 -c "import xml.etree.ElementTree as ET; ET.parse('cover.svg'); print('Valid')"
-   ```
-   Fix any errors and re-save until it parses cleanly.
-
-#### Process for `cover-prompt.md`
-
-In parallel with the SVG, write a detailed image generation prompt suitable for Midjourney, DALL-E 3, or Flux. Users can use this to upgrade to a higher-fidelity raster render.
-
-**`cover-prompt.md` template:**
-
-```markdown
-# LinkedIn Cover Image Prompt
-
-Use this prompt with Midjourney, DALL-E 3, Flux, or any AI image generator.
+#### Companion Prompt (`cover-prompt.md`)
+Detailed prompt for Midjourney, DALL-E 3, or Flux with dimensions, style, color palette, typography guidelines, and do-not-include list.
 
 ---
 
-## Prompt
+### Stage 3: Skool Community Post (`skool-post.md`)
 
-\```
-[Full detailed prompt — subject, style, composition, lighting, palette, typography]
-\```
+**Role:** Community member in the Practical AI Skool community. Peer-to-peer reframe.
 
-## Specifications
+#### Rules
+- **Tone:** Casual, curious, genuine peer sharing ("here's what worked for me").
+- **Length:** 30–40% shorter than the LinkedIn post. Direct and punchy.
+- **No hashtags:** Remove all hashtags.
+- **Lead with the tool/insight:** Skip corporate backstory; get straight to the practical application.
+- **Closing question:** End with one strong, open-ended question to spark discussion.
+- **Zero markdown syntax:** No `#` headings, no `**` bolding around questions.
 
-- **Dimensions:** 1200 × 627 px (1.91:1)
-- **Aspect ratio:** 1.91:1
-- **Safe zone:** Keep all text in the center 1000 × 500 px area (corners may be cropped on mobile link previews)
-- **Style:** [e.g., "Modern minimal infographic, dark mode aesthetic"]
-- **Color palette:** [hex codes]
-- **Typography:** [e.g., "Bold sans-serif, large hero text"]
+#### Template for `skool-post.md`
 
-## Do NOT include
-
-- No photo of the author
-- No text that says "LinkedIn Cover Image Generator" or any tool name
-- No watermarks
-- No logo of any AI tool or platform
 ```
+[Curiosity-driven hook line]
 
----
+[Body paragraph 1 — casual peer explanation of what happened]
 
-### Stage 3: Skool Post
+[Practical breakdown / what worked]
+• [Step or insight 1]
+• [Step or insight 2]
+• [Step or insight 3]
 
-**Role:** Casual content conversion assistant for the Practical AI Skool community. The LinkedIn post is the source material; the Skool post is a peer-to-peer reframe.
-
-#### Persona
-
-- You sound like a fellow AI enthusiast — casual, curious, genuinely helpful.
-- You are NOT a corporate content writer. No polished, formal, or salesy language.
-- You understand the Practical AI community values **real-world application over hype**.
-
-#### Conversion rules
-
-1. **Tone:** Casual and practical — peer-to-peer, not guru-to-student.
-2. **Strip LinkedIn-isms:** Remove professional posturing, humble-brags, and "thought leadership" phrases.
-3. **Length:** Cut the LinkedIn post by 30–40%. Punchy and direct.
-4. **Hashtags:** Remove all hashtags.
-5. **Lead with the tool / tip / insight** — not the backstory or hook.
-6. **Keep intact:** Any tools, prompts, tips, or frameworks. Reframe them as "here's what worked for me."
-7. **"We / us" language:** Use occasionally — e.g., "for those of us using AI daily…"
-8. **No hype / buzzwords:** Keep everything grounded and actionable.
-9. **Tools in bold:** Use **bold** for tool names (e.g., **Cursor**, **Claude Code**, **n8n**).
-10. **Closing question:** End with **one** strong, open-ended question relevant to AI learners, **bolded**, to spark discussion.
-
-#### Output format for `skool-post.md`
-
-```markdown
-# [Hook — 1 line, casual, curiosity-driven]
-
-[Body — short paragraphs, 1–2 lines each]
-
-[Optional: a tool, prompt, or framework block — preserved from the LinkedIn post, reframed as personal experience]
-
-**[Strong open-ended question to spark discussion among AI learners]**
+[One strong open-ended question to spark community discussion]
 ```
-
-> **No "Practical AI Skool" branding in the post body itself.** The community is the destination, not a tagline in every post.
 
 ---
 
 ### Stage 4: Carousel (delegated to `/carousel-creator`)
 
-Stage 4 invokes the **`carousel-creator`** skill to produce a premium Instagram or LinkedIn carousel. Reusing the carousel-creator means we don't duplicate its design system, content strategy, and export pipeline — the subagent simply runs the skill with pre-collected intake info and lands the output in the parent pipeline's folder.
+Stage 4 invokes the `carousel-creator` skill via a general-purpose subagent to generate SVG slides and exports.
 
-#### Delegation pattern
+#### Delegation Rules
+- Pass pre-collected intake: topic, key points, tone, platform (LinkedIn/Instagram), handle (`@devengoratela`), target audience.
+- Direct output to the target folder `{FOLDER_PATH}`.
+- If timestamp drift creates a separate minute folder, move all files into `{FOLDER_PATH}` and clean up the extra folder.
+- Ensure all carousel deliverables (`slides/`, `caption.md`, `.pdf`, `.mp4`, `-hyperframes.mp4`) reside in `{FOLDER_PATH}`.
 
-Spawn a subagent using the **Task tool** with `subagent_type: "general-purpose"`. The subagent's task prompt is self-contained and includes:
+---
 
-1. **Pre-collected intake** — topic, key points, tone, platform, handle, audience, brand colors, slide count (from Step 0).
-2. **Parent folder path** — `{cwd}/{TS}/` — the same folder Stages 1–3 saved to.
-3. **Existing files** — the subagent must know that `linkedin-post.md`, `cover.svg`, `cover-prompt.md`, `skool-post.md` already exist in the parent folder.
-4. **Output directive** — "Save all carousel output (slides/, caption.md, PDF, MP4, Hyperframes MP4) into the parent folder `{TS}/`. Do not create a separate timestamped folder."
+### Stage 5: Instagram Post (`instagram-post.md`)
 
-#### Subagent task prompt template
+**Role:** Visual Platform Content Specialist. Engaging caption for Instagram feed, Reel, or carousel.
+
+#### Rules
+- **Line 1 (Hook):** Under 10 words. High intrigue, contrarian statement, or clear promise.
+- **Line 2 (Hook extension):** Teases the solution before Instagram clips the caption with "...more".
+- **Body:** Air-filled, single-thought paragraphs separated by line breaks.
+- **Takeaways:** Bulleted with clean visual icons (`⚡`, `👉`, `🔹`) instead of markdown dashes.
+- **Call to Action:** Save & Share focused (e.g. "Save this for your next build 📌", "Share with someone who needs this 📲").
+- **Community Tag:** Follow `@devengoratela` for daily AI and automation blueprints.
+- **Hashtags:** 10–15 curated hashtags placed at the bottom after spaced dot breaks.
+- **Zero markdown syntax:** No `**bold**`, no `#` headings, no `[links](url)`.
+
+#### Template for `instagram-post.md`
 
 ```
-You are running Stage 4 of the content-pipeline skill. Your job is to invoke the
-`carousel-creator` skill with the pre-collected intake below, then ensure all
-carousel output lands in the parent pipeline's folder.
+[Hook line 1 — under 10 words]
+[Hook line 2 — curiosity-driven]
 
-PARENT FOLDER: {cwd}/{TS}/
-This folder already contains:
-- linkedin-post.md
-- cover.svg
-- cover-prompt.md
-- skool-post.md
+[Body context — 1 to 2 lines]
 
-PRE-COLLECTED INTAKE (all fields are provided — do NOT re-ask the user):
-- Topic: {topic}
-- Key points: {key_points}
-- Tone: {tone}
-- Platform: {platform}
-- Handle: {handle}
-- Target audience: {audience}
-- Brand colors: {brand_colors_or_default}
-- Slide count: {slide_count_or_default}
+[Key insights or steps]
+👉 [Point 1]
+👉 [Point 2]
+👉 [Point 3]
 
-STEPS:
-1. Invoke the `carousel-creator` skill (via the Skill tool). The skill's intake
-   will be skipped because all fields are provided above.
-2. The carousel-creator will create its own timestamped folder based on "actual
-   current date and time". In most cases this matches {TS}, so the folder is
-   shared naturally. If a minute boundary was crossed during the parent
-   pipeline's run, the folder name will differ by one minute (e.g., 20260616-1649
-   vs 20260616-1650). Detect this with `ls -la {cwd}/` and compare timestamps.
-3. If the carousel-creator's folder is a DIFFERENT folder than {TS}, move all
-   its contents into {TS}/:
-   - mv {TS_carousel}/* {TS}/
-   - rmdir {TS_carousel}
-4. Run the carousel-creator's export scripts (PDF, MP4, Hyperframes MP4) per
-   its own SKILL.md instructions. Confirm all four files end up in {TS}/.
-5. Report back with the final list of files in {TS}/.
+[Actionable takeaway or conclusion]
 
-Do NOT ask the user any intake questions — every field is pre-collected.
+Save this post so you can reference it later 📌
+Follow @devengoratela for practical AI workflows that actually save hours.
+
+.
+.
+.
+
+#[tag1] #[tag2] #[tag3] #[tag4] #[tag5] #[tag6] #[tag7] #[tag8] #[tag9] #[tag10] #[tag11] #[tag12]
 ```
 
-#### Why a subagent (not inline)
+---
 
-- **Context cleanliness** — The carousel-creator's intake, design system, and export logic would otherwise clutter the main content-pipeline context.
-- **Pre-collected intake** — The subagent prompt has all the fields, so the carousel-creator's intake step is a no-op. The user is never asked the same question twice.
-- **Folder reconciliation** — The subagent can detect timestamp drift between the parent pipeline's `TS` and the carousel-creator's auto-generated folder, and move files to reconcile.
+### Stage 6: Twitter / X (`twitter-post.md`)
 
-#### Why "actual current date and time" is fine
+**Role:** High-Signal Tech Writer. Optimized for fast-scrolling feeds on Twitter/X.
 
-The carousel-creator's instruction to use "actual current date and time" is a default, not a hard constraint. Because:
+#### Rules
+- Contains TWO complementary formats in one file:
+  1. **SINGLE TWEET VARIANT:** Complete standalone post under 280 characters for fast posting.
+  2. **FULL THREAD VARIANT:** Numbered multi-tweet thread (`1/`, `2/`, ... `N/`) for deep-dive distribution.
+- **Thread Hook (Tweet 1):** Sharp thesis statement, impressive stat, or painful problem.
+- **Thread Body (Tweets 2 to N-1):** One insight per tweet. High information density.
+- **Thread Finale (Tweet N):** Summary + Call to Action (Follow `@devengoratela` + Retweet / Bookmark).
+- **Zero markdown syntax:** No `**bold**`, no `#` headers, no `---`. Use clear tweet demarcations like `TWEET 1 / HOOK:`, `TWEET 2:`, etc.
 
-- content-pipeline computes `TS` at intake (Step 0)
-- Stage 4 runs within seconds to minutes of intake
-- The carousel-creator's invocation typically lands in the same minute
-- If a minute boundary is crossed, the subagent reconciles with a `mv` (Step 3 above)
+#### Template for `twitter-post.md`
 
-In 99% of runs, the timestamps match and no `mv` is needed.
+```
+SINGLE TWEET VARIANT
+--------------------
+[Punchy standalone tweet under 280 characters including hook, core insight, and quick takeaway]
 
-#### Output from Stage 4
 
-After Stage 4, the parent folder contains everything from Stages 1–3 plus:
+FULL THREAD VARIANT
+-------------------
+1/ [Hook tweet — sharp claim, problem, or proof that compels reader to click the thread]
 
-- `slides/{slug}-slide-{n}.svg` — one SVG per slide
-- `caption.md` — carousel caption (also usable as a bonus LinkedIn post variant)
-- `{slug}.pdf` — multi-page PDF export
-- `{slug}.mp4` — MP4 slideshow (5 s/slide)
-- `{slug}-hyperframes.mp4` — Ken Burns + cross-dissolve cinematic MP4
+2/ [Core context or the big mistake most people make]
+
+3/ [Actionable step 1 or key insight]
+
+4/ [Actionable step 2 or key insight]
+
+5/ [Actionable step 3 or pro-tip]
+
+6/ SUMMARY:
+• [Takeaway 1]
+• [Takeaway 2]
+• [Takeaway 3]
+
+If you found this useful:
+1. Follow @devengoratela for practical AI and automation systems
+2. Repost the first tweet to share with your network
+```
+
+---
+
+### Stage 7: YouTube Video Description (`youtube.md`)
+
+**Role:** YouTube SEO & Audience Growth Specialist. Video metadata package to maximize CTR and search discoverability.
+
+#### Rules
+- **3 Clickable Title Options:**
+  - Option 1: Curiosity & intrigue driven
+  - Option 2: Search / How-to optimized
+  - Option 3: Bold / Contrarian statement
+  - All under 60 characters to avoid mobile truncation.
+- **Video Description:**
+  - **Above the fold (first 2–3 lines):** Keyword-rich summary and hook visible before clicking "...more".
+  - **What's covered:** Bulleted summary of the video content.
+  - **Timestamps / Chapter Placeholders:** Realistic chapter breakdown starting at `00:00`.
+  - **Links & Resources:** Placeholders for tools mentioned, community link, and website.
+  - **About section:** Brief bio for Deven Goratela.
+- **Tags:** 15–20 comma-separated SEO tags for direct copy-paste into YouTube Studio.
+- **Zero markdown syntax:** No `**bold**`, no `#` headings in the copyable blocks.
+
+#### Template for `youtube.md`
+
+```
+TITLE OPTIONS
+1. [Curiosity Title under 60 chars]
+2. [How-To / Search Title under 60 chars]
+3. [Contrarian / High-Impact Title under 60 chars]
+
+
+VIDEO DESCRIPTION
+[Hook and 2-sentence summary of the video topic — optimized for search and viewer click]
+
+In this video, we break down [core topic] and how you can apply it step by step.
+
+WHAT YOU WILL LEARN:
+• [Key learning 1]
+• [Key learning 2]
+• [Key learning 3]
+
+TIMESTAMPS:
+00:00 - Introduction
+01:15 - [The Problem / Core Challenge]
+03:30 - [Step-by-Step Walkthrough / Setup]
+06:45 - [Real-World Example / Demonstration]
+09:10 - [Common Mistakes to Avoid]
+11:20 - [Summary & Next Steps]
+
+RESOURCES & LINKS:
+• Practical AI Community: [Skool Community Link]
+• Tools Mentioned: [Tool 1], [Tool 2]
+• Connect on LinkedIn: https://www.linkedin.com/in/devengoratela/
+
+ABOUT DEVEN GORATELA:
+Sharing practical AI workflows, automation architectures, and agentic engineering patterns that save real hours.
+
+Subscribe for new AI tutorials and automation blueprints every week.
+
+
+TAGS
+[tag 1], [tag 2], [tag 3], [tag 4], [tag 5], [tag 6], [tag 7], [tag 8], [tag 9], [tag 10], [tag 11], [tag 12], [tag 13], [tag 14], [tag 15]
+```
+
+---
+
+### Stage 8: Facebook Post (`facebook-post.md`)
+
+**Role:** Social Community Strategist. Conversational, relatable post for personal profile, business page, or tech/creator Facebook groups.
+
+#### Rules
+- **Hook:** Conversational opening line that feels authentic and stops feed scrolling.
+- **Tone:** Relatable, peer-oriented, and storytelling-driven. Avoid stiff corporate jargon.
+- **Spacing:** Short paragraphs (1–2 sentences) with natural white space for mobile readability.
+- **Value Delivery:** Easy-to-read bullet points using clean emoji anchors (`•`, `👉`, `🔹`).
+- **Call to Action:** Low-friction discussion question or warm invitation to leave a comment.
+- **Hashtags:** 0 to 2 hashtags maximum (Facebook algorithms do not favor hashtag blocks).
+- **Zero markdown syntax:** No `**bold**`, no `#` headings, no `[links](url)`.
+
+#### Template for `facebook-post.md`
+
+```
+[Conversational hook line — relatable problem or interesting observation]
+
+[Context paragraph — 1 to 2 sentences explaining what happened or what was tested]
+
+[Core insights or practical takeaways]
+• [Key takeaway 1]
+• [Key takeaway 2]
+• [Key takeaway 3]
+
+[Short wrap-up or practical advice]
+
+[Friendly discussion question to spark comments]
+
+Drop your thoughts below 👇
+```
 
 ---
 
 ## Stage Handoffs
 
-Each stage must consume the previous stage's output:
+Each stage consumes the previous stages' output:
 
 | Stage | Reads | Writes |
 |---|---|---|
-| 1. LinkedIn | `topic`, `key points`, `tone` | `linkedin-post.md` |
-| 2. Cover | `linkedin-post.md` (core insight + category) | `cover.svg`, `cover-prompt.md` |
-| 3. Skool | `linkedin-post.md` (full post) | `skool-post.md` |
-| 4. Carousel | pre-collected intake (platform, handle, audience, brand colors, slide count) + parent folder `{TS}/` | `slides/`, `caption.md`, `{slug}.pdf`, `{slug}.mp4`, `{slug}-hyperframes.mp4` (all in `{TS}/`) |
+| **1. LinkedIn** | Input topic, key points, tone | `linkedin-post.md` |
+| **2. Cover** | `linkedin-post.md` (core insight + category) | `cover.svg`, `cover-prompt.md` |
+| **3. Skool** | `linkedin-post.md` (full post) | `skool-post.md` |
+| **4. Carousel** | Pre-collected intake + target folder | `slides/`, `caption.md`, exports |
+| **5. Instagram** | `linkedin-post.md` (hook & body) | `instagram-post.md` |
+| **6. Twitter** | `linkedin-post.md` & `skool-post.md` | `twitter-post.md` |
+| **7. YouTube** | `linkedin-post.md` (breakdown & takeaways) | `youtube.md` |
+| **8. Facebook** | `linkedin-post.md` (story & insights) | `facebook-post.md` |
 
-If a stage needs clarification that the user did not provide, make a reasonable inference and note it. Do not stop the pipeline to ask.
+*When running in Mode A (Existing Folder), missing stages read whichever files already exist in the folder as their source context.*
 
 ---
 
 ## Quality Checklist
 
-Before reporting done, verify:
+Before completing execution, verify:
 
-**LinkedIn post:**
-- [ ] Hook is under 8 words
-- [ ] Re-hook is punchy and earns the expand
-- [ ] Single clear takeaway
-- [ ] No AI slop words (delve, landscape, unlock, etc.)
-- [ ] Soft CTA is a question or invitation
-- [ ] Repost + Follow lines present in correct order
-- [ ] Tone of all CTAs matches the article
-- [ ] 3–5 hashtags, no bold in the body
+**Cross-Platform Formatting (Mandatory):**
+- [ ] ZERO raw markdown syntax (`**bold**`, `*italic*`, `### headings`, `---`, `[link](url)`) in any post body
+- [ ] NO outer code block fences (` ```markdown `) wrapping any output file
+- [ ] All deliverables are saved in the correct target folder
 
-**Cover image:**
-- [ ] SVG is 1200×627 with `viewBox="0 0 1200 627"`
-- [ ] Critical content sits inside the center 1000×500 safe zone
-- [ ] No author photo, no tool-name branding on the image
-- [ ] Subtle `@devengoratela` handle visible somewhere
-- [ ] SVG validates with `xml.etree.ElementTree.parse`
-- [ ] Companion `cover-prompt.md` exists with full prompt + do-not-include list
+**Folder Continuation (If folder input was provided):**
+- [ ] Existing files were detected and preserved without being overwritten
+- [ ] Context was accurately extracted from existing files
+- [ ] All previously missing channels were generated into the existing folder
 
-**Skool post:**
-- [ ] 30–40% shorter than the LinkedIn post
-- [ ] No hashtags
-- [ ] No LinkedIn-isms (humble-brags, "thought leader" framing)
-- [ ] Tool names in **bold** where they appear
-- [ ] Ends with one bolded open-ended question
-- [ ] Body reads like a peer talking, not a brand broadcasting
-
-**Carousel (delegated to /carousel-creator):**
-- [ ] All five files (`slides/`, `caption.md`, `.pdf`, `.mp4`, `-hyperframes.mp4`) sit inside `{TS}/`
-- [ ] At least 5 SVG slides in `slides/`
-- [ ] CTA slide includes `@devengoratela`
-- [ ] No separate timestamped folder exists alongside `{TS}/` (timestamp drift reconciled via `mv`)
-- [ ] User was NOT re-prompted for carousel intake (all fields pre-collected)
+**Channel-Specific Checks:**
+- [ ] **LinkedIn (`linkedin-post.md`):** Hook <8 words, punchy re-hook, emojis at sentence ends, soft CTA, ♻️ Repost + ➕ Follow lines, 3–5 hashtags, no markdown
+- [ ] **Cover (`cover.svg` & `cover-prompt.md`):** 1200×627 SVG validates with XML parser, central 1000×500 safe zone, `@devengoratela` branding, prompt file created
+- [ ] **Skool (`skool-post.md`):** 30–40% shorter than LinkedIn, casual peer tone, no hashtags, ends with bold/prominent closing question, no markdown
+- [ ] **Carousel:** ≥5 SVG slides in `slides/`, `caption.md`, PDF, MP4, and Hyperframes MP4 all located in the target folder
+- [ ] **Instagram (`instagram-post.md`):** Hook <10 words, clean line breaks, emoji bullets, save/share CTA, 10–15 hashtags at bottom, no markdown
+- [ ] **Twitter (`twitter-post.md`):** Single tweet (<280 chars) AND full numbered thread (`1/` to `N/`), follow + repost CTA, no markdown
+- [ ] **YouTube (`youtube.md`):** 3 title options (<60 chars), description with hook, chapters/timestamps placeholder, links, tags, no markdown
+- [ ] **Facebook (`facebook-post.md`):** Conversational tone, clean spacing, discussion CTA, 0–2 hashtags max, no markdown
 
 ---
 
-## Final Behavior
+## Final Output Reporting
 
-After all four stages complete:
+After completing the pipeline:
 
-1. Confirm every file is saved to the `YYYYMMDD-HHMM/` folder (Stages 1–3 by the main agent, Stage 4 by the carousel-creator subagent).
-2. List the saved files with one-line descriptions.
-3. Remind the user:
-   - The LinkedIn post is copy-paste ready.
-   - The SVG cover can be opened in any browser or imported into Figma.
-   - The `cover-prompt.md` can be pasted into Midjourney / DALL-E for a higher-fidelity render.
-   - The Skool post is ready to drop into the community.
-   - The carousel `slides/`, `caption.md`, PDF, MP4, and Hyperframes MP4 are all in the same folder — ready to upload to Instagram / LinkedIn.
+1. Confirm the target folder path (`YYYYMMDD-HHMM/` or the existing folder).
+2. Print a clean summary table listing all generated files and their status (Newly Generated vs Previously Existing).
+3. Provide quick usage guidance for the creator:
+   - **LinkedIn**: Ready to paste into LinkedIn feed.
+   - **Cover**: SVG ready to view or edit; prompt ready for Midjourney/DALL-E.
+   - **Skool**: Ready to post in the community discussion.
+   - **Carousel**: SVG slides and PDF/MP4 ready to upload.
+   - **Instagram**: Caption and hashtags ready to paste with Reel/Carousel.
+   - **Twitter / X**: Standalone tweet or numbered thread ready to post.
+   - **YouTube**: Titles, timestamps, description, and tags ready for YouTube Studio.
+   - **Facebook**: Ready to post to profile, page, or group.
 
-**Do NOT ask for permission between stages.** Run all four in sequence from a single input.
+**Do NOT ask for permission between stages.** Run all required stages to completion in a single pass.

@@ -1,208 +1,269 @@
 # content-pipeline
 
-Transform one idea into a complete multi-platform content package: a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, and a premium Instagram/LinkedIn carousel — all from a single input.
+Transform one idea into a complete multi-platform content package: a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, a premium Instagram/LinkedIn carousel, an Instagram caption, a Twitter thread/post, a YouTube video description, and a Facebook post — all from a single input or by filling missing channels in an existing folder.
 
-This skill merges previously-separate Gemini gems into one sequential pipeline:
+This skill merges previously-separate content generators into one unified, sequential pipeline:
 
-1. **LinkedIn Article Generator** → writes the post
-2. **LinkedIn Cover Image Generator** → designs the visual
-3. **Skool Post Converter** → reshapes the post for the community
-4. **`/carousel-creator`** (delegated via subagent) → builds the premium carousel + exports
+1. **LinkedIn Post Generator** → writes a mobile-optimized, high-engagement post (`linkedin-post.md`)
+2. **Cover Image Generator** → designs a 1200×627 SVG cover + AI prompt (`cover.svg`, `cover-prompt.md`)
+3. **Skool Community Converter** → reshapes the post into a peer-to-peer sharing post (`skool-post.md`)
+4. **`/carousel-creator`** (subagent) → builds premium SVG carousel slides and video exports (`slides/`, `caption.md`, `.pdf`, `.mp4`)
+5. **Instagram Post Creator** → crafts a high-hook caption with emoji bullets and 10–15 hashtags (`instagram-post.md`)
+6. **Twitter / X Writer** → provides a single punchy tweet plus a full numbered thread (`twitter-post.md`)
+7. **YouTube Description Optimizer** → packages 3 title options, SEO description, chapter timestamps, and tags (`youtube.md`)
+8. **Facebook Community Post** → writes a conversational, storytelling post with discussion CTA (`facebook-post.md`)
 
-Run all four in one shot. One topic in, one folder out, no permission prompts between stages.
+Run all stages in one shot. One input in, complete multi-channel deliverables out, no permission prompts between stages.
+
+---
+
+## Key Features
+
+- **Multi-Platform Native Content**: Tailors the tone, structure, hook, and CTAs for each specific platform's algorithm and community norms.
+- **Strict Zero Markdown Formatting**: Social platforms (LinkedIn, Instagram, Twitter, Facebook) do not render markdown. Raw markdown characters (`**bold**`, `*italic*`, `### headings`, `[links](url)`, `---`) display as distracting clutter. All generated post files contain **100% clean, copy-paste ready text** using natural spacing, line breaks, and emojis.
+- **Folder Continuation Mode**: Pass an existing folder path/name as the argument. The pipeline automatically scans existing files, extracts context, identifies missing channels, and generates only the missing deliverables directly into that folder without overwriting existing files.
+- **Automatic Tone Inference**: Detects educational, urgent, or inspirational tone and aligns voice and CTAs across all channels.
+- **One Unified Folder**: All deliverables reside in the same target folder (`YYYYMMDD-HHMM/` or the specified existing folder).
 
 ---
 
 ## Use Cases
 
-- "I have an idea — turn it into a full content package"
-- "Repurpose this for LinkedIn and Skool"
 - "Run the content pipeline on [topic]"
-- "Save me from writing the same thing three times"
-- "Create today's post package"
+- "Turn this idea into a full content package for all platforms"
+- "Repurpose this for LinkedIn, Instagram, Twitter, YouTube, Facebook, and Skool"
+- "Fill missing channels in folder 20261027-1030"
+- "I wrote a LinkedIn post in this folder — generate Instagram, Twitter, and YouTube for it"
 
 ---
 
-## Output
+## Output Folder Structure
 
-Saved to a date-wise folder in the current directory. All four stages land in the same `YYYYMMDD-HHMM/` folder — Stage 4 reconciles any timestamp drift automatically.
+All deliverables are saved in a unified folder:
 
 ```
-YYYYMMDD-HHMM/
-├── linkedin-post.md         # Title + hook + body + CTAs + hashtags (copy-paste ready)
+YYYYMMDD-HHMM/ (or existing folder)
+├── linkedin-post.md         # LinkedIn post (hook + body + soft CTA + repost/follow + hashtags)
 ├── cover.svg                # 1200×627 LinkedIn cover (1.91:1, central safe zone)
 ├── cover-prompt.md          # Detailed prompt for Midjourney / DALL-E / Flux
-├── skool-post.md            # Casual, peer-to-peer Skool post (no hashtags, bolded closing question)
-├── slides/                  # Carousel SVG slides (one per file)
+├── skool-post.md            # Casual, peer-to-peer Skool post (no hashtags, prominent question)
+├── slides/                  # Carousel SVG slides (≥5 slides)
 │   ├── {slug}-slide-1.svg
 │   └── ...
-├── caption.md               # Carousel caption (also a bonus LinkedIn post variant)
+├── caption.md               # Carousel caption from /carousel-creator
 ├── {slug}.pdf               # Multi-page PDF export
 ├── {slug}.mp4               # 5s/slide MP4 slideshow
-└── {slug}-hyperframes.mp4   # Ken Burns + cross-dissolve cinematic MP4
+├── {slug}-hyperframes.mp4   # Ken Burns + cross-dissolve cinematic MP4
+├── instagram-post.md        # Instagram caption + emoji bullets + save CTA + 10–15 hashtags
+├── twitter-post.md          # Standalone tweet (<280 chars) + full numbered thread (1/ to N/)
+├── youtube.md               # 3 title options + SEO description with timestamps + tags
+└── facebook-post.md         # Conversational Facebook post + engagement CTA
 ```
 
-| File | What it is | What to do with it |
+| File | What it is | How to use it |
 |---|---|---|
-| `linkedin-post.md` | The full LinkedIn post (title + caption + content + CTAs + hashtags) | Copy-paste into LinkedIn |
-| `cover.svg` | 1200×627 cover image with the core insight as hero text | Open in browser or import into Figma / Canva |
-| `cover-prompt.md` | Detailed AI-image prompt with specs and a do-not-include list | Paste into Midjourney / DALL-E for a higher-fidelity raster |
-| `skool-post.md` | Casual 30–40% shorter post, no hashtags, bolded closing question | Drop into the Practical AI Skool community |
-| `slides/{slug}-slide-*.svg` | Individual premium SVG slides (≥5) | Upload as a carousel to Instagram or LinkedIn |
-| `caption.md` | Carousel caption from `/carousel-creator` | Use as the post text when uploading the carousel |
-| `{slug}.pdf` | Multi-page PDF of all slides | Share or print |
-| `{slug}.mp4` | MP4 slideshow, 5 s/slide | Upload as video carousel or Reel |
-| `{slug}-hyperframes.mp4` | Ken Burns + cross-dissolve cinematic MP4 | Upload to Reels / TikTok / YouTube Shorts |
+| `linkedin-post.md` | Mobile-optimized LinkedIn post with hook under 8 words, CTAs, and hashtags | Copy-paste directly into LinkedIn feed |
+| `cover.svg` | 1200×627 cover image with core insight and safe margins | Open in browser or import into Figma / Canva |
+| `cover-prompt.md` | AI-image generator prompt with styles, colors, and constraints | Paste into Midjourney / DALL-E / Flux |
+| `skool-post.md` | Casual 30–40% shorter community post with prominent question | Post in Practical AI Skool community |
+| `slides/*.svg` | Individual premium SVG carousel slides | Upload as carousel to Instagram / LinkedIn |
+| `caption.md` | Caption from `/carousel-creator` | Accompanying carousel post caption |
+| `{slug}.pdf` | Multi-page PDF of all slides | Document post on LinkedIn or PDF share |
+| `{slug}.mp4` | 5s/slide MP4 slideshow | Video carousel / Reel / Story |
+| `{slug}-hyperframes.mp4` | Cinematic Ken Burns video | Reels / TikTok / YouTube Shorts |
+| `instagram-post.md` | Instagram feed / Reel caption with clean spacing and hashtags | Copy-paste into Instagram caption |
+| `twitter-post.md` | Single tweet variant + numbered multi-tweet thread | Post to Twitter / X |
+| `youtube.md` | 3 clickable titles, SEO description, chapter timestamps, and tags | Copy-paste into YouTube Studio metadata |
+| `facebook-post.md` | Conversational community post with discussion CTA | Post to Facebook profile, page, or group |
 
 ---
 
-## How It Works
+## Operational Modes
 
+### Mode 1: New Topic (From Scratch)
+
+When given a topic or outline:
+```bash
+/content-pipeline "Using Claude Code worktree mode to parallelize bug fixing"
 ```
-[Topic / Idea / Key Points]
-            │
-            ▼
-   Stage 1: LinkedIn Post
-   • Hook (under 8 words) + re-hook
-   • Body with single clear takeaway
-   • Soft CTA + ♻️ Repost + ➕ Follow Deven
-   • 3–5 hashtags
-            │
-            ▼
-   Stage 2: Cover Image
-   • Extracts core insight from Stage 1
-   • Builds 1200×627 SVG with central safe zone
-   • Writes companion prompt for AI image tools
-            │
-            ▼
-   Stage 3: Skool Post
-   • Strips LinkedIn-isms
-   • Cuts length 30–40%
-   • Reframes as peer-to-peer
-   • Ends with bolded open-ended question
-            │
-            ▼
-   Stage 4: Carousel (delegated to /carousel-creator via subagent)
-   • Pre-collected intake (no re-prompting)
-   • Premium SVG slides (≥5)
-   • Caption + PDF + MP4 + Hyperframes MP4
-   • Subagent reconciles timestamp drift so all files
-     land in the same folder as Stages 1–3
-            │
-            ▼
-   [Four deliverables, one input, one folder]
+1. Computes timestamp `TS = YYYYMMDD-HHMM` and creates a new folder.
+2. Generates all 8 stages sequentially.
+3. Delivers a complete, ready-to-publish content suite.
+
+### Mode 2: Existing Folder (Fill Missing Channels)
+
+When given a folder name or path:
+```bash
+/content-pipeline 20261027-1030
 ```
-
-Each stage hands off to the next:
-
-| Stage | Reads | Writes |
-|---|---|---|
-| 1. LinkedIn | `topic`, `key points`, `tone` | `linkedin-post.md` |
-| 2. Cover | `linkedin-post.md` | `cover.svg`, `cover-prompt.md` |
-| 3. Skool | `linkedin-post.md` | `skool-post.md` |
-| 4. Carousel | pre-collected intake + parent folder `{TS}/` | `slides/`, `caption.md`, `.pdf`, `.mp4`, `-hyperframes.mp4` (all in `{TS}/`) |
+1. Detects that `20261027-1030` exists.
+2. Scans the folder to see which files are present (e.g., `linkedin-post.md`, `skool-post.md`, `cover.svg`).
+3. Reads existing files to extract the topic, key insights, tone, and tool references.
+4. Identifies missing channels (e.g., `instagram-post.md`, `twitter-post.md`, `youtube.md`, `facebook-post.md`).
+5. Generates only the missing files directly inside `20261027-1030/` without overwriting existing work.
 
 ---
 
-## Voice and Tone
+## Formatting Standard: Zero Extra Markdown Characters
 
-**LinkedIn stage** — Professional, peer-to-peer, human. Optimized for mobile readability, scroll-stopping hooks, and engagement-driven CTAs. The three CTA blocks (soft CTA + Repost + Follow) all match the article's tone (urgent / educational / inspirational).
+Social media platforms treat markdown symbols as raw text. To ensure every output is **immediately copy-paste ready with zero cleanup**:
 
-**Skool stage** — Casual, curious, genuinely helpful. Strips humble-brags, "thought leadership" framing, and all hashtags. Reframes tools and tips as "here's what worked for me." Ends with one bolded open-ended question to spark discussion.
-
-**Cover stage** — Visual reinforcement only. No author photo, no AI tool branding. Core insight as the hero text, with `@devengoratela` subtly placed in a corner.
-
-**Carousel stage** — Handled entirely by `/carousel-creator` (delegated via subagent). Produces a premium 5–10 slide carousel following its own design system: hook → context → value → breakdown → summary → CTA, with consistent branding and a strong first slide. The subagent runs the skill in a clean context with pre-collected intake, so the user is never asked the same question twice.
-
----
-
-## Trigger Phrases
-
-- "Run the content pipeline on [topic]"
-- "Create a LinkedIn + Skool package for [idea]"
-- "Repurpose this for LinkedIn and Skool"
-- "Make a content package about [topic]"
-- "Turn this into a full post package"
-- "Today's post package: [topic]"
+- **No `**bold**` or `*italic*` asterisks**: Emphasis is created using UPPERCASE keywords, emojis, or natural sentence rhythm.
+- **No `#` or `##` markdown headings**: Section headings use plain uppercase labels or line breaks with emojis.
+- **No `---` horizontal rules**: Clean white space separates blocks.
+- **No `[markdown](links)`**: Links are written as plain URLs (`https://...`) or referred to as "link in bio".
+- **No markdown `- ` bullets**: Clean visual bullets like `•`, `👉`, or `⚡` are used.
+- **No outer ` ```markdown ` fences**: The `.md` file starts with the actual content, ready to select all and copy.
 
 ---
 
-## Files
+## Example Channel Outputs
 
+### `linkedin-post.md`
 ```
-content-pipeline/
-├── SKILL.md       # Main skill instructions (4-stage workflow + carousel delegation + quality checklist)
-└── README.md      # This file
-```
+How I Cut Bug-Fix Time In Half 🪛
 
----
+Claude Code worktree mode changed my workflow.
+I shipped three bug fixes yesterday afternoon without losing my place.
 
-## Examples
+Here is what happens when you isolate tasks with worktrees:
+• Each branch gets its own clean directory
+• Multiple agent sessions run in parallel without file conflicts
+• You review and merge only when tests pass
 
-### Example input
+If you are still switching branches manually, give worktree mode a spin.
 
-> Topic: "I started using Claude Code with the worktree + plan workflow and it cut my bug-fixing time in half."
-> Key points:
-> - worktree isolates changes per task
-> - plan mode forces me to think before code
-> - 3 tasks in parallel = no context loss
-> Tone: educational
+What is the biggest bottleneck in your daily dev loop?
 
-### Example outputs (abbreviated)
+♻️ Repost if your team spends too much time resolving branch conflicts.
+➕ Follow Deven Goratela (https://www.linkedin.com/in/devengoratela/) for practical AI workflows and automation systems.
 
-**`linkedin-post.md`:**
-
-```markdown
-# My Bug-Fix Workflow Halved My Time 🪛
-
----
-
-I tried Claude Code's worktree mode last week.
-I shipped three bug fixes in one afternoon.
-
-The setup is simple...
-
-♻️ Repost if you're drowning in bug tickets.
-➕ Follow Deven Goratela for AI workflows that actually save hours.
-
-#AI #ClaudeCode #DeveloperProductivity #Automation
+#AI #ClaudeCode #DeveloperProductivity #SoftwareEngineering
 ```
 
-**`cover.svg`:** 1200×627 dark-mode infographic with "Cut bug-fix time in half" as the hero, "Claude Code Workflow" as the category tag, and `@devengoratela` in the corner.
+### `instagram-post.md`
+```
+Stop switching git branches manually. 🛑
+Here is how worktree mode cuts bug-fix time in half.
 
-**`cover-prompt.md`:** A ready-to-paste Midjourney / DALL-E prompt with full specs and a do-not-include list.
+Most developers lose 30+ minutes every day context-switching between feature branches and urgent bug tickets.
 
-**`skool-post.md`:**
+Here is what changed when I started using git worktrees with AI agents:
+👉 Every task runs in its own isolated folder
+👉 You can run 3 fixes in parallel with zero merge friction
+👉 No unstashed changes getting wiped out
 
-```markdown
-# Claude Code worktree mode cut my bug-fix time in half
+The result: 3 bug fixes shipped in one afternoon.
 
-Been using the worktree + plan workflow in **Claude Code** for a week now.
+Save this post so you can set it up on your next project 📌
+Follow @devengoratela for daily AI engineering blueprints.
 
-Three things happened:
-- Worktrees isolate each task — no more context bleed
-- Plan mode forces me to think before code
-- I shipped 3 fixes in one afternoon without losing my place
+.
+.
+.
 
-If you haven't tried `claude --worktree` yet, start there.
-
-**What's the slowest part of your dev loop right now?**
+#git #coding #developerlife #softwareengineer #aitools #programming #devproductivity #techtrends #webdev
 ```
 
-**Carousel outputs** (from `/carousel-creator` via subagent):
-
+### `twitter-post.md`
 ```
-slides/
-├── claude-code-worktree-slide-1.svg   # Hook: "Cut bug-fix time in half"
-├── claude-code-worktree-slide-2.svg   # Context: why worktrees matter
-├── claude-code-worktree-slide-3.svg   # Value: 3 things that happened
-├── claude-code-worktree-slide-4.svg   # Breakdown: how to set up
-├── claude-code-worktree-slide-5.svg   # Summary
-└── claude-code-worktree-slide-6.svg   # CTA: Follow @devengoratela
-caption.md                              # Carousel caption
-claude-code-worktree.pdf                # Multi-page PDF
-claude-code-worktree.mp4                # 5s/slide slideshow
-claude-code-worktree-hyperframes.mp4   # Cinematic Ken Burns
+SINGLE TWEET VARIANT
+--------------------
+Most developers lose hours to git branch switching.
+I tried the worktree + plan workflow in Claude Code and shipped 3 bug fixes in one afternoon.
+Isolate your tasks into separate folders. Let parallel agents work. Review and merge.
+Huge productivity unlock.
+
+
+FULL THREAD VARIANT
+-------------------
+1/ I cut my bug-fixing time in half last week using git worktrees + Claude Code.
+Here is the exact setup and why you should stop switching branches manually:
+
+2/ The problem:
+When an urgent bug lands, you stash changes, switch branches, fix it, unstash, and hit conflicts.
+Context lost. Momentum gone.
+
+3/ The fix: git worktrees.
+A worktree lets you check out multiple branches of the same repo into different directories at the same time.
+No stashing. No state corruption.
+
+4/ Pair worktrees with autonomous AI agents:
+• Terminal 1: Bug fix A in /worktree-1
+• Terminal 2: Bug fix B in /worktree-2
+• Main directory: Your core feature stays untouched
+
+5/ You review diffs in parallel, run tests, and merge when green.
+Yesterday I shipped 3 production fixes in under two hours.
+
+6/ SUMMARY:
+• Worktrees eliminate stash/switch friction
+• Parallel directories prevent context loss
+• Perfect pairing for agentic workflows
+
+If this was useful:
+1. Follow @devengoratela for practical AI workflows
+2. Repost the first tweet to share with other devs
+```
+
+### `youtube.md`
+```
+TITLE OPTIONS
+1. How I Cut My Bug-Fix Time in Half (Git Worktree + AI)
+2. Stop Switching Git Branches! Use This Parallel Workflow Instead
+3. Why Senior Devs Use Git Worktrees with AI Coding Agents
+
+
+VIDEO DESCRIPTION
+Tired of stashing changes and losing context every time a bug ticket arrives? In this video, we break down how to use Git Worktrees alongside AI coding agents to run parallel bug fixes without branch switching.
+
+WHAT YOU WILL LEARN:
+• What git worktrees are and how they differ from standard branches
+• How to configure isolated task directories for AI agents
+• Step-by-Step walkthrough of fixing 3 bugs in parallel
+• Common mistakes and how to clean up finished worktrees
+
+TIMESTAMPS:
+00:00 - Introduction & The Context Switching Problem
+01:25 - How Git Worktrees Actually Work
+03:40 - Setting Up Parallel Worktrees for Bug Fixes
+06:15 - Running Autonomous Coding Agents in Worktrees
+08:45 - Reviewing Diffs & Merging Back Cleanly
+10:30 - Key Takeaways & Best Practices
+
+RESOURCES & LINKS:
+• Practical AI Community: [Community Link]
+• Connect on LinkedIn: https://www.linkedin.com/in/devengoratela/
+• Follow on Twitter/X: https://x.com/devengoratela
+
+ABOUT DEVEN GORATELA:
+Deven Goratela shares actionable workflows, agent architectures, and AI development systems that save real engineering hours.
+
+Subscribe for new practical AI tutorials every week.
+
+
+TAGS
+git worktree, claude code, ai coding, developer productivity, software engineering, git tips, ai agents, programming tutorial, git workflow, deven goratela
+```
+
+### `facebook-post.md`
+```
+Quick developer productivity lesson from this week:
+
+If you are still using "git stash" and switching branches every time an urgent bug pops up, there is a much better way.
+
+I tested the git worktree workflow with autonomous coding agents. Instead of stashing work and risking merge headaches, you create isolated working directories for each task.
+
+Here is why it works so well:
+• Your main feature work stays completely untouched
+• You can run two or three bug fixes in parallel
+• Zero friction when jumping between tasks
+
+Shipped three fixes yesterday afternoon without losing my place once.
+
+Have you tried using git worktrees in your daily workflow, or do you still prefer git stash?
+
+Drop your thoughts below 👇
 ```
 
 ---
@@ -210,5 +271,6 @@ claude-code-worktree-hyperframes.mp4   # Cinematic Ken Burns
 ## See Also
 
 - [carousel-creator](../carousel-creator/) — Premium Instagram/LinkedIn carousels as SVG slides
+- [short-form-studio](../short-form-studio/) — Short-form talking-head video scripting and Hyperframes production
 - [excalidraw-diagram](../excalidraw-diagram/) — Editable diagrams from natural language
 - [skill-builder](../skill-builder/) — Build and audit your own Claude Code skills

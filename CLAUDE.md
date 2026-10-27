@@ -83,13 +83,11 @@ Supporting reference files are **not loaded automatically** — they load only w
 - Output: MP4 file in current directory with timestamp prefix
 
 ### content-pipeline
-- Merges the LinkedIn writer + cover image + Skool converter gems with `/carousel-creator` into one 4-stage pipeline
-- Runs all four stages from a single topic input — no permission prompt between stages
-- Stage 1 outputs `linkedin-post.md` (copy-paste ready, includes ♻️ Repost + ➕ Follow Deven Goratela)
-- Stage 2 outputs `cover.svg` (1200×627, central safe zone) + `cover-prompt.md` (for Midjourney/DALL-E)
-- Stage 3 outputs `skool-post.md` (30–40% shorter, casual peer tone, no hashtags, bolded closing question)
-- Stage 4 delegates to `/carousel-creator` via a subagent — pre-collected intake prevents re-prompting; subagent reconciles timestamp drift so all files land in the same `YYYYMMDD-HHMM/` folder as Stages 1–3
-- CTA tone (urgent/educational/inspirational) is inferred from the topic and applied consistently across all four stages
+- Multi-platform package: LinkedIn, Instagram, Twitter, YouTube, Facebook, Skool, Cover Image, and Carousel
+- Accepts either a topic/idea (generates full suite in `YYYYMMDD-HHMM/`) OR an existing folder path (detects existing files, extracts context, and generates only missing channels into that folder)
+- Strict Zero Extra Markdown rule: No `**bold**`, `*italic*`, `###`, `---`, or `[links](url)` in copyable post bodies; files must be 100% clean copy-paste ready for native feeds without code fences
+- Outputs: `linkedin-post.md`, `cover.svg` + `cover-prompt.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md` (standalone tweet + thread), `youtube.md` (3 titles, description with timestamps, tags), `facebook-post.md`, and carousel (`slides/`, `caption.md`, `.pdf`, `.mp4`) via `/carousel-creator` subagent
+- CTA tone (urgent/educational/inspirational) is inferred and applied consistently across all channels
 
 ### raw-video-editor
 - **No Python helpers:** everything runs as inline shell in SKILL.md (ffmpeg/ffprobe, shasum, awk) plus the HyperFrames CLI (`npx -y hyperframes` with a Node ≥ 22 found inline via nvm/fnm/volta). The skill has no `scripts/` folder. Claude builds the Level 2 cut plan itself from the transcript (`work/keep.txt` → awk filter graph → ffmpeg)
@@ -115,7 +113,7 @@ Supporting reference files are **not loaded automatically** — they load only w
 - `carousel-creator` → `YYYYMMDD-HHMM/` in current directory
 - `codebase-to-demo` → `<project-name>-demo.html` in current directory
 - `codebase-to-course` → `<project-name>-course.html` in current directory
-- `content-pipeline` → `YYYYMMDD-HHMM/` in current directory with `linkedin-post.md`, `cover.svg`, `cover-prompt.md`, `skool-post.md`, plus `slides/`, `caption.md`, and carousel exports (`.pdf`, `.mp4`, `-hyperframes.mp4`) from Stage 4
+- `content-pipeline` → `YYYYMMDD-HHMM/` (or existing folder) containing `linkedin-post.md`, `cover.svg`, `cover-prompt.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `youtube.md`, `facebook-post.md`, plus `slides/`, `caption.md`, and carousel exports (`.pdf`, `.mp4`, `-hyperframes.mp4`) from Stage 4
 - `frontend-slides` → single `.html` file in current directory
 - `excalidraw-diagram` → `.excalidraw` file in current directory
 - `remotion-generator` → `YYYYMMDD-HHMM-video.mp4` in current directory

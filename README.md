@@ -9,7 +9,7 @@ A collection of Claude Code skills for various use cases. Install individual ski
 | [codebase-to-course](#codebase-to-course) | Transform any codebase into a beautiful, interactive single-page HTML course that teaches how the code works to non-technical people |
 | [codebase-to-demo](#codebase-to-demo) | Transform any codebase or automation into a polished, interactive HTML demo deck for non-technical buyers and decision-makers |
 | [carousel-creator](#carousel-creator) | Create premium Instagram and LinkedIn carousel posts as SVG slides with swipe-worthy design |
-| [content-pipeline](#content-pipeline) | Repurpose one idea into a full content package: LinkedIn post, 1200×627 cover image, Skool post, and Instagram/LinkedIn carousel |
+| [content-pipeline](#content-pipeline) | Repurpose one idea into a full multi-platform package: LinkedIn, Instagram, Twitter, YouTube, Facebook, Skool, cover image, and carousel |
 | [excalidraw-diagram](#excalidraw-diagram) | Generate Excalidraw diagrams with JSON from natural language descriptions |
 | [fable-mode](#fable-mode) | Apply Fable 5's working discipline — the five-gate task loop and standing habits — to any hard multi-step session |
 | [frontend-slides](#frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files |
@@ -285,46 +285,49 @@ carousel-creator/
 
 ### content-pipeline
 
-Transform one idea into a complete multi-platform content package — a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, and a premium Instagram/LinkedIn carousel — all from a single input, in one folder. This skill merges previously-separate Gemini gems (LinkedIn writer, cover image generator, Skool converter) with `/carousel-creator` into one sequential pipeline.
+Transform one idea into a complete multi-platform content package — a high-engagement LinkedIn post, a 1200×627 cover image, a casual Skool community post, a premium Instagram/LinkedIn carousel, an Instagram caption, a Twitter thread/post, a YouTube video description, and a Facebook post — all from a single input, or by filling missing channels in an existing folder.
 
-**Target Audience:** Creators, personal brands, and community operators who publish the same idea across LinkedIn and a Skool community and want to stop writing the same thing three times.
+**Target Audience:** Creators, personal brands, founders, and community operators who want to distribute a single insight across all major social platforms natively without manual rewriting.
 
-**Output:** A date-wise folder (`YYYYMMDD-HHMM/`) with all four stages' deliverables:
+**Output:** A date-wise folder (`YYYYMMDD-HHMM/` or specified existing folder) with all channel deliverables:
 
 | File | Stage | Purpose |
 |---|---|---|
-| `linkedin-post.md` | 1 | Full LinkedIn post (title + hook + body + CTAs + hashtags) — copy-paste ready |
+| `linkedin-post.md` | 1 | Full LinkedIn post (hook <8 words + body + CTAs + hashtags) — 100% clean copy-paste ready |
 | `cover.svg` | 2 | 1200×627 LinkedIn cover image with central safe zone and core insight as hero text |
 | `cover-prompt.md` | 2 | Detailed AI-image prompt for Midjourney / DALL-E / Flux (upgrade path beyond SVG) |
-| `skool-post.md` | 3 | Casual 30–40% shorter Skool post, no hashtags, bolded closing question |
+| `skool-post.md` | 3 | Casual 30–40% shorter Skool post, no hashtags, peer tone, prominent closing question |
 | `slides/{slug}-slide-*.svg` | 4 | Individual premium SVG carousel slides (≥5) |
-| `caption.md` | 4 | Carousel caption (bonus LinkedIn post variant) |
+| `caption.md` | 4 | Carousel caption from `/carousel-creator` |
 | `{slug}.pdf` | 4 | Multi-page PDF of all slides |
 | `{slug}.mp4` | 4 | 5s/slide MP4 slideshow |
 | `{slug}-hyperframes.mp4` | 4 | Ken Burns + cross-dissolve cinematic MP4 |
+| `instagram-post.md` | 5 | Instagram caption with spaced paragraphs, emoji bullets, save CTA, and 10–15 hashtags |
+| `twitter-post.md` | 6 | Standalone tweet (<280 chars) plus full numbered thread (`1/` to `N/`) for Twitter / X |
+| `youtube.md` | 7 | 3 clickable title options, SEO video description with chapter timestamps, and tags |
+| `facebook-post.md` | 8 | Conversational Facebook post with storytelling tone and discussion CTA |
 
 **Key Features:**
 
-- **Four-stage pipeline** — LinkedIn → cover → Skool → carousel. No permission prompt between stages.
-- **Tone inference** — Detects urgent / educational / inspirational and applies the right CTA voice across all four stages.
-- **Copy-paste ready output** — LinkedIn post has hook under 8 words, ♻️ Repost + ➕ Follow Deven Goratela, 3–5 hashtags, no bold in the body.
+- **Eight-stage multi-platform pipeline** — LinkedIn, cover image, Skool, carousel, Instagram, Twitter, YouTube, and Facebook.
+- **Strict zero markdown formatting** — Avoids raw markdown (`**bold**`, `*italic*`, `### headings`, `---`, `[links](url)`) in post bodies so all copy is 100% clean and ready to paste into native social apps without formatting artifacts.
+- **Folder continuation mode** — Accepts an existing folder name/path as input, scans existing deliverables, extracts context, and generates only the missing channels directly into that folder.
+- **Tone inference** — Detects urgent / educational / inspirational and applies the right CTA voice across all stages.
 - **Cover safety** — All critical content sits in the center 1000×500 px safe zone so the image works as both a link preview and an article header.
-- **Skool reframe** — Strips LinkedIn-isms, humble-brags, and hashtags. Reframes tools/tips as "here's what worked for me." Ends with one bolded open-ended question.
-- **Stage 4 delegation** — A subagent runs `/carousel-creator` with pre-collected intake (no re-prompting), then reconciles timestamp drift so all carousel output lands in the same folder as Stages 1–3.
+- **Stage 4 delegation** — Subagent runs `/carousel-creator` with pre-collected intake, reconciling all carousel assets into the same target folder.
 
 **Trigger Phrases:**
 
 - "Run the content pipeline on [topic]"
-- "Create a LinkedIn + Skool + carousel package for [idea]"
-- "Repurpose this for LinkedIn and Skool"
-- "Make a content package about [topic]"
-- "Turn this into a full post package"
-- "Build me a carousel + LinkedIn post for [topic]"
+- "Create a content package for [idea]"
+- "Repurpose this for LinkedIn, Instagram, Twitter, YouTube, Facebook, and Skool"
+- "Fill missing channels in folder [folder-name]"
+- "Make a multi-platform content package about [topic]"
 
 **Files:**
 ```
 content-pipeline/
-├── SKILL.md    # Main skill instructions (4-stage workflow + carousel delegation + quality checklist)
+├── SKILL.md    # Main skill instructions (multi-platform workflow, folder mode, zero-markdown rules)
 └── README.md   # Documentation
 ```
 
