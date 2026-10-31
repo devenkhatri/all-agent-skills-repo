@@ -51,8 +51,24 @@ Intelligently adapt the carousel based on topic type:
 | Frameworks / Models | Structured, visual | 7–10 | Diagram-style, labeled boxes |
 | Storytelling | Narrative arc | 5–7 | Text-heavy but scannable |
 | Thought Leadership | Opinionated, insightful | 5–7 | Clean, editorial |
+| Video / Demo Walkthrough | Practical, visual-first | 6–8 | Screenshot cards + concise annotation |
 
 Adapt: tone, layout style, content density, slide count, visual treatment, and CTA style to match the topic type.
+
+### Video Input Content Strategy
+
+When the carousel is derived from a video input:
+1. **Focus on concrete visual artifacts:**
+   - Instead of generic text lists, center each core value slide around a high-quality screenshot from the video.
+   - Strictly choose screenshots without speaker faces (e.g. software UI, settings, architecture diagrams, code, terminal outputs, results).
+2. **Text pairing with screenshots:**
+   - Top headline: Action-oriented takeaway (e.g. "Step 2: Configure The Automation Agent").
+   - Embedded screenshot: Shows the exact interface or diagram from the video.
+   - Bottom highlight card: 1–2 bullet points explaining the key decision or outcome shown in the screenshot.
+3. **Face exclusion:**
+   - Audiences swipe carousels for actionable, scannable knowledge. Talking-head frames distract from the educational value.
+   - Whenever the video alternates between presenter face and screen, always capture the screen.
+   - If the presenter is in a corner overlay, crop out the face before embedding.
 
 ---
 

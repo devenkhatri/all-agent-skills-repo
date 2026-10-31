@@ -39,8 +39,11 @@ Each SVG is:
 
 ## Key Features
 
-- **Intake Workflow** — Collects platform, audience, handle, and brand info before generating
+- **Intake Workflow** — Collects platform, audience, handle, brand info, and optional video input
 - **Platform-Aware** — Correct canvas size for Instagram (4:5) or LinkedIn (1:1)
+- **Unique Background Per Slide** — Always uses a different background color for each slide from a harmonious tonal palette to keep swiping visually dynamic
+- **Video Input Support** — When source input is a video, extracts and embeds relevant face-free screenshots (UI, diagrams, workflows, code)
+- **Constant Hyperframes Pacing** — Hyperframes MP4 video maintains a steady, readable pace (5.0s per slide default) regardless of slide count (never sped up when there are more slides)
 - **Hook-First Design** — First slide uses proven hook formulas to stop scroll
 - **Strategic Content Flow** — Maximizes retention, saves, and shares
 - **Mobile-Optimized** — Readable on small screens, fast scanning
@@ -79,11 +82,17 @@ Every run creates a date-stamped folder:
 
 ```
 YYYYMMDD-HHMM/
+├── assets/                         ← Face-free video screenshots (if input is video)
+│   ├── screenshot-1.png
+│   └── ...
 ├── slides/
-│   ├── {topic-slug}-slide-1.svg   ← Hook slide
-│   ├── {topic-slug}-slide-2.svg   ← Context
-│   └── ...                        ← Value, breakdown, CTA
-└── caption.md                     ← Copy-paste-ready post caption + hashtags
+│   ├── {topic-slug}-slide-1.svg   ← Hook slide (unique background)
+│   ├── {topic-slug}-slide-2.svg   ← Context (different background)
+│   └── ...                        ← Value, breakdown, CTA (all unique backgrounds)
+├── caption.md                     ← Copy-paste-ready post caption + hashtags
+├── {topic-slug}.pdf               ← Multi-page PDF export
+├── {topic-slug}.mp4               ← MP4 slideshow export
+└── {topic-slug}-hyperframes.mp4  ← Cinematic Ken Burns export (constant 5.0s/slide pace)
 ```
 
 Open any `.svg` file in a browser to preview. Convert to PNG/JPG for posting.

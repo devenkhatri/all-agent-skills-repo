@@ -11,9 +11,15 @@
 #   ./export-carousel-hyperframes.zsh CAROUSEL_FOLDER [SECONDS_PER_SLIDE] [TRANSITION_DURATION] [OUTPUT_MP4] [--no-music]
 #
 # Defaults:
-#   SECONDS_PER_SLIDE   = 3.0   (minimum 1.5 s recommended)
+#   SECONDS_PER_SLIDE   = 5.0   (constant pace regardless of slide count)
 #   TRANSITION_DURATION = 0.6   (cross-dissolve blend in seconds)
 #   OUTPUT_MP4          = CAROUSEL_FOLDER/carousel-hyperframes.mp4
+#
+# Pacing Rule:
+#   If the number of slides is higher (e.g. 7-10+ slides), DO NOT make the
+#   hyperframes video faster or shorten slide duration. Use the exact same
+#   readable pace (5.0s per slide) as used when number of slides is less.
+#   Total video duration expands proportionally with slide count.
 #
 # Options:
 #   --no-music          Skip background music in the output MP4 (default: include music)
@@ -57,6 +63,7 @@ if [[ $# -lt 1 || $# -gt 4 ]]; then
 fi
 
 carousel_dir="${1:A}"
+# Maintain constant readable pace (5.0s per slide) regardless of slide count; never accelerate for more slides
 seconds_per_slide="${2:-5.0}"
 transition_dur="${3:-0.6}"
 output_mp4="${4:-$carousel_dir/carousel-hyperframes.mp4}"

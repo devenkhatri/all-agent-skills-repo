@@ -38,25 +38,48 @@ Text hierarchy must clearly separate:
 
 Use color strategically for hierarchy, contrast, emphasis, branding, readability, and emotional tone.
 
+> [!IMPORTANT]
+> **Mandatory Rule: Always Use a Different Background Color for Each Slide**
+> Every slide in the carousel MUST have a unique background color or gradient. Never use the same background color across all slides, and never repeat the exact background on consecutive slides.
+> 
+> **Why:** Top-performing social carousels use slide-by-slide background shifts to provide immediate visual feedback upon swiping, prevent visual fatigue, and keep viewers engaged through to the final CTA.
+
+### Harmonious Background Color Progressions
+
+While each slide must have a different background color, the sequence must belong to a **cohesive, harmonious palette family**. Each slide's background should shift smoothly while preserving high text contrast (minimum 4.5:1 contrast ratio for body text).
+
+#### Multi-Slide Background Palettes by Topic (Up to 8–10 Slides)
+
+| Topic | Slide 1 (Hook) | Slide 2 (Context) | Slide 3 (Value 1) | Slide 4 (Value 2) | Slide 5 (Value 3) | Slide 6 (Breakdown) | Slide 7 (Summary) | Slide 8 (CTA) | Primary Text / Accent |
+|-------|----------------|-------------------|-------------------|-------------------|-------------------|---------------------|-------------------|---------------|-----------------------|
+| **Tech / AI** | `#0B132B` | `#1C2541` | `#1E293B` | `#0F172A` | `#172554` | `#064E3B` | `#1E1B4B` | `#0A0F1D` | `#FFFFFF` / `#3A86FF` |
+| **Business / Productivity** | `#18181B` | `#1A1A2E` | `#27272A` | `#1F2937` | `#111827` | `#2E1065` | `#1E293B` | `#0F172A` | `#F0F0F0` / `#F5A623` |
+| **Creator / Personal Brand** | `#2D1B69` | `#1E1B4B` | `#3B0764` | `#18181B` | `#4C1D95` | `#1F1D36` | `#2E1065` | `#1A103C` | `#FAFAFA` / `#FF6B6B` |
+| **Health / Wellness** | `#1B4332` | `#132E24` | `#064E3B` | `#1F2937` | `#143628` | `#0F3D2E` | `#1A3326` | `#0D281E` | `#FFFDF7` / `#52B788` |
+| **Finance / Professional** | `#002147` | `#0A192F` | `#0F2537` | `#14213D` | `#1A2332` | `#0E1E2E` | `#172A3A` | `#091825` | `#FFFFFF` / `#708090` |
+| **Education / Learning** | `#1C2951` | `#1E1B4B` | `#282A36` | `#1A2238` | `#2B2D42` | `#1E293B` | `#242038` | `#16192E` | `#F8F9FA` / `#6C63FF` |
+
+**Gradient Backgrounds:**
+If using gradients, ensure each slide's `<linearGradient>` has unique stop colors, for example:
+- Slide 1: `#0B132B` → `#1C2541`
+- Slide 2: `#1C2541` → `#243356`
+- Slide 3: `#1E293B` → `#0F172A`
+- Slide 4: `#172554` → `#1E1B4B`
+- Slide 5: `#064E3B` → `#0B3B2E`
+- Slide 6: `#1E1B4B` → `#2E1065`
+- Slide 7: `#18181B` → `#27272A`
+- Slide 8 (CTA): `#0A0F1D` → `#1E293B`
+
 **If user provides brand colors:**
-- Use them consistently across all slides
-- Apply to headings, accents, highlights, CTAs, backgrounds
-
-**If no brand colors — use a premium palette matching the topic:**
-
-| Topic | Background | Primary | Accent |
-|-------|-----------|---------|--------|
-| Tech / AI | `#0D1B2A` | `#3A86FF` | `#FFFFFF` |
-| Business / Productivity | `#1A1A2E` | `#F5A623` | `#F0F0F0` |
-| Creator / Personal Brand | `#2D1B69` | `#FF6B6B` | `#FAFAFA` |
-| Health / Wellness | `#1B4332` | `#52B788` | `#FFFDF7` |
-| Finance / Professional | `#002147` | `#708090` | `#FFFFFF` |
-| Education / Learning | `#1C2951` | `#6C63FF` | `#F8F9FA` |
+- Do not repeat the single primary brand color on every slide background.
+- Derive 5–10 distinct harmonious background tones across the brand palette: deep brand shade, midnight brand tint, rich brand slate, dark charcoal tint, contrasting brand accent dark, and deep brand navy.
+- Keep the user's explicit brand color for prominent headlines, highlight tags, and CTA buttons across all slides.
 
 **Avoid:**
-- Random neon overload
-- Low-contrast text (target minimum 4.5:1 ratio for body text)
-- More than 3 primary colors per carousel
+- Using the same background color on all slides (strictly forbidden)
+- Using the same background color on two consecutive slides
+- Random discordant rainbow colors that break brand cohesion
+- Low-contrast text (maintain minimum 4.5:1 ratio between text and that specific slide's background)
 
 ---
 
@@ -108,11 +131,13 @@ Use visual elements only when they improve communication:
 
 ## Consistency Rules
 
-All slides must feel like one cohesive branded system. Maintain consistency in:
-- Colors, typography, spacing, and margins
+All slides must feel like one cohesive branded system while maintaining visual excitement. Maintain consistency in:
+- Cohesive color harmony (each slide has a unique background color, but all backgrounds follow a harmonious tonal palette)
+- High contrast and readability across each unique background
+- Typography hierarchy, margins, and safe zones
 - Visual language, icon style, and layout logic
-- Brand placement and design rhythm
-- Corner radius values (pick one value and use it throughout)
+- Brand placement and design rhythm (footer handle `@devengoratela` consistently placed)
+- Corner radius values (pick one standard, e.g., `rx="16"`, and use it throughout)
 - Font families and weight pairings
 
 ---

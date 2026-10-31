@@ -47,9 +47,10 @@ Before generating any carousel, collect the following information if not already
    - LinkedIn → 1080 × 1080 px (1:1 square)
 3. **Target Audience** — Who is this for? (e.g., "startup founders", "content creators")
 4. **Handle** — The @handle for the CTA slide (e.g., @devengoratela)
-5. **Brand Colors** — Any hex codes? (optional — premium defaults used if not provided)
+5. **Brand Colors** — Any hex codes? (optional — premium harmonious defaults used if not provided)
 6. **Tone** — Educate / Inspire / Persuade / Storytell? (optional — inferred from topic if not given)
 7. **Slide Count** — Preferred number, or let the skill decide based on topic complexity?
+8. **Source Input Type** *(optional)* — Text, outline, or **Video file / URL**? If a video is provided, prepare to extract relevant face-free screenshots using `ffmpeg` for visual slides.
 
 Once you have at minimum **topic**, **platform**, and **handle**, proceed to generation.
 
@@ -72,6 +73,12 @@ Once you have at minimum **topic**, **platform**, and **handle**, proceed to gen
 - **Ideal Range:** 5 to 10 slides
 - **More only if topic genuinely requires it**
 - Never add filler slides
+
+### Pacing & Slide Duration Rule
+
+- **Default Pace:** `5.0` seconds per slide (with `0.6` s cross-dissolve transition).
+- **Constant Pace Rule (Crucial):** If the number of slides is more (e.g., 7, 8, 10, or more), **DO NOT make the hyperframes video faster or shorten the duration per slide**. Use the exact same steady, comfortable pace (5.0s per slide) as used when there are fewer slides.
+- **Why:** Viewers require the same amount of time to read and absorb each slide whether a carousel has 5 slides or 10 slides. The total video duration should expand naturally with slide count — never compress pacing to meet an arbitrary total duration limit.
 
 ---
 
@@ -129,9 +136,44 @@ Every slide must have a clear purpose. No slide should exist just to fill space.
 
 ---
 
+## Video Input & Face-Free Screenshot Workflow
+
+When the input is a video file (`.mp4`, `.mov`, `.mkv`, etc.) or video URL:
+
+1. **Identify Key Visual Milestones:**
+   - Review the video to pinpoint key moments: software dashboards, feature demonstrations, architecture diagrams, code configurations, terminal commands, or workflow results.
+   - Extract high-resolution frame grabs using `ffmpeg` into an `assets/` subfolder:
+     ```bash
+     mkdir -p YYYYMMDD-HHMMSS/assets
+     ffmpeg -ss 00:02:15 -i input_video.mp4 -frames:v 1 -q:v 2 YYYYMMDD-HHMMSS/assets/screenshot-1.png
+     ```
+
+2. **Face-Free Screenshot Rule ("Screenshots Without Face Wherever Relevant"):**
+   - **Focus on the content, not talking heads:** Social media carousels succeed when they deliver high-density, actionable information. Viewers swipe to see the tool, code, diagram, or workflow — not the presenter's face.
+   - **Strictly prefer frames without faces:** Pick timestamps where only the slide, terminal, product UI, or architecture diagram is displayed.
+   - **Handling Webcam / PiP Overlays:**
+     - If the presenter is in a picture-in-picture webcam corner, pick frames where the UI is fullscreen without the overlay.
+     - If a webcam bubble cannot be avoided in a critical frame, crop the frame to exclude the face:
+       ```bash
+       magick YYYYMMDD-HHMMSS/assets/screenshot-1.png -gravity NorthWest -crop 80%x100%+0+0 YYYYMMDD-HHMMSS/assets/screenshot-1.png
+       ```
+
+3. **Embedding in SVG Slides:**
+   - Embed screenshots cleanly using `<image>` with rounded corner clip paths (`<clipPath><rect rx="16".../></clipPath>`), a subtle stroke border, and balanced margins.
+   - Pair every screenshot slide with a strong headline above and an explanatory insight card below.
+   - Refer to `references/svg-templates.md` for ready-to-use SVG screenshot layout snippets.
+
+---
+
 ## Design System
 
-For typography scales, color palettes, layout rules, visual element patterns, consistency rules, and brand identity integration, load: `references/design-system.md`
+> [!IMPORTANT]
+> **Mandatory Rule: Always Use a Different Background Color for Each Slide**
+> Every slide in the carousel MUST have a unique background color or gradient. Never use the same background color across all slides, and never repeat the exact background on consecutive slides.
+>
+> Pacing visual interest: Each slide's background should shift smoothly through a harmonious palette family (e.g., deep midnight navy → dark slate → abyssal blue → deep charcoal → cyber teal → dark indigo). High contrast (>= 4.5:1) must be preserved for all text and UI elements against each slide's specific background color.
+
+For typography scales, multi-slide color palette progressions by topic, layout rules, visual element patterns, consistency rules, and brand identity integration, load: `references/design-system.md`
 
 ---
 
@@ -169,6 +211,9 @@ Save all output to a **date-wise folder** in the current working directory. You 
 **Folder structure:**
 ```
 YYYYMMDD-HHMMSS/
+├── assets/                         ← extracted face-free screenshots (when input is video)
+│   ├── screenshot-1.png
+│   └── ...
 ├── slides/
 │   ├── {topic-slug}-slide-1.svg
 │   ├── {topic-slug}-slide-2.svg
@@ -240,7 +285,7 @@ Open each preview PNG and visually confirm all slides look correct before contin
 
 ### Step 3 — Automated Overlap & Clip Detection
 
-Run the bounding-box checker script to detect text overlaps and clipping:
+Run the bounding-box checker script to detect text overlaps, clipping, and background color variety:
 
 ```bash
 python3 scripts/verify-carousel-slides.py YYYYMMDD-HHMMSS/slides/
@@ -252,7 +297,8 @@ This script (see `scripts/verify-carousel-slides.py`) does the following for eac
 2. **Checks for overlapping text bounding boxes** — flags any pair of text elements whose boxes intersect.
 3. **Checks for out-of-canvas text** — flags any text element whose estimated bounding box exceeds the SVG `viewBox` width or height.
 4. **Checks for elements overflowing safe margins** — flags any element closer than 40 px to any canvas edge (the safe margin).
-5. **Prints a per-slide pass/fail report.**
+5. **Checks background color uniqueness across slides** — flags a failure if all slides have identical background colors, and warns on identical consecutive slide backgrounds.
+6. **Prints a per-slide pass/fail report.**
 
 > **If the script does not yet exist**, create it at `scripts/verify-carousel-slides.py` using the template in the **Verification Script Template** section below before running it.
 
@@ -269,6 +315,7 @@ After running the checker:
 - **Text overlap** → reduce font size, add line breaks, move elements to avoid collision
 - **Text clipped / out of canvas** → reduce font size or tighten `dy` / `y` values; never let text exceed `viewBox` height
 - **Overflow safe margin** → move element inward by at least 40 px from each edge
+- **Identical slide backgrounds** → assign a different harmonious background color or gradient to each slide
 
 **Do NOT proceed to export if any slide fails.**
 
@@ -280,14 +327,14 @@ If `scripts/verify-carousel-slides.py` does not exist, create it with the follow
 
 ```python
 #!/usr/bin/env python3
-"""Verify carousel SVG slides for text overlaps, clipping, and safe-margin violations."""
+"""Verify carousel SVG slides for text overlaps, clipping, safe-margin violations, and distinct backgrounds."""
 
 import sys
 import os
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-NS = {'svg': 'http://www.w3.org/2000/svg'}
+SVG_NS = 'http://www.w3.org/2000/svg'
 SAFE_MARGIN = 40          # pixels from any edge
 CHAR_WIDTH_RATIO = 0.55   # estimated average char width as fraction of font-size
 LINE_HEIGHT_RATIO = 1.25  # estimated line height as fraction of font-size
@@ -329,6 +376,45 @@ def boxes_overlap(a, b):
     ax, ay, aw, ah = a
     bx, by, bw, bh = b
     return not (ax + aw <= bx or bx + bw <= ax or ay + ah <= by or by + bh <= ay)
+
+
+def extract_background(root, canvas_w, canvas_h):
+    """Extract background color or gradient representation of an SVG root."""
+    for rect in root.findall(f".//{{{SVG_NS}}}rect"):
+        x_val = rect.get("x", "0")
+        y_val = rect.get("y", "0")
+        w_val = rect.get("width", "")
+        h_val = rect.get("height", "")
+
+        try:
+            x = float(x_val)
+            y = float(y_val)
+        except ValueError:
+            x, y = 0.0, 0.0
+
+        w = canvas_w if w_val in ("100%", "") else 0.0
+        h = canvas_h if h_val in ("100%", "") else 0.0
+        try:
+            if w_val and w_val != "100%":
+                w = float(w_val.replace("px", "").strip())
+            if h_val and h_val != "100%":
+                h = float(h_val.replace("px", "").strip())
+        except ValueError:
+            pass
+
+        if x <= 100 and y <= 100 and w >= canvas_w * 0.7 and h >= canvas_h * 0.7:
+            fill = rect.get("fill", "")
+            if fill.startswith("url(#") and fill.endswith(")"):
+                grad_id = fill[5:-1]
+                for grad in root.findall(f".//{{{SVG_NS}}}linearGradient") + root.findall(f".//{{{SVG_NS}}}radialGradient"):
+                    if grad.get("id") == grad_id:
+                        stops = [stop.get("stop-color", "").lower() for stop in grad.findall(f"{{{SVG_NS}}}stop")]
+                        return f"gradient({','.join(stops)})"
+                return f"url({grad_id})"
+            elif fill and fill != "none":
+                return fill.lower()
+
+    return "unknown"
 
 
 def verify_slide(svg_path):
@@ -387,6 +473,36 @@ def main():
                 print(issue)
         else:
             print(f"✅ PASS: {svg_path.name}")
+
+    # Cross-slide check: Background uniqueness
+    backgrounds = []
+    for svg_path in svg_files:
+        try:
+            tree = ET.parse(svg_path)
+            root = tree.getroot()
+            cw, ch = parse_viewbox(root)
+            bg = extract_background(root, cw, ch)
+            backgrounds.append((svg_path.name, bg))
+        except Exception:
+            pass
+
+    if len(backgrounds) > 1:
+        known_bgs = [bg for _, bg in backgrounds if bg != "unknown"]
+        unique_bgs = set(known_bgs)
+        if len(known_bgs) > 1 and len(unique_bgs) == 1:
+            all_passed = False
+            print(f"\n❌ FAIL: Slide Background Check")
+            print(f"  ❌ All {len(backgrounds)} slides have identical background: {list(unique_bgs)[0]}")
+            print(f"       Rule: Always use a different background color for each slide to maintain dynamic visual variety.\n")
+        else:
+            for i in range(len(backgrounds) - 1):
+                s1_name, s1_bg = backgrounds[i]
+                s2_name, s2_bg = backgrounds[i + 1]
+                if s1_bg != "unknown" and s1_bg == s2_bg:
+                    print(f"\n⚠️  WARNING: Consecutive slides '{s1_name}' and '{s2_name}' share identical background: {s1_bg}")
+                    print(f"    Rule: Use different background colors for each slide for best engagement.")
+            if len(unique_bgs) > 1:
+                print(f"\n🎨 Slide backgrounds verified: {len(unique_bgs)} distinct background styles across {len(backgrounds)} slides.")
 
     print()
     if all_passed:
@@ -495,10 +611,10 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 **Script:** `scripts/export-carousel-hyperframes.zsh`
 
 ```bash
-# Basic usage — 3 s per slide, 0.6 s dissolve, saved as carousel-hyperframes.mp4
+# Basic usage — 5.0 s per slide (constant pace for all slide counts), 0.6 s dissolve, saved as carousel-hyperframes.mp4
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS
 
-# Custom seconds per slide
+# Custom seconds per slide (maintain same pace regardless of slide count)
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS 5.0
 
 # Custom seconds + custom transition duration
@@ -511,12 +627,16 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 ./scripts/export-carousel-hyperframes.zsh YYYYMMDD-HHMMSS --no-music
 ```
 
+> [!IMPORTANT]
+> **Constant Pacing Rule (Do Not Accelerate for High Slide Counts):**
+> If the carousel has more slides (e.g., 7, 8, 10, or more), **DO NOT make the hyperframes video faster or shorten the seconds per slide**. Keep the exact same comfortable, readable pace (`5.0` seconds per slide) as used when there are fewer slides. Total video runtime expands naturally with slide count so every slide has adequate reading time. Never speed up slides to artificially hit a shorter video length.
+
 **Arguments:**
 
 | Argument | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `CAROUSEL_FOLDER` | ✅ | — | Path to the dated carousel folder |
-| `SECONDS_PER_SLIDE` | ❌ | `5.0` | Visible duration of each slide (min 1.5 s recommended) |
+| `SECONDS_PER_SLIDE` | ❌ | `5.0` | Visible duration of each slide (maintain constant pace across all slide counts) |
 | `TRANSITION_DURATION` | ❌ | `0.6` | Cross-dissolve blend length in seconds |
 | `OUTPUT_MP4` | ❌ | `CAROUSEL_FOLDER/{topic-slug}-hyperframes.mp4` | Custom output path |
 | `--no-music` | ❌ | music included | Skip the default background music track |
@@ -530,7 +650,7 @@ Renders each SVG slide as a high-resolution PNG (2160 px wide), applies an alter
 - H.264 with `preset slow` / `crf 18` for broadcast-quality output
 - `yuv420p` + `+faststart` for maximum platform compatibility
 
-> **Note:** Encoding time scales with slide count. A 10-slide carousel at 3 s/slide takes ~30–60 s on a modern Mac.
+> **Note:** Encoding time scales with slide count. A 10-slide carousel at 5 s/slide takes ~45–75 s on a modern Mac.
 >
 > **Background music:** by default, the track from `scripts/youtube-shorts-bt-music.mp3` is looped to fit the video, mixed at 30% volume with a 1-second fade-in, and encoded as AAC 192 kbps / 48 kHz stereo. Use `--no-music` to skip it.
 
@@ -563,7 +683,7 @@ Before finalizing, verify:
 
 **Technical:**
 - [ ] Output is SVG only (no HTML)
-- [ ] Canvas size matches chosen platform format
+- [ ] Canvas size matches chosen platform format (1080×1350 for IG, 1080×1080 for LinkedIn)
 - [ ] Minimum 5 slides included
 - [ ] SVG files are valid — no missing tags, unclosed elements, or invalid attributes
 - [ ] `verify-carousel-slides.py` exits with code 0 (all slides pass) ✅
@@ -573,18 +693,28 @@ Before finalizing, verify:
 - [ ] No text element is clipped or overflows the SVG canvas/viewBox
 - [ ] No element violates the 40 px safe margin on any edge
 - [ ] Preview PNGs reviewed and look correct
+- [ ] Slide backgrounds verified: every slide has a different background color
+
+**Design & Brand Consistency:**
+- [ ] Every slide has a unique background color (never identical across all slides or consecutive slides)
+- [ ] All background colors belong to a harmonious tonal palette progression
+- [ ] Text and UI elements maintain high contrast (>= 4.5:1) against each slide's specific background
+- [ ] Text is readable on mobile with strong typography hierarchy
+- [ ] Design is clean and premium
+- [ ] Brand placement consistent (handle `@devengoratela` on every footer)
+
+**Video Input & Screenshots (if applicable):**
+- [ ] Extracted screenshots saved to `YYYYMMDD-HHMMSS/assets/`
+- [ ] All screenshots are strictly face-free (focused on UI, diagrams, code, tools, workflows)
+- [ ] Screenshots embedded in SVG with clean rounded clipping and subtle borders
+
+**Hyperframes & Video Pacing:**
+- [ ] Hyperframes video maintains uniform pace (`5.0` s/slide default) regardless of slide count (never sped up for more slides)
 
 **Content:**
 - [ ] First slide is powerful and curiosity-driven
 - [ ] Content is useful, clear, and concise
 - [ ] Final slide is action-oriented with CTA using the user's handle
-
-**Design:**
-- [ ] Text is readable on mobile
-- [ ] Design is clean and premium
-- [ ] Visual hierarchy is strong across all slides
-- [ ] All slides feel consistent (colors, type, spacing, brand placement)
-- [ ] Branding integrated if provided
 
 ---
 
@@ -616,14 +746,16 @@ Before generating any carousel, think through:
 3. How many slides are actually needed (no filler)?
 4. How to structure for maximum retention?
 5. Which platform format applies — and are Y-coordinates adjusted correctly?
-6. Where does branding/handle go consistently across slides?
-7. How to make the first slide stop the scroll?
-8. How to make the final slide feel like a natural next step?
+6. What sequence of distinct, harmonious background colors will be used across slides 1 through N?
+7. If input is a video: which face-free screenshots (UI, diagrams, tools, code) capture the core insights?
+8. Where does branding/handle go consistently across slides?
+9. How to make the first slide stop the scroll?
+10. How to make the final slide feel like a natural next step?
 
 **After saving slides, the execution order is strictly:**
-1. Save all SVG files
-2. Run `verify-carousel-slides.py` — fix any failures
-3. Only when all slides pass → run `export-carousel-all.zsh`
+1. Save all SVG files (and any face-free screenshots in `assets/` if video input)
+2. Run `verify-carousel-slides.py` — fix any failures (overlaps, clipping, margins, identical backgrounds)
+3. Only when all slides pass → run `export-carousel-all.zsh` (maintaining 5.0s/slide pace for hyperframes)
 
 ---
 
@@ -635,11 +767,15 @@ Always optimize for:
 - Platform-appropriate canvas size and ratio (Instagram 4:5 or LinkedIn 1:1)
 - Minimum 5 slides, no filler
 - Strong hook slide using proven hook formulas
+- **Always use a different background color for each slide** within a harmonious palette family
+- **When the input is a video, use screenshots without faces wherever relevant** (highlighting software UI, code, diagrams, and workflows)
+- **Maintain uniform, unhurried pacing for Hyperframes video (5.0s per slide default)** — never make the video faster when there are more slides
 - Premium modern design with clean typography
 - Mobile readability and fast scanning
 - Consistent branding across all slides
 - Polished SVG output only — no HTML wrappers
 - **Save all SVG files to `YYYYMMDD-HHMMSS/slides/`** (using actual current date and time)
+- **If video input was used, save extracted face-free screenshots to `YYYYMMDD-HHMMSS/assets/`**
 - **Generate caption with hashtags and save to `YYYYMMDD-HHMMSS/caption.md`**
 - **Run `scripts/verify-carousel-slides.py YYYYMMDD-HHMMSS/slides/` and fix all failures before exporting.**
 - **Only after all slides pass verification, run `./scripts/export-carousel-all.zsh YYYYMMDD-HHMMSS` to generate all outputs.**

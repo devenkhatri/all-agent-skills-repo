@@ -131,19 +131,77 @@ Every SVG slide should be layered in this order:
 └──────────────────────────┘
 ```
 
+### 6. Screenshot / Visual Demo Slide (Video Input — Face-Free)
+
+```
+┌──────────────────────────┐
+│  Slide Headline / Step   │
+│  ──────────────────────  │
+│  ┌────────────────────┐  │
+│  │                    │  │
+│  │ [Face-Free Video   │  │
+│  │  Screenshot: UI /  │  │
+│  │  Code / Workflow]  │  │
+│  │                    │  │
+│  └────────────────────┘  │
+│  Key takeaway card       │
+│  ── @handle footer ──    │
+└──────────────────────────┘
+```
+
 ---
 
 ## Reusable SVG Snippets
 
-### Gradient Background
+### Distinct Slide Backgrounds (Always Different Per Slide)
+
+Every slide must use a different background color or gradient from a cohesive palette. Example sequence for Tech/AI:
+
 ```xml
+<!-- Slide 1 Background: Deep Midnight Navy -->
 <defs>
-  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#0D1B2A"/>
-    <stop offset="100%" stop-color="#162236"/>
+  <linearGradient id="bgSlide1" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#0B132B"/>
+    <stop offset="100%" stop-color="#1C2541"/>
   </linearGradient>
 </defs>
-<rect width="1080" height="1350" fill="url(#bg)"/>
+<rect width="1080" height="1350" fill="url(#bgSlide1)"/>
+
+<!-- Slide 2 Background: Dark Slate -->
+<rect width="1080" height="1350" fill="#1E293B"/>
+
+<!-- Slide 3 Background: Deep Ocean Charcoal -->
+<defs>
+  <linearGradient id="bgSlide3" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#0F172A"/>
+    <stop offset="100%" stop-color="#1E1B4B"/>
+  </linearGradient>
+</defs>
+<rect width="1080" height="1350" fill="url(#bgSlide3)"/>
+
+<!-- Slide 4 Background: Deep Cyber Emerald / Teal -->
+<rect width="1080" height="1350" fill="#064E3B"/>
+```
+
+### Embedded Face-Free Screenshot (Video Input)
+
+When video input is provided, extract relevant frames with `ffmpeg` (showing UI, code, diagrams, tools, and workflows without speaker faces) into `assets/`, then embed with rounded clipping:
+
+```xml
+<defs>
+  <!-- Rounded corner clipping path -->
+  <clipPath id="screenClip1">
+    <rect x="72" y="320" width="936" height="526" rx="16"/>
+  </clipPath>
+</defs>
+
+<!-- Embedded face-free screenshot (relative or base64 data URI) -->
+<image href="../assets/screenshot-1.png" x="72" y="320" width="936" height="526"
+       preserveAspectRatio="xMidYMid slice" clip-path="url(#screenClip1)"/>
+
+<!-- Subtle border stroke overlay -->
+<rect x="72" y="320" width="936" height="526" rx="16" fill="none"
+      stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="2"/>
 ```
 
 ### Accent Highlight Box (left border style)
