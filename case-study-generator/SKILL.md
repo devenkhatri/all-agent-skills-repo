@@ -262,67 +262,81 @@ Designed to be emailed to a prospect or printed for a meeting.
 
 ### Format 7 — Video Script 16:9 Landscape (`video-16x9.md`)
 
-A narration script for a landscape (YouTube / LinkedIn) explainer video. 60–90 seconds of spoken content.
+A comprehensive narration script for a landscape (YouTube / LinkedIn) case study explainer video.
+- **Duration requirement:** **Minimum 3 minutes (180+ seconds)** of spoken content. Expand into deeper architectural tradeoffs, problem backstory, step-by-step implementation, and quantifiable outcomes if the project content supports it.
 
 **Structure:**
 ```
-TITLE: [Project Name] Case Study
+TITLE: [Project Name] Deep-Dive Case Study
 FORMAT: 16:9 Landscape
-DURATION: ~75 seconds
+DURATION: ~3:15 minutes (Minimum 3 minutes)
 STYLE: Professional, confident, business-friendly
 
 ---
-[SCENE 1 — 0:00–0:10] HOOK
-Visual: [describe on-screen graphic / text overlay]
+[SCENE 1 — 0:00–0:25] HOOK & HIGH-LEVEL OUTCOME
+Visual: Dynamic title graphic + headline metrics
 Narration: "..."
 
-[SCENE 2 — 0:10–0:25] THE PROBLEM
-Visual: [describe]
+[SCENE 2 — 0:25–0:55] THE CLIENT CONTEXT & CORE PROBLEM
+Visual: Workflow diagram showing friction/bottlenecks
 Narration: "..."
 
-[SCENE 3 — 0:25–0:50] THE SOLUTION & RESULTS
-Visual: [describe]
+[SCENE 3 — 0:55–1:40] THE SOLUTION & ARCHITECTURAL DECISIONS
+Visual: System architecture overview, key tech stack components
 Narration: "..."
 
-[SCENE 4 — 0:50–0:75] CTA
-Visual: dhimahitechnolabs.com URL card
+[SCENE 4 — 1:40–2:25] KEY FEATURES & REAL-WORLD WORKFLOW
+Visual: Feature walkthrough, UI flow, integration points
+Narration: "..."
+
+[SCENE 5 — 2:25–2:55] MEASURABLE RESULTS & BUSINESS IMPACT
+Visual: Metric highlights (time saved, ROI, speed improvements)
+Narration: "..."
+
+[SCENE 6 — 2:55–3:15+] CHALLENGES, LEARNINGS & CTA
+Visual: Summary card + dhimahitechnolabs.com consulting CTA
 Narration: "Ready to build something like this? Book a free consulting call with Dhimahi Technolabs at dhimahitechnolabs.com"
 ```
 
-> ⚡ **Default Video Generation:** Do NOT leave this as just a script. By default, immediately invoke the `generate-video` skill passing `video-16x9.md` (or run the local video generation workflow) to render `video-16x9.mp4` into the output folder.
+> ⚡ **Default Video Generation:** Do NOT leave this as just a script. By default, immediately invoke the `generate-video` skill passing `video-16x9.md` (or run the local video generation workflow) to render `video-16x9.mp4` into the output folder. Ensure the final video is **at least 3 minutes long**.
 
 ---
 
 ### Format 9 — Video Script 9:16 Portrait / Reels (`video-9x16.md`)
 
-A narration script for a vertical short-form video (Instagram Reels / YouTube Shorts / LinkedIn Short). 30–45 seconds of spoken content.
+A narration script for a vertical video (Instagram Reels / YouTube Shorts / LinkedIn Short).
+- **Duration requirement:** **Minimum 1 minute (60+ seconds)** of spoken content (expandable if needed for deeper coverage).
 
 **Structure:**
 ```
 TITLE: [Project Name] — [Punchy subtitle]
 FORMAT: 9:16 Portrait / Reels
-DURATION: ~35 seconds
-STYLE: Fast-paced, punchy, social-native
+DURATION: ~65 seconds (Minimum 1 minute)
+STYLE: Fast-paced, punchy, narrative-driven
 
 ---
-[0:00–0:05] HOOK (on-screen text + narration)
-Visual: Bold text overlay
+[0:00–0:10] HOOK & SHOCKING STAT / OUTCOME
+Visual: Bold text overlay + hook graphic
 Narration: "..."
 
-[0:05–0:20] RESULTS FIRST (lead with the outcome)
-Visual: Key metric cards
+[0:10–0:25] THE OLD WAY (THE PROBLEM)
+Visual: Problem card / frustration visual
 Narration: "..."
 
-[0:20–0:30] HOW WE DID IT (brief)
-Visual: Tech/solution visual
+[0:25–0:45] WHAT WE BUILT & HOW IT WORKS
+Visual: UI showcase / tech stack highlights / workflow
 Narration: "..."
 
-[0:30–0:35] CTA
+[0:45–0:55] THE VERIFIED RESULTS
+Visual: Metric counters / before-and-after stats
+Narration: "..."
+
+[0:55–1:05+] CTA
 Visual: @dhimahitechnolabs handle + link card
-Narration: "DM us or visit dhimahitechnolabs.com"
+Narration: "DM us or book a call at dhimahitechnolabs.com"
 ```
 
-> ⚡ **Default Video Generation:** Do NOT leave this as just a script. By default, immediately invoke the `generate-video` skill passing `video-9x16.md` (or run the local video generation workflow) to render `video-9x16.mp4` into the output folder.
+> ⚡ **Default Video Generation:** Do NOT leave this as just a script. By default, immediately invoke the `generate-video` skill passing `video-9x16.md` (or run the local video generation workflow) to render `video-9x16.mp4` into the output folder. Ensure the final video is **at least 1 minute long**.
 
 ---
 
@@ -426,8 +440,9 @@ By default, the skill does not stop at text files and scripts — it directly co
 
 2. **Rendered Videos (`video-16x9.mp4` & `video-9x16.mp4`):**
    - Automatically trigger the `generate-video` skill or render pipeline for both scripts:
-     - 16:9 Landscape (`video-16x9.mp4`) for YouTube explainer / desktop presentations.
-     - 9:16 Vertical (`video-9x16.mp4`) for YouTube Shorts / Reels.
+     - 16:9 Landscape (`video-16x9.mp4`) for YouTube explainer / desktop presentations: **Minimum 3 minutes (180+ seconds)**.
+     - 9:16 Vertical (`video-9x16.mp4`) for YouTube Shorts / Reels: **Minimum 1 minute (60+ seconds)**.
+     - Both formats may extend longer if project details and rich architectural insights require it.
    - **Voiceover & Audio Standards (Mandatory):**
      - All generated videos must include a clear, professional spoken voiceover reciting the script.
      - Pair the voiceover with a subtle, light license-free background music track (looped to duration with fade-in/out).
@@ -460,8 +475,8 @@ By default, the skill does not stop at text files and scripts — it directly co
 - [ ] CTA block included in every format
 - [ ] All 10 text/script formats saved to `YYYYMMDD-HHMMSS-{project-slug}/`
 - [ ] `case-study.pdf` compiled from `case-study.html` and verified
-- [ ] `video-16x9.mp4` generated by default with voiceover and light license-free music
-- [ ] `video-9x16.mp4` generated by default with voiceover and light license-free music
+- [ ] `video-16x9.mp4` generated by default (minimum 3 minutes long) with voiceover and light license-free music
+- [ ] `video-9x16.mp4` generated by default (minimum 1 minute long) with voiceover and light license-free music
 - [ ] `youtube-video-meta.md` and `youtube-shorts-meta.md` provided alongside videos
 - [ ] `linkedin-post.md` carousel script flagged for `carousel-creator` skill
 

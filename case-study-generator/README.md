@@ -14,9 +14,9 @@ Point it at your project (Git repo, Loom video, live site, PPT, or just a descri
 | 4 | `slide-deck-outline.md` | PPT / Keynote presentation |
 | 5 | `twitter-thread.md` | Twitter/X thread |
 | 6 | `one-page-summary.md` | Executive elevator pitch / email |
-| 7 | `video-16x9.md` & `video-16x9.mp4` | 16:9 script & rendered video with voiceover + light BGM |
+| 7 | `video-16x9.md` & `video-16x9.mp4` | 16:9 script & rendered video (min 3 mins) with voiceover + light BGM |
 | 8 | `youtube-video-meta.md` | YouTube video title, description & tags |
-| 9 | `video-9x16.md` & `video-9x16.mp4` | 9:16 Shorts script & rendered video with voiceover + light BGM |
+| 9 | `video-9x16.md` & `video-9x16.mp4` | 9:16 Shorts script & rendered video (min 1 min) with voiceover + light BGM |
 | 10 | `youtube-shorts-meta.md` | YouTube Shorts title, description & tags |
 
 ## Accepted Inputs
