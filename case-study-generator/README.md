@@ -4,7 +4,7 @@ Generate polished, multi-format case studies for completed projects — from any
 
 ## What It Does
 
-Point it at your project (Git repo, Loom video, live site, PPT, or just a description) and it produces **10 ready-to-publish formats** plus **compiled PDF and rendered MP4 video assets by default**:
+Point it at your project (Git repo, Loom video, live site, PPT, or just a description) and it produces **12 ready-to-publish formats** plus **compiled PDF and rendered MP4 video assets by default**:
 
 | # | Format / Asset | Use For |
 |---|----------------|---------|
@@ -18,6 +18,8 @@ Point it at your project (Git repo, Loom video, live site, PPT, or just a descri
 | 8 | `youtube-video-meta.md` | YouTube video title, description & tags |
 | 9 | `video-9x16.md` & `video-9x16.mp4` | 9:16 Shorts script & rendered video (min 1 min) with neutral professional male voiceover + light BGM |
 | 10 | `youtube-shorts-meta.md` | YouTube Shorts title, description & tags |
+| 11 | `linkedin-profile-feature.md` | LinkedIn Profile Featured & Experience copy + step-by-step instructions |
+| 12 | `upwork-portfolio-item.md` | Upwork Portfolio Project copy, skills, attachments + step-by-step instructions |
 
 ## Accepted Inputs
 
