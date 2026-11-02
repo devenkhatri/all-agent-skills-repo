@@ -4,19 +4,19 @@ Generate polished, multi-format case studies for completed projects — from any
 
 ## What It Does
 
-Point it at your project (Git repo, Loom video, live site, PPT, or just a description) and it produces **10 ready-to-publish formats**:
+Point it at your project (Git repo, Loom video, live site, PPT, or just a description) and it produces **10 ready-to-publish formats** plus **compiled PDF and rendered MP4 video assets by default**:
 
-| # | Format | Use For |
-|---|--------|---------|
+| # | Format / Asset | Use For |
+|---|----------------|---------|
 | 1 | `case-study.md` | Blog post, Notion, GitHub |
 | 2 | `linkedin-post.md` | LinkedIn long-form post + carousel script |
-| 3 | `case-study.html` | PDF-ready client deliverable |
+| 3 | `case-study.html` & `case-study.pdf` | Print-ready source & compiled PDF client deliverable |
 | 4 | `slide-deck-outline.md` | PPT / Keynote presentation |
 | 5 | `twitter-thread.md` | Twitter/X thread |
 | 6 | `one-page-summary.md` | Executive elevator pitch / email |
-| 7 | `video-16x9.md` | Landscape video script → `generate-video` skill |
+| 7 | `video-16x9.md` & `video-16x9.mp4` | 16:9 script & rendered video (via `generate-video`) |
 | 8 | `youtube-video-meta.md` | YouTube video title, description & tags |
-| 9 | `video-9x16.md` | Reels/Shorts script → `generate-video` skill |
+| 9 | `video-9x16.md` & `video-9x16.mp4` | 9:16 Shorts script & rendered video (via `generate-video`) |
 | 10 | `youtube-shorts-meta.md` | YouTube Shorts title, description & tags |
 
 ## Accepted Inputs
