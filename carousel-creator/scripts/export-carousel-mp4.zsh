@@ -44,6 +44,15 @@ seconds_per_slide="${2:-2.5}"
 output_mp4="${3:-$carousel_dir/carousel.mp4}"
 slides_dir="$carousel_dir/slides"
 
+# Check for ElevenLabs cloned voiceover file
+voiceover_file=""
+for cand in "$carousel_dir/assets/voiceover.mp3" "$carousel_dir/assets/voiceover.wav" "$carousel_dir/voiceover.mp3" "$carousel_dir/voiceover.wav"; do
+  if [[ -f "$cand" ]]; then
+    voiceover_file="$cand"
+    break
+  fi
+done
+
 if [[ ! -d "$slides_dir" ]]; then
   print "Error: slides folder not found: $slides_dir" >&2
   exit 1
@@ -88,9 +97,32 @@ ffmpeg -y \
   -movflags +faststart \
   "$tmp_dir/video.mp4"
 
-if [[ -n "$_no_music" ]]; then
+if [[ -n "$voiceover_file" ]]; then
+  if [[ -n "$_no_music" ]]; then
+    ffmpeg -y \
+      -i "$tmp_dir/video.mp4" \
+      -i "$voiceover_file" \
+      -map 0:v -map 1:a \
+      -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
+      -shortest -movflags +faststart \
+      "$output_mp4"
+    print "Created MP4 (with ElevenLabs voiceover, no music): $output_mp4"
+  else
+    # ElevenLabs voiceover at full volume (clearly audible), background music at low volume (0.10)
+    ffmpeg -y \
+      -i "$tmp_dir/video.mp4" \
+      -i "$voiceover_file" \
+      -stream_loop -1 -i "$music_file" \
+      -filter_complex "[1:a]volume=1.0[voice];[2:a]volume=0.10,afade=in:st=0:d=1[bg];[voice][bg]amix=inputs=2:duration=first:dropout_transition=2[aout]" \
+      -map 0:v -map "[aout]" \
+      -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
+      -shortest -movflags +faststart \
+      "$output_mp4"
+    print "Created MP4 (with ElevenLabs voiceover + low volume background music): $output_mp4"
+  fi
+elif [[ -n "$_no_music" ]]; then
   mv "$tmp_dir/video.mp4" "$output_mp4"
-  print "Created MP4 (no music): $output_mp4"
+  print "Created MP4 (no audio): $output_mp4"
 else
   ffmpeg -y \
     -i "$tmp_dir/video.mp4" \
