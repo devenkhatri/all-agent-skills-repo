@@ -70,9 +70,22 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 >   - If a slide covers "API Rate Limiting & Gateway Architecture", the image/B-roll must visually represent network traffic, gateway nodes, server racks, or code configuration.
 >   - If a slide covers "Autonomous Agent Swarms", the image/B-roll must depict distributed nodes, collaborative robotic systems, neural architectures, or multi-terminal execution.
 >   - If a slide covers "Database Vector Indexing", the image/B-roll must depict high-speed data streams, vector clustering, or database query consoles.
-> - **Verified Copyright-Free Sourcing Platforms:**
->   - **Copyright-Free Images:** Sourced from **Unsplash** (`https://unsplash.com`), **Pexels** (`https://pexels.com`), **Pixabay** (`https://pixabay.com`), or **Wikimedia Commons** (Public Domain / CC0).
->   - **Copyright-Free B-Roll:** Sourced from **Pexels Videos** (`https://www.pexels.com/videos/`), **Pixabay Videos** (`https://pixabay.com/videos/`), **Mixkit** (`https://mixkit.co/`), or **Coverr** (`https://coverr.co/`).
+> - **Verified Copyright-Free Sourcing Platforms on the Internet:**
+>   - **Copyright-Free B-Roll Sites:** Sourced from **Pexels Videos** (`https://www.pexels.com/videos/`), **Pixabay Videos** (`https://pixabay.com/videos/`), **Coverr** (`https://coverr.co/`), **Mixkit** (`https://mixkit.co/`), or **Wikimedia Commons** (Open Video / CC0 / Public Domain).
+>   - **Copyright-Free Images:** Sourced from **Unsplash** (`https://unsplash.com`), **Pexels** (`https://pexels.com`), **Pixabay** (`https://pixabay.com`), or **Wikimedia Commons**.
+> - **Automated B-Roll Downloading from the Internet (`scripts/download-broll.py`):**
+>   - Download slide-specific B-roll directly using the built-in downloader:
+>     ```bash
+>     # Download by topic/query for 16:9 landscape:
+>     python3 scripts/download-broll.py --query "server cluster data center" --output YYYYMMDD-HHMMSS/assets/broll/slide_1_broll.mp4 --orientation landscape --duration 3.0
+>
+>     # Download by topic/query for 9:16 vertical shorts/reels:
+>     python3 scripts/download-broll.py --query "coding terminal software" --output YYYYMMDD-HHMMSS/assets/broll/slide_2_broll.mp4 --orientation portrait --duration 2.5
+>
+>     # Download from a direct copyright-free video URL:
+>     python3 scripts/download-broll.py --url "https://..." --output YYYYMMDD-HHMMSS/assets/broll/slide_3_broll.mp4 --duration 3.0
+>     ```
+>   - The downloader automatically queries Pexels API (if `PEXELS_API_KEY` is present), Pixabay API (if `PIXABAY_API_KEY` is present), or Wikimedia Commons (zero API key required), downloads the highest-quality MP4, normalizes it to 1080p, strips any raw audio, trims it to the exact cutaway duration, and appends the source attribution and license to `credits.md`.
 > - **Strict License & Asset Integrity Rules:**
 >   - **Zero Watermarks:** Strictly reject any footage or image containing watermarks, copyright badges, or stock agency logos.
 >   - **100% Commercial-Safe:** Must be verified 100% royalty-free and copyright-free with zero commercial restrictions.
@@ -84,6 +97,16 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 - Render captions in a frosted dark translucent pill (`background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 22px;`).
 - Highlight active operative keywords in vibrant yellow (`#FCD34D`) or cyan (`#38BDF8`).
 - Position in the mobile safe zone (bottom 120px–180px) to clear platform UI overlays.
+
+### 10. Clean Final Deliverables Only (Zero Intermediate File Clutter)
+> [!IMPORTANT]
+> **Automatic Purge of Intermediate & Scratch Files:**
+> Once video rendering and post generation are complete, the output folder must contain **ONLY the final generated output files**. All intermediate working files, scratch directories, frame dumps, temporary audio cuts, and raw video fragments created during generation MUST be automatically purged:
+> - Delete `assets/review/` (`thumb_*.png`, `contact_sheet.png`, `audio.mp3`)
+> - Delete intermediate slide frame folders (`slides_16by9/`, `slides_9by16/`, `tmp/`)
+> - Delete per-slide audio cuts (`assets/voiceover_slide_*.mp3`) and temporary render cuts (`visual_rendered.mp4`, `*_tmp.mp4`, `concat*.txt`)
+> - Delete intermediate asset staging folders (`assets/images/`, `assets/broll/`, `assets/screenshot-*.png`, `assets/voiceover.mp3`) once fully baked into the final MP4 video outputs
+> - The output folder must strictly contain only the final deliverables: the two MP4 videos (16:9 and 9:16), the 6 clean social post files, `cover.svg`, `cover-prompt.md`, `pinterest-motion-design.md`, and `credits.md`.
 
 ---
 
@@ -524,12 +547,12 @@ Drop your thoughts below 👇
 
 ## Output Folder Structure
 
-All deliverables are saved in a unified date-wise folder in the current working directory:
+After the automated cleanup pass, the output folder strictly contains **ONLY the final generated deliverables**:
 
 ```
 YYYYMMDD-HHMMSS/
-├── {topic-slug}-16by9.mp4          ← 16:9 widescreen YouTube video (1080p, 3-6 mins, synced)
-├── {topic-slug}-9by16.mp4          ← 9:16 vertical video (YouTube Shorts / Reels, 1080p, 1-3 mins, synced)
+├── {topic-slug}-16by9.mp4          ← Final 16:9 widescreen YouTube video (1080p, 3-6 mins, synced)
+├── {topic-slug}-9by16.mp4          ← Final 9:16 vertical video (YouTube Shorts / Reels, 1080p, 1-3 mins, synced)
 ├── youtube.md                      ← YouTube metadata: 3 titles, SEO description, timestamps, tags
 ├── linkedin-post.md                ← Clean copy-paste LinkedIn post (zero markdown)
 ├── skool-post.md                   ← Clean copy-paste Skool community post (zero markdown)
@@ -539,24 +562,11 @@ YYYYMMDD-HHMMSS/
 ├── cover.svg                       ← 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md                 ← AI image prompt for Midjourney / DALL-E / Flux
 ├── pinterest-motion-design.md      ← Selected Pinterest motion graphics design URL & styling
-├── sync-manifest.json              ← Audio-visual-caption synchronization manifest
-├── captions.json                   ← High-contrast synchronized captions
-├── credits.md                      ← Free copyright-free images & B-roll sources and license log
-└── assets/
-    ├── voiceover.mp3               ← Full ElevenLabs cloned voiceover
-    ├── voiceover_slide_1.mp3       ← Per-slide audio segment for precise sync
-    ├── voiceover_slide_2.mp3
-    ├── screenshot-1.png            ← Face-free UI/architecture screenshots
-    ├── images/                     ← High-res copyright-free images strictly matching each slide
-    │   ├── slide_1_img.jpg
-    │   ├── slide_2_img.jpg
-    │   └── ...
-    ├── broll/                      ← Free copyright-free B-roll clips from Pexels/Pixabay/Mixkit
-    │   ├── slide_1_broll.mp4
-    │   ├── slide_2_broll.mp4
-    │   └── ...
-    └── review/                     ← Pre-edit timeline frames and contact sheets
+└── credits.md                      ← Free copyright-free images & B-roll sources and license log
 ```
+
+> [!NOTE]
+> All intermediate scratch files and working directories (such as `assets/review/`, `assets/broll/`, `assets/images/`, `slides_16by9/`, `slides_9by16/`, `tmp/`, per-slide voiceover segments, and temporary render cuts) are automatically removed upon completion so the folder strictly holds the final generated deliverables.
 
 ---
 
@@ -572,9 +582,11 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
    - Select matching motion design style from Pinterest and document in `pinterest-motion-design.md`.
 3. **Scripting with Slide-Topic Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
-4. **Source Slide-Relevant Copyright-Free Images & B-Roll:**
-   - For each slide, search and download high-resolution copyright-free images (Unsplash/Pexels/Pixabay) and B-roll clips (Pexels/Mixkit/Coverr) that directly depict and reinforce that slide's specific topic.
-   - Verify zero watermarks and zero commercial restrictions. Save into `assets/images/` and `assets/broll/` mapped to slide numbers, and document sources in `credits.md`.
+4. **Download Slide-Relevant Copyright-Free Images & B-Roll from the Internet:**
+   - For each slide, search and download high-resolution copyright-free images (Unsplash/Pexels/Pixabay) and B-roll video clips from the internet (Pexels, Pixabay, Coverr, Mixkit, Wikimedia Commons) directly matching that slide's specific topic.
+   - Run `python3 scripts/download-broll.py --query "<slide topic>" --output YYYYMMDD-HHMMSS/assets/broll/slide_{i}_broll.mp4 --orientation <landscape|portrait> --duration 3.0` (or download from direct copyright-free video URLs).
+   - Ensure all B-roll clips are normalized (1080p, H.264, audio-stripped, trimmed to 1.5s–3.5s).
+   - Verify zero watermarks and zero commercial restrictions. Save into `assets/images/` and `assets/broll/` mapped to slide numbers, and log all asset source URLs and licenses in `credits.md`.
 5. **Voiceover Generation & Precision Probing:**
    - Generate audio via ElevenLabs cloned voice for each slide segment.
    - Probe exact audio durations using `ffprobe`.
@@ -589,8 +601,20 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
    - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) with Pinterest-styled motion graphics, slide-relevant images, B-roll cutaways, frosted captions, and ducked background music (10% volume).
 9. **Generate All Native Social Posts (Zero Markdown):**
    - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
-10. **Final Verification & Reporting:**
-    - Verify all files exist in `YYYYMMDD-HHMMSS/`.
+10. **Automatic Intermediate File Cleanup:**
+    - Purge all scratch directories, temporary render files, frame dumps, and intermediate audio/video cuts:
+      ```bash
+      rm -rf YYYYMMDD-HHMMSS/assets \
+             YYYYMMDD-HHMMSS/slides_* \
+             YYYYMMDD-HHMMSS/tmp* \
+             YYYYMMDD-HHMMSS/*_tmp.mp4 \
+             YYYYMMDD-HHMMSS/visual_rendered.mp4 \
+             YYYYMMDD-HHMMSS/sync-manifest.json \
+             YYYYMMDD-HHMMSS/captions.json \
+             YYYYMMDD-HHMMSS/concat*.txt
+      ```
+11. **Final Verification & Reporting:**
+    - Verify that only the final generated output files exist in `YYYYMMDD-HHMMSS/`.
     - Present a clean completion summary table to the user.
 
 ---
@@ -609,7 +633,7 @@ Before completing execution, verify:
 - [ ] High-contrast captions rendered in frosted translucent pill with active keyword highlighting
 - [ ] Every slide has copyright-free images and B-roll strictly relevant to the content of that slide
 - [ ] Images and B-roll verified 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, or Coverr
-- [ ] All visual assets saved to `assets/images/` and `assets/broll/` and logged in `credits.md`
+- [ ] Sources logged in `credits.md`
 
 **Pre-Edit Review (If Input is Video):**
 - [ ] Full video inspected end-to-end with contact sheets and transcript before editing
@@ -623,3 +647,7 @@ Before completing execution, verify:
 - [ ] ZERO raw markdown syntax (`**bold**`, `*italic*`, `###`, `---`, `[link](url)`) in social post files
 - [ ] NO outer code block fences (` ```markdown `) wrapping any output file
 - [ ] All channel deliverables generated into `YYYYMMDD-HHMMSS/`
+
+**Folder Cleanliness & Intermediate Cleanup (Mandatory):**
+- [ ] All intermediate files and scratch working directories (`assets/`, `slides_*`, `tmp*`, raw video fragments) purged
+- [ ] Output folder contains ONLY the final generated deliverables (videos, social posts, cover files, design spec, and credits.md)
