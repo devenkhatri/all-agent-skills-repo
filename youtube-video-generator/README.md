@@ -16,7 +16,9 @@ This skill provides broadcast-quality video generation and cross-platform social
   - **9:16 Vertical:** 1 to 3 minutes long, designed for YouTube Shorts, Instagram Reels, and TikTok.
 - **ElevenLabs Cloned Voiceover:** High-presence narration (-16 LUFS) with background music strictly ducked down to 10% volume (`volume=0.10`).
 - **Automated B-Roll Downloading from the Internet (`download-broll.py`):** Automatically searches, downloads, trims (1.5s–3.5s), normalizes to 1080p, and strips audio from copyright-free B-roll clips from Pexels Videos, Pixabay Videos, and Wikimedia Commons (zero API key required for Wikimedia), logging full attribution into `credits.md`.
-- **Agency-Grade Motion Graphics, Images & B-Roll:** Pinterest-inspired motion graphic design, dynamic top progress bar, slide counter pills, and **copyright-free images and B-rolls strictly relevant to the content of each slide** from Unsplash/Pexels/Pixabay/Mixkit/Coverr (zero watermarks).
+- **Agency-Grade High-Density Motion Graphics (Zero Static Screen Policy):** Strict policy requiring at least 2 to 3 active motion graphic layers running simultaneously in every scene (ambient background motion, kinetic core visuals, text/counter accents, persistent gradient progress bar). Zero frozen or unmoving screens.
+- **6 Core Motion Graphics Categories:** Kinetic typography, animated architecture diagrams with laser pulse data packets, live-typing terminal code windows, dynamic spring metric counters, floating glassmorphic UI cards, and dynamic camera moves / seamless transitions.
+- **Copyright-Free Slide-Relevant Images & B-Roll:** Sourced and downloaded directly from internet repositories (Unsplash, Pexels, Pixabay, Mixkit, Coverr, Wikimedia Commons) with strictly zero watermarks, matching each slide's content.
 - **Complete Multi-Channel Social Content:**
   - **YouTube:** 3 clickable title options, SEO video description with hook, chapters/timestamps matching the video, tags (`youtube.md`).
   - **LinkedIn:** Hook <8 words, punchy re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags (`linkedin-post.md`).
@@ -32,7 +34,24 @@ This skill provides broadcast-quality video generation and cross-platform social
 
 ---
 
-## Deliverables in Output Folder (`YYYYMMDD-HHMMSS/`)
+## Motion Graphics Architecture & Categories
+
+Generated videos enforce a **Zero Static Screen Policy** using a multi-layer composition pipeline:
+
+1. **Layer 1: Ambient Background Motion** — Continuous subtle gradient drift, particle dust, or Ken Burns 3D camera pan/zoom (`scale: 1.0 → 1.04`).
+2. **Layer 2: Core Kinetic Visual Component** — Animated flow diagrams, self-typing terminal code windows, live-drawing architecture paths, or floating UI cards.
+3. **Layer 3: Kinetic Text & Metric Accents** — Staggered word reveals, live number counters ticking up with spring physics, glowing highlight strokes, and dynamic checkmark draws.
+4. **Layer 4: Persistent Pacing Anchor** — Continuous top gradient progress bar (`0% → 100%`) running across the full video runtime.
+
+### The 6 Core Motion Graphics Categories:
+- **Kinetic Typography:** Staggered word entrances, voiceover-synchronized keyword glows, translucent glassmorphism badge pills.
+- **Animated Architecture Diagrams:** Self-drawing connection lines (`stroke-dashoffset`), pulsing nodes, and glowing laser data packets moving along paths.
+- **Live-Typing Terminal Windows:** Dark macOS terminal frames with real-time character typing, blinking cursor, and simulated execution outputs.
+- **Dynamic Metric Counters:** Spring number tickers (`0% → +350%`, `12ms → 1.4ms`), animated bar sweeps, and radial circular progress rings.
+- **Floating Glassmorphism & UI Mockups:** Frosted glass cards (`backdrop-filter: blur(16px)`), subtle 3D parallax tilting, and glowing neon borders.
+- **Dynamic Transitions & Camera Glides:** Whip pans, directional light sweeps, and continuous Ken Burns drift between visual scenes.
+
+---
 
 After the automated cleanup pass, the output folder strictly contains **ONLY the final generated deliverables**:
 

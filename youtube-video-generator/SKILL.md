@@ -123,12 +123,62 @@ Collect or evaluate the provided input:
 
 ---
 
-## Pinterest Motion Graphics Selection
+## Motion Graphics Architecture & Pinterest Style Integration
 
-Before generating visual slides or videos:
-1. Search and identify a motion graphics design aesthetic from Pinterest matching the topic (e.g., kinetic typography, glowing cyber-dark cards, neo-brutalist data cards, smooth glassmorphic dashboard animations).
-2. Save the design reference URL, color palette, typography hierarchy, and animation easing specs into `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
-3. Apply this design language consistently across both video aspect ratios (16:9 and 9:16).
+High-production videos require continuous visual motion. Static slides or unmoving cards cause viewer disengagement. Every generated video must incorporate rich, multi-layered motion graphics inspired by top-tier motion studios and Pinterest visual designs.
+
+### 1. Mandatory Motion Graphics Density Rule (Zero Static Screen Policy)
+> [!IMPORTANT]
+> **Zero Static Screen Policy:**
+> Under no circumstances may a video display an unmoving, static screen. Every scene/slide MUST have **at least 2 to 3 active motion graphic layers** running simultaneously or in timed sequence:
+> - **Layer 1: Ambient Background Motion:** Continuous subtle gradient drift, particle dust, or slow 3D Ken Burns camera push/pan (`scale: 1.0 → 1.04`).
+> - **Layer 2: Core Kinetic Visual Component:** Animated system diagrams, self-typing terminal code windows, live-drawing flowcharts, or interactive floating UI cards.
+> - **Layer 3: Kinetic Text & Metric Accents:** Word-by-word headline reveals, live number counters ticking up, glowing underline reveals, or self-drawing checkmarks (`✓`).
+> - **Layer 4: Persistent Pacing Anchor:** Top continuous gradient progress bar (`0% → 100%`) running across the full video runtime.
+
+---
+
+### 2. The 6 Core Motion Graphics Categories
+
+Every video must actively deploy elements from these six motion graphics systems:
+
+#### A. Kinetic Typography & Title Cards
+- **Staggered Word Entrances:** Headers and hook sentences reveal word-by-word with subtle vertical slide and opacity fade (`y: 20 → 0`, `opacity: 0 → 1`, stagger: `0.08s`, easing: `power3.out`).
+- **Keyword Highlighter & Glow Reveals:** Critical operative words receive animated highlight strokes (yellow `#FCD34D` or cyan `#38BDF8`) or pulse glow outlines synchronized to voiceover emphasis.
+- **Section & Category Badges:** Translucent glassmorphism pill badges (`SLIDE 01 / 07`, `KEY ARCHITECTURE`, `PRO TIP`) animate into the upper corner with a slide-and-bounce entrance (`back.out(1.4)`).
+
+#### B. Animated Architecture & Flow Diagrams
+- **Self-Drawing Connection Lines:** Arrows and pipelines between services animate using SVG path tracing (`stroke-dashoffset` from 100% to 0%), visually demonstrating data flow from source to destination.
+- **Pulsing Nodes & Laser Data Packets:** Micro-dots or glowing laser pulses travel along connection paths to show real-time message passing and API calls.
+- **Layered Service Cards:** Architecture blocks pop in sequentially (`scale: 0.85 → 1.0`, `0.4s` duration) with drop shadows and glowing neon borders.
+
+#### C. Live-Typing Terminal & Code Animations
+- **Simulated macOS Terminal Windows:** Realistic dark terminal windows with frosted glass chrome, macOS red/yellow/green control pills, and path headers.
+- **Character-by-Character Typewriter Execution:** Shell commands and code snippets type out in real time with a blinking cursor (`_`), followed by simulated execution outputs and loading spinners.
+- **Syntax Line Highlighting:** When discussing a specific code block, an animated glowing bracket or background highlight focuses viewer attention on that specific line.
+
+#### D. Dynamic Metric Counters & Data Visualizations
+- **Spring Number Tickers:** Numerical stats, benchmarks, and performance gains animate dynamically from zero to target value (e.g., `0% → +350%`, `12ms → 1.4ms`, `0 → 100,000 req/s`) with spring physics.
+- **Animated Bar & Progress Visuals:** Comparative benchmark bars sweep smoothly from width `0%` to their final percentage with glowing caps.
+- **Circular Progress Rings:** Radial metrics draw themselves clockwise (`0° → 360°`) to highlight completion rates or efficiency scores.
+
+#### E. Floating Glassmorphism & UI Mockups
+- **Multi-Layered Translucent Cards:** Information structured in frosted dark glass cards (`backdrop-filter: blur(16px)`, `border: 1px solid rgba(255, 255, 255, 0.18)`).
+- **Subtle Idle Floating / Parallax:** Cards maintain gentle, continuous floating motion (`y: -6px to +6px`, `sine.inOut`, loop: infinite) so the visual space never feels dead.
+- **Callout Pop-Ins:** Insight badges, warning pills, and tip boxes pop onto screen with a snappy spring (`scale: 0.7 → 1.0`, `back.out(1.5)`).
+
+#### F. Seamless Scene Transitions & Camera Moves
+- **Ken Burns Glides:** Every visual scene applies continuous slow camera motion: alternating between slow zoom-in (center push) and diagonal pan-out.
+- **Whip Zooms & Directional Slides:** Transitions between topics use dynamic directional glides (`0.5s` cross-dissolve with momentum push).
+- **Split-Screen Kinetic Reveals:** Smooth animated split screens pairing code/diagram on the left with relevant B-roll cutaway on the right.
+
+---
+
+### 3. Pinterest Motion Graphics Selection Workflow
+Before generating visual assets or scripts:
+1. Search and select a cutting-edge motion graphics design style from Pinterest matching the video topic (e.g., kinetic cyber-dark, Swiss neo-brutalism, glowing glassmorphic UI, or minimalist technical lines).
+2. Document the reference URL, color palette tokens, typography scales, motion curves, and transition types in `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
+3. Apply this design language consistently across both video aspect ratios (16:9 widescreen and 9:16 vertical).
 
 ---
 
@@ -251,6 +301,12 @@ Save the synchronized timeline manifest into the project folder, explicitly asso
       "broll_file": "assets/broll/slide_1_server_cluster.mp4",
       "broll_cutaway_start": 2.5,
       "broll_cutaway_duration": 2.5,
+      "motion_graphics": [
+        {"type": "animated_badge", "text": "SYSTEM ARCHITECTURE", "position": "top_left", "animation": "slide_bounce"},
+        {"type": "kinetic_typography", "target": "title", "style": "stagger_words", "stagger": 0.08},
+        {"type": "data_counter", "label": "Pipeline Reliability", "target": "99.99%", "trigger_offset": 2.0},
+        {"type": "animated_diagram", "asset": "gateway_router", "animation": "path_draw_laser"}
+      ],
       "audio_file": "assets/voiceover_slide_1.mp3",
       "audio_duration": 5.4,
       "duration": 6.0,
@@ -263,6 +319,12 @@ Save the synchronized timeline manifest into the project folder, explicitly asso
       "broll_file": "assets/broll/slide_2_terminal_debug.mp4",
       "broll_cutaway_start": 3.0,
       "broll_cutaway_duration": 3.0,
+      "motion_graphics": [
+        {"type": "animated_badge", "text": "EXECUTION PITFALL", "position": "top_left", "animation": "slide_bounce"},
+        {"type": "terminal_code_typing", "command": "curl -X POST https://api.prod/stream", "trigger_offset": 0.5},
+        {"type": "highlight_line", "target": "error_catch_block", "trigger_offset": 3.2},
+        {"type": "callout_card", "text": "Zero Retries = 40% Dropoff", "animation": "pop_in_spring", "trigger_offset": 4.5}
+      ],
       "audio_file": "assets/voiceover_slide_2.mp3",
       "audio_duration": 8.2,
       "duration": 8.8,
@@ -308,7 +370,7 @@ The skill generates **two broadcast-quality video deliverables**, both rendered 
 | **Visual Structure** | Wide hero graphics, code split-screens, architecture diagrams, and slide-relevant visuals | Portrait cards, kinetic callouts, bold stat pop-ins, and slide-relevant visuals |
 | **Slide-Relevant Images** | High-res copyright-free images (Unsplash/Pexels) strictly matching the concept of that slide | Mobile-framed copyright-free images strictly matching the concept of that slide |
 | **Slide-Relevant B-Roll** | 1.5–3.5s punchy cutaways from Pexels/Coverr/Mixkit illustrating the active spoken point | Rapid vertical B-roll cutaways directly illustrating the active spoken point |
-| **Motion Graphics** | Top animated gradient progress bar, glassmorphism section badges, diagram line reveals | Top progress bar, upper slide pills (`01 / 07`), kinetic counter cards |
+| **Motion Graphics (Continuous)** | 4-layer active motion: continuous top gradient progress bar, kinetic staggered typography, self-drawing architecture diagrams with pulsing laser lines, live-typing terminal windows with blinking cursor, spring data counters (`0 → +350%`), floating glassmorphic cards, and Ken Burns camera glides | 4-layer active motion: top progress bar, animated slide counter badges (`01 / 07`), kinetic pop-in stat cards, vertical code reveal typing, rapid metric counters, and dynamic split-screen transitions |
 | **Captions** | Lower-third frosted pill, centered, active keyword yellow highlight (`#FCD34D`) | Safe-zone positioned (bottom 160px), frosted glass pill, active keyword highlight |
 | **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 |
 
@@ -578,10 +640,12 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
    - Evaluate topic, video URL, YouTube URL, or GitHub repo.
    - If video input: run pre-edit inspection pass (`ffprobe`, contact sheets, audio check) and output an upfront critique before editing.
    - Compute timestamp folder `YYYYMMDD-HHMMSS/`.
-2. **Pinterest Motion Graphics Selection:**
-   - Select matching motion design style from Pinterest and document in `pinterest-motion-design.md`.
-3. **Scripting with Slide-Topic Boundaries:**
+2. **Pinterest Motion Graphics Selection & Design Specification:**
+   - Select matching cutting-edge motion design aesthetic from Pinterest and document in `pinterest-motion-design.md`.
+   - Define the 4-layer motion graphics plan (ambient background drift, kinetic core visuals, text/counter accents, top progress bar).
+3. **Scripting with Slide-Topic & Motion Graphics Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
+   - Explicitly assign motion graphic triggers (kinetic typography, terminal typewriter, animated diagram flow, metric counters) to each scene.
 4. **Download Slide-Relevant Copyright-Free Images & B-Roll from the Internet:**
    - For each slide, search and download high-resolution copyright-free images (Unsplash/Pexels/Pixabay) and B-roll video clips from the internet (Pexels, Pixabay, Coverr, Mixkit, Wikimedia Commons) directly matching that slide's specific topic.
    - Run `python3 scripts/download-broll.py --query "<slide topic>" --output YYYYMMDD-HHMMSS/assets/broll/slide_{i}_broll.mp4 --orientation <landscape|portrait> --duration 3.0` (or download from direct copyright-free video URLs).
@@ -593,12 +657,12 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
 6. **Timeline Calculation & Synchronization Manifest:**
    - Calculate slide display durations: $\text{Slide Duration} = \text{Audio Duration} + 0.6\text{s}$.
    - Ensure every slide stays on screen for the full duration of its voiceover.
-   - Map image files, B-roll cutaway windows, and captions into `sync-manifest.json` and `captions.json`.
+   - Map image files, B-roll cutaway windows, motion graphic triggers, and captions into `sync-manifest.json` and `captions.json`.
 7. **Pre-Export Sync Verification Pass:**
    - Run `python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json`.
    - Abort and adjust if any slide transitions before voiceover completes.
-8. **Render Videos (16:9 & 9:16):**
-   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) with Pinterest-styled motion graphics, slide-relevant images, B-roll cutaways, frosted captions, and ducked background music (10% volume).
+8. **Render Videos (16:9 & 9:16) with Continuous High-Density Motion Graphics:**
+   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) integrating all 4 motion graphics layers (continuous top gradient progress bar, self-drawing architecture lines, live-typing terminal windows, spring metric counters, floating glassmorphic cards, and Ken Burns camera glides), paired with slide-relevant B-roll cutaways and ducked background music (10% volume).
 9. **Generate All Native Social Posts (Zero Markdown):**
    - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
 10. **Automatic Intermediate File Cleanup:**
@@ -634,6 +698,13 @@ Before completing execution, verify:
 - [ ] Every slide has copyright-free images and B-roll strictly relevant to the content of that slide
 - [ ] Images and B-roll verified 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, or Coverr
 - [ ] Sources logged in `credits.md`
+
+**Motion Graphics Density (Zero Static Screen Policy - Mandatory):**
+- [ ] Every scene incorporates at least 2 to 3 active motion graphic layers running simultaneously (no static screens)
+- [ ] Top continuous animated gradient progress bar spans full video runtime
+- [ ] Kinetic typography reveals (staggered words, active keyword highlights) synchronized with narration
+- [ ] Dynamic visual components active: animated architecture paths, live-typing terminal windows, spring data counters, or floating UI cards
+- [ ] Continuous ambient motion (subtle Ken Burns camera glide / background drift) active across every scene
 
 **Pre-Edit Review (If Input is Video):**
 - [ ] Full video inspected end-to-end with contact sheets and transcript before editing
