@@ -1,11 +1,11 @@
 ---
 name: youtube-video-generator
-description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with screen-voiceover-caption synchronization, ElevenLabs cloned voice, low-volume background music, motion graphics, slide-relevant copyright-free images and B-roll, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
+description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with screen-voiceover-caption synchronization, ElevenLabs cloned voice, low-volume background music, high-density motion graphics, purpose-fit copyright-free images and selective B-roll used only when fitting the scene naturally, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
 ---
 
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **copyright-free images and B-roll strictly relevant to the content of every slide**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **purpose-fit copyright-free images and selective B-roll used only when it naturally fits the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill enforces professional video production standards, agency-grade motion graphics, strict zero-desync timing, and copy-paste-ready social post formats tailored natively to each platform.
 
@@ -61,20 +61,28 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 - Synthesize narration using the user's latest cloned voice from ElevenLabs.
 - **Audio Ducking Rule:** Voiceover must be normalized to -16 LUFS (punchy, crisp, prominent). Background music (e.g., `youtube-shorts-bt-music.mp3`) must strictly be ducked down to **low volume** (10% volume / `volume=0.10`, approx -20dB to -24dB relative to speech). The voice must remain 100% intelligible and prominent throughout.
 
-### 8. Copyright-Free Images & B-Roll Strictly Relevant to Each Slide's Content
+### 8. Purpose-Fit Copyright-Free Images & Selective B-Roll (Zero Forced B-Roll)
 > [!IMPORTANT]
-> **Slide-Relevant Visual Assets (Images & B-Roll):**
-> In the generated video, every slide must incorporate high-resolution copyright-free images and B-roll clips that are **strictly relevant to the specific content, concept, or technical point of that slide**. Generic, decorative, or disconnected stock footage is strictly prohibited.
+> **Selective, Context-Driven B-Roll Rule (Never Force B-Roll):**
+> B-roll video cutaways must **NEVER be used forcefully or mechanically across every slide**. B-roll should be deployed selectively and purposefully—**only when it genuinely fits, contextualizes, and enhances the scene**.
 >
-> - **Slide-by-Slide Content Matching:**
->   - If a slide covers "API Rate Limiting & Gateway Architecture", the image/B-roll must visually represent network traffic, gateway nodes, server racks, or code configuration.
->   - If a slide covers "Autonomous Agent Swarms", the image/B-roll must depict distributed nodes, collaborative robotic systems, neural architectures, or multi-terminal execution.
->   - If a slide covers "Database Vector Indexing", the image/B-roll must depict high-speed data streams, vector clustering, or database query consoles.
+> - **When to Use B-Roll (Contextual Fit):**
+>   - **High-level conceptual hooks and problem statements:** e.g., real-world infrastructure, physical servers/datacenters, developers collaborating, users on devices.
+>   - **Real-world analogies:** e.g., traffic bottlenecks for network congestion, physical vaults for cryptographic security.
+>   - **Pacing transitions:** A quick 1.5s–3.0s cutaway providing a mental breather between complex technical deep-dives.
+> - **When NOT to Use B-Roll (Prefer High-Density Motion Graphics & Direct UI):**
+>   - **Code walkthroughs & terminal commands:** Forcing B-roll here distracts the viewer from reading the code. Use live-typing terminal animations and line-highlighting instead.
+>   - **System architecture & data flows:** Motion graphics (self-drawing SVG paths, laser data pulses, pulsing service nodes) communicate architecture infinitely better than generic video clips.
+>   - **Data benchmarks & metric comparisons:** Use spring number tickers, bar sweeps, and dynamic data cards.
+> - **Slide-by-Slide Content Matching (When B-Roll or Images ARE Used):**
+>   - Every visual asset chosen must be **strictly relevant to that slide's specific technical point**. Generic, disconnected stock filler is strictly forbidden.
+>   - If a slide covers "API Gateway Rate Limiting", any visual used must represent server routing, gateway topology, or traffic metrics.
+>   - If a slide covers "Autonomous Agent Swarms", any visual must depict distributed node networks, multi-agent orchestrations, or execution graphs.
 > - **Verified Copyright-Free Sourcing Platforms on the Internet:**
 >   - **Copyright-Free B-Roll Sites:** Sourced from **Pexels Videos** (`https://www.pexels.com/videos/`), **Pixabay Videos** (`https://pixabay.com/videos/`), **Coverr** (`https://coverr.co/`), **Mixkit** (`https://mixkit.co/`), or **Wikimedia Commons** (Open Video / CC0 / Public Domain).
 >   - **Copyright-Free Images:** Sourced from **Unsplash** (`https://unsplash.com`), **Pexels** (`https://pexels.com`), **Pixabay** (`https://pixabay.com`), or **Wikimedia Commons**.
 > - **Automated B-Roll Downloading from the Internet (`scripts/download-broll.py`):**
->   - Download slide-specific B-roll directly using the built-in downloader:
+>   - Download selective, slide-specific B-roll directly using the built-in downloader when a scene naturally calls for it:
 >     ```bash
 >     # Download by topic/query for 16:9 landscape:
 >     python3 scripts/download-broll.py --query "server cluster data center" --output YYYYMMDD-HHMMSS/assets/broll/slide_1_broll.mp4 --orientation landscape --duration 3.0
@@ -90,7 +98,7 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 >   - **Zero Watermarks:** Strictly reject any footage or image containing watermarks, copyright badges, or stock agency logos.
 >   - **100% Commercial-Safe:** Must be verified 100% royalty-free and copyright-free with zero commercial restrictions.
 >   - **High Resolution:** Images at minimum 1920×1080 (or 2160×2160 for square/portrait crops); B-roll at 1080p minimum.
->   - **Punchy Pacing:** Trim B-roll into dynamic 1.5s–3.5s cutaway bursts or picture-in-picture demonstration cards; never let generic B-roll linger so long that it dilutes the educational message.
+>   - **Punchy Pacing:** Trim B-roll into dynamic 1.5s–3.5s cutaway bursts or picture-in-picture demonstration cards; never let B-roll linger so long that it dilutes the educational message.
 >   - **Asset Organization & Logging:** Store assets in `YYYYMMDD-HHMMSS/assets/images/` and `YYYYMMDD-HHMMSS/assets/broll/` mapped directly to their slide numbers (e.g. `slide_1_img.jpg`, `slide_1_broll.mp4`), and log all asset source URLs and licenses in `credits.md`.
 
 ### 9. Proper Captions
@@ -314,13 +322,13 @@ Save the synchronized timeline manifest into the project folder, explicitly asso
     },
     {
       "slide_index": 2,
-      "title": "The Flawed Approach vs State Machines",
-      "image_file": "assets/images/slide_2_broken_pipeline.jpg",
-      "broll_file": "assets/broll/slide_2_terminal_debug.mp4",
-      "broll_cutaway_start": 3.0,
-      "broll_cutaway_duration": 3.0,
+      "title": "Live Terminal Execution & Retry Logic",
+      "image_file": null,
+      "broll_file": null,
+      "broll_cutaway_start": null,
+      "broll_cutaway_duration": null,
       "motion_graphics": [
-        {"type": "animated_badge", "text": "EXECUTION PITFALL", "position": "top_left", "animation": "slide_bounce"},
+        {"type": "animated_badge", "text": "CODE WALKTHROUGH", "position": "top_left", "animation": "slide_bounce"},
         {"type": "terminal_code_typing", "command": "curl -X POST https://api.prod/stream", "trigger_offset": 0.5},
         {"type": "highlight_line", "target": "error_catch_block", "trigger_offset": 3.2},
         {"type": "callout_card", "text": "Zero Retries = 40% Dropoff", "animation": "pop_in_spring", "trigger_offset": 4.5}
@@ -368,8 +376,8 @@ The skill generates **two broadcast-quality video deliverables**, both rendered 
 | **Canvas Dimensions** | 1920 × 1080 px (16:9) | 1080 × 1920 px (9:16) |
 | **Target Runtime** | 3 to 6 minutes | 1 to 3 minutes |
 | **Visual Structure** | Wide hero graphics, code split-screens, architecture diagrams, and slide-relevant visuals | Portrait cards, kinetic callouts, bold stat pop-ins, and slide-relevant visuals |
-| **Slide-Relevant Images** | High-res copyright-free images (Unsplash/Pexels) strictly matching the concept of that slide | Mobile-framed copyright-free images strictly matching the concept of that slide |
-| **Slide-Relevant B-Roll** | 1.5–3.5s punchy cutaways from Pexels/Coverr/Mixkit illustrating the active spoken point | Rapid vertical B-roll cutaways directly illustrating the active spoken point |
+| **Slide-Relevant Images** | Purpose-fit copyright-free images (Unsplash/Pexels) matching the concept of that slide; omitted on pure diagram/code slides | Purpose-fit mobile-framed copyright-free images matching the concept of that slide; omitted on pure UI/terminal slides |
+| **Selective B-Roll (Non-Forced)** | Selective 1.5–3.5s cutaways from Pexels/Coverr/Mixkit/Wikimedia used ONLY when naturally enhancing context (never forced on code or architecture) | Selective rapid vertical B-roll cutaways used ONLY for hooks and transitions where fitting (never forced on terminal/diagram slides) |
 | **Motion Graphics (Continuous)** | 4-layer active motion: continuous top gradient progress bar, kinetic staggered typography, self-drawing architecture diagrams with pulsing laser lines, live-typing terminal windows with blinking cursor, spring data counters (`0 → +350%`), floating glassmorphic cards, and Ken Burns camera glides | 4-layer active motion: top progress bar, animated slide counter badges (`01 / 07`), kinetic pop-in stat cards, vertical code reveal typing, rapid metric counters, and dynamic split-screen transitions |
 | **Captions** | Lower-third frosted pill, centered, active keyword yellow highlight (`#FCD34D`) | Safe-zone positioned (bottom 160px), frosted glass pill, active keyword highlight |
 | **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 |
@@ -646,8 +654,10 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
 3. **Scripting with Slide-Topic & Motion Graphics Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
    - Explicitly assign motion graphic triggers (kinetic typography, terminal typewriter, animated diagram flow, metric counters) to each scene.
-4. **Download Slide-Relevant Copyright-Free Images & B-Roll from the Internet:**
-   - For each slide, search and download high-resolution copyright-free images (Unsplash/Pexels/Pixabay) and B-roll video clips from the internet (Pexels, Pixabay, Coverr, Mixkit, Wikimedia Commons) directly matching that slide's specific topic.
+4. **Selective Sourcing of Slide-Relevant Images & B-Roll (Context-Driven, Never Forced):**
+   - Evaluate each scene: determine whether B-roll or photographic imagery genuinely enhances the scene, or if high-density motion graphics, live terminal code, or architecture diagrams are the primary visual focus.
+   - **Zero Forced B-Roll:** Do NOT force B-roll onto every slide. Skip B-roll on slides where it would distract from code, commands, or data diagrams.
+   - For scenes that naturally call for real-world context, physical infrastructure, conceptual hooks, or section transitions: search and download high-resolution copyright-free images (Unsplash/Pexels) and B-roll video clips (Pexels, Pixabay, Coverr, Mixkit, Wikimedia Commons) directly matching that specific topic.
    - Run `python3 scripts/download-broll.py --query "<slide topic>" --output YYYYMMDD-HHMMSS/assets/broll/slide_{i}_broll.mp4 --orientation <landscape|portrait> --duration 3.0` (or download from direct copyright-free video URLs).
    - Ensure all B-roll clips are normalized (1080p, H.264, audio-stripped, trimmed to 1.5s–3.5s).
    - Verify zero watermarks and zero commercial restrictions. Save into `assets/images/` and `assets/broll/` mapped to slide numbers, and log all asset source URLs and licenses in `credits.md`.
@@ -657,12 +667,12 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
 6. **Timeline Calculation & Synchronization Manifest:**
    - Calculate slide display durations: $\text{Slide Duration} = \text{Audio Duration} + 0.6\text{s}$.
    - Ensure every slide stays on screen for the full duration of its voiceover.
-   - Map image files, B-roll cutaway windows, motion graphic triggers, and captions into `sync-manifest.json` and `captions.json`.
+   - Map image files, selective B-roll cutaway windows (or `null` when omitted), motion graphic triggers, and captions into `sync-manifest.json` and `captions.json`.
 7. **Pre-Export Sync Verification Pass:**
    - Run `python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json`.
    - Abort and adjust if any slide transitions before voiceover completes.
 8. **Render Videos (16:9 & 9:16) with Continuous High-Density Motion Graphics:**
-   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) integrating all 4 motion graphics layers (continuous top gradient progress bar, self-drawing architecture lines, live-typing terminal windows, spring metric counters, floating glassmorphic cards, and Ken Burns camera glides), paired with slide-relevant B-roll cutaways and ducked background music (10% volume).
+   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) integrating all 4 motion graphics layers (continuous top gradient progress bar, self-drawing architecture lines, live-typing terminal windows, spring metric counters, floating glassmorphic cards, and Ken Burns camera glides), paired with selective context-fitting B-roll cutaways and ducked background music (10% volume).
 9. **Generate All Native Social Posts (Zero Markdown):**
    - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
 10. **Automatic Intermediate File Cleanup:**
@@ -695,8 +705,8 @@ Before completing execution, verify:
 - [ ] User's latest cloned ElevenLabs voice used for voiceover narration (-16 LUFS)
 - [ ] Background music strictly ducked to low volume (10% / `volume=0.10`), voice crisp and audible
 - [ ] High-contrast captions rendered in frosted translucent pill with active keyword highlighting
-- [ ] Every slide has copyright-free images and B-roll strictly relevant to the content of that slide
-- [ ] Images and B-roll verified 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, or Coverr
+- [ ] B-roll used selectively and contextually where it naturally fits the scene (never forced onto code walkthroughs, terminal demos, or architecture diagrams)
+- [ ] Any images or B-roll used are strictly relevant to the active topic, 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons
 - [ ] Sources logged in `credits.md`
 
 **Motion Graphics Density (Zero Static Screen Policy - Mandatory):**

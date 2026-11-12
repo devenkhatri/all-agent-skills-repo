@@ -1,6 +1,6 @@
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **copyright-free images and B-roll strictly relevant to the content of every slide**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **purpose-fit copyright-free images and selective B-roll used only when it naturally fits the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill provides broadcast-quality video generation and cross-platform social distribution with clean, copy-paste-ready formats and strict platform guardrails.
 
@@ -18,7 +18,7 @@ This skill provides broadcast-quality video generation and cross-platform social
 - **Automated B-Roll Downloading from the Internet (`download-broll.py`):** Automatically searches, downloads, trims (1.5s–3.5s), normalizes to 1080p, and strips audio from copyright-free B-roll clips from Pexels Videos, Pixabay Videos, and Wikimedia Commons (zero API key required for Wikimedia), logging full attribution into `credits.md`.
 - **Agency-Grade High-Density Motion Graphics (Zero Static Screen Policy):** Strict policy requiring at least 2 to 3 active motion graphic layers running simultaneously in every scene (ambient background motion, kinetic core visuals, text/counter accents, persistent gradient progress bar). Zero frozen or unmoving screens.
 - **6 Core Motion Graphics Categories:** Kinetic typography, animated architecture diagrams with laser pulse data packets, live-typing terminal code windows, dynamic spring metric counters, floating glassmorphic UI cards, and dynamic camera moves / seamless transitions.
-- **Copyright-Free Slide-Relevant Images & B-Roll:** Sourced and downloaded directly from internet repositories (Unsplash, Pexels, Pixabay, Mixkit, Coverr, Wikimedia Commons) with strictly zero watermarks, matching each slide's content.
+- **Selective, Purpose-Fit B-Roll (Zero Forced B-Roll):** B-roll video cutaways and photographic assets are deployed selectively—only when they naturally contextualize and fit the scene (hooks, transitions, physical hardware, real-world analogies). B-roll is never forced onto code walkthroughs, terminal demos, or architecture diagrams where high-density motion graphics deliver superior clarity. When used, all footage is copyright-free from Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons with zero watermarks.
 - **Complete Multi-Channel Social Content:**
   - **YouTube:** 3 clickable title options, SEO video description with hook, chapters/timestamps matching the video, tags (`youtube.md`).
   - **LinkedIn:** Hook <8 words, punchy re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags (`linkedin-post.md`).
