@@ -1,48 +1,625 @@
 ---
 name: youtube-video-generator
-description: Use when someone asks to generate YouTube videos from topic or video or another youtube URL or github URL, including voiceover, visuals, and editing.
+description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with screen-voiceover-caption synchronization, ElevenLabs cloned voice, low-volume background music, motion graphics, slide-relevant copyright-free images and B-roll, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
 ---
-## Purpose
-Generate complete YouTube videos from text scripts, including voiceover narration, relevant visuals, and final editing.
 
-## Steps
-1. Evaluate the input provided. If not provided then ask for the input
+# YouTube Video Generator & Multi-Platform Content Suite
 
-2. Input treatment:
-2.1 If the input is topic and research on the topic to create the engaging content
-2.2 If the input is video or youtube URL, understand the topic and create engaging content for the video
-2.3 If the input is github URL, then go through the README.md of that repo, understand everything mentioned in it and create engaging content for the video
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **copyright-free images and B-roll strictly relevant to the content of every slide**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
-3. Search and locate a motion graphics design from Pinterest based on the content generated in previous step.
+This skill enforces professional video production standards, agency-grade motion graphics, strict zero-desync timing, and copy-paste-ready social post formats tailored natively to each platform.
 
-4. Now using the content which is created and motion graphics design selected from Pinterest, create videos for both 16:9 ratio and 9:16 ratio.
-4.1 16:9 ratio video should be 3 to 6 mins long. If you have confusion on what style to use, then you may ask the user
-4.2 9:16 ratio video should be 1 to 3 mins long. If you have confusion on what style to use, then you may ask the user
-4.3 The video should have proper captions and copyright-free relatable b-rolls.
-4.4 Add a relevant copyright-free background music
+---
 
-5. Generate voiceover script for both the videos and add my latest cloned voice from elevenlabs as voiceover keeping the background music on low volume and my voice clearly audible 
+## Core Guarantees & Golden Rules
 
-## Process
-1. **Input Collection**: Ask user for the topic, video URL, YouTube URL, or GitHub URL to generate the video content
-2. **Content Generation**: Research and create full content based on the input type (topic research, video analysis, or GitHub README parsing)
-3. **Motion Graphics Selection**: Search Pinterest for appropriate motion graphics designs matching the content theme
-4. **Video Creation**: Create 16:9 and 9:16 ratio videos with proper captions, copyright-free b-rolls, and background music
-5. **Voiceover Integration**: Add voiceover using the latest cloned ElevenLabs voice, ensuring background music is at low volume for clear audio
-6. **Final Output**: Export both video versions in YouTube-optimized formats (1080p, MP4) ready for upload
+### 1. Absolute Audio-Visual-Caption Synchronization (Zero Desync Guarantee)
+> [!IMPORTANT]
+> **Visible Screen Must Be in Exact Sync with Voiceover and Captions:**
+> It must **NEVER** happen that the voiceover is playing for a topic and the slide has already moved to the next one.
+>
+> - Every visual slide, diagram, UI screenshot, or B-roll segment MUST stay active on screen for the **entire duration** that its voiceover narration is speaking.
+> - The duration of each slide is dynamically calculated from the exact audio length of its spoken narration:
+>   $$\text{Slide Display Duration} = \text{Audio Duration} + \text{Transition Padding (0.5s–1.0s)}$$
+> - Under NO circumstances may $\text{Slide Display Duration} < \text{Audio Duration}$.
+> - The transition to the next slide or visual segment triggers **only after** the narration for the current slide has completely finished speaking.
+> - Captions must be strictly bounded within the start and end timestamps of the active slide.
 
-## Inputs
-- Topic description or keyword
-- YouTube video URL (optional)
-- GitHub repository URL (optional)
+### 2. Strict Zero Extra Markdown Characters in Social Posts
+> [!IMPORTANT]
+> **Zero Markdown Clutter in Copyable Social Files:**
+> Social media platforms (LinkedIn, Instagram, Twitter/X, Facebook, Skool) do **NOT** render markdown syntax. Raw markdown symbols (`**bold**`, `*italic*`, `### headings`, `[links](url)`, `---`, `- `) display as ugly literal clutter that harms reach and requires manual editing.
+>
+> - Enforce across all post files (`linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `youtube.md`, `facebook-post.md`):
+>   1. **NO markdown bolding or italics:** Never use `**bold**` or `*italic*`. Use UPPERCASE words sparingly or unicode bold for emphasis.
+>   2. **NO markdown headings:** Never use `#`, `##`, or `###`. Use clean blank lines, emojis, or uppercase header lines.
+>   3. **NO markdown horizontal rules:** Never use `---` or `***`.
+>   4. **NO markdown links:** Write bare URLs directly (e.g., `https://www.linkedin.com/in/devengoratela/`) or use phrases like "link in bio" or "link in the first comment".
+>   5. **NO markdown bullets:** Use emoji bullets (`•`, `👉`, `🔹`, `⚡`) or numbers (`1.`, `2.`), never `- ` or `* `.
+>   6. **NO outer code block fences:** Never wrap entire files in ` ```markdown ... ``` `. Files must contain copy-ready text from line 1.
 
-## Outputs
-- The URL of the Pinterest design used
-- `YYYYMMDD-HHMMSS/{topic-slug}-16by9.mp4` (16:9 ratio YouTube video - MP4, 1080p, 3-6 minutes)
-- `YYYYMMDD-HHMMSS/{topic-slug}-9by16.mp4` (9:16 ratio Instagram Reels video - MP4, 1080p, 1-3 minutes)
+### 3. Banned AI Slop Words
+Strictly avoid generic corporate AI buzzwords across all scripts, posts, captions, and slide copy:
+`delve`, `landscape`, `unlock`, `tapestry`, `navigate`, `realm`, `leverage`, `in today's fast-paced world`, `in conclusion`, `game-changer`, `revolutionize`.
 
-## Guardrails
-- Handle missing input gracefully
-- Dont use any of the existing skills
-- Support common media formats (MP4, MP3, PNG, JPG)
-- Provide clear error messages for unsupported formats
+### 4. Mandatory Pre-Edit Review ("Watch Before You Edit")
+When the source input is a video file or video/YouTube URL:
+- **Before you edit, watch the whole video and tell the user what can be done better.**
+- Programmatically inspect the full video end-to-end (probe stream metadata via `ffprobe`, sample timeline frames and generate contact sheets via `ffmpeg`, inspect transcript/audio).
+- Deliver an upfront critique covering: hook strength (first 3–5 seconds), pacing and dead air, talking-head visual fatigue, motion graphics opportunities, caption styling needs, and recommended B-roll cutaway spots before generating slides or edits.
+
+### 5. Face-Free Visuals & Screenshots Rule
+When extracting visual milestones or screenshots from source videos or GitHub repos:
+- Strictly focus on **software UI, terminal workflows, code snippets, architecture diagrams, and system outputs**.
+- Strictly avoid or crop out talking heads, presenter webcams, or picture-in-picture (PiP) bubbles. Viewers watch to absorb the tool and workflow, not the presenter's face.
+
+### 6. Unique Background Color for Every Video Scene / Slide
+- Every slide or scene in the video sequence MUST have a **unique background color or gradient** within a harmonious palette progression (e.g., deep midnight navy → dark slate → abyssal blue → deep charcoal → cyber teal). Never use identical backgrounds on consecutive slides or across all slides.
+- Text and visual elements must maintain a high contrast ratio ($\ge 4.5:1$) against each slide's specific background.
+
+### 7. ElevenLabs Cloned Voiceover & Low-Volume Background Music
+- Synthesize narration using the user's latest cloned voice from ElevenLabs.
+- **Audio Ducking Rule:** Voiceover must be normalized to -16 LUFS (punchy, crisp, prominent). Background music (e.g., `youtube-shorts-bt-music.mp3`) must strictly be ducked down to **low volume** (10% volume / `volume=0.10`, approx -20dB to -24dB relative to speech). The voice must remain 100% intelligible and prominent throughout.
+
+### 8. Copyright-Free Images & B-Roll Strictly Relevant to Each Slide's Content
+> [!IMPORTANT]
+> **Slide-Relevant Visual Assets (Images & B-Roll):**
+> In the generated video, every slide must incorporate high-resolution copyright-free images and B-roll clips that are **strictly relevant to the specific content, concept, or technical point of that slide**. Generic, decorative, or disconnected stock footage is strictly prohibited.
+>
+> - **Slide-by-Slide Content Matching:**
+>   - If a slide covers "API Rate Limiting & Gateway Architecture", the image/B-roll must visually represent network traffic, gateway nodes, server racks, or code configuration.
+>   - If a slide covers "Autonomous Agent Swarms", the image/B-roll must depict distributed nodes, collaborative robotic systems, neural architectures, or multi-terminal execution.
+>   - If a slide covers "Database Vector Indexing", the image/B-roll must depict high-speed data streams, vector clustering, or database query consoles.
+> - **Verified Copyright-Free Sourcing Platforms:**
+>   - **Copyright-Free Images:** Sourced from **Unsplash** (`https://unsplash.com`), **Pexels** (`https://pexels.com`), **Pixabay** (`https://pixabay.com`), or **Wikimedia Commons** (Public Domain / CC0).
+>   - **Copyright-Free B-Roll:** Sourced from **Pexels Videos** (`https://www.pexels.com/videos/`), **Pixabay Videos** (`https://pixabay.com/videos/`), **Mixkit** (`https://mixkit.co/`), or **Coverr** (`https://coverr.co/`).
+> - **Strict License & Asset Integrity Rules:**
+>   - **Zero Watermarks:** Strictly reject any footage or image containing watermarks, copyright badges, or stock agency logos.
+>   - **100% Commercial-Safe:** Must be verified 100% royalty-free and copyright-free with zero commercial restrictions.
+>   - **High Resolution:** Images at minimum 1920×1080 (or 2160×2160 for square/portrait crops); B-roll at 1080p minimum.
+>   - **Punchy Pacing:** Trim B-roll into dynamic 1.5s–3.5s cutaway bursts or picture-in-picture demonstration cards; never let generic B-roll linger so long that it dilutes the educational message.
+>   - **Asset Organization & Logging:** Store assets in `YYYYMMDD-HHMMSS/assets/images/` and `YYYYMMDD-HHMMSS/assets/broll/` mapped directly to their slide numbers (e.g. `slide_1_img.jpg`, `slide_1_broll.mp4`), and log all asset source URLs and licenses in `credits.md`.
+
+### 9. Proper Captions
+- Render captions in a frosted dark translucent pill (`background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 22px;`).
+- Highlight active operative keywords in vibrant yellow (`#FCD34D`) or cyan (`#38BDF8`).
+- Position in the mobile safe zone (bottom 120px–180px) to clear platform UI overlays.
+
+---
+
+## Input Intake & Source Treatment
+
+Collect or evaluate the provided input:
+
+| Source Type | Intake Action & Analysis |
+|---|---|
+| **Topic / Keyword** | Research the topic deeply; identify the primary problem, core solution, practical framework, and 3–5 actionable takeaways. |
+| **Video File / URL** | Run the **Mandatory Pre-Edit Inspection Pass**: probe duration with `ffprobe`, sample timeline frames into `assets/review/`, extract audio to inspect cadence, and deliver a structured critique report to the user before editing. |
+| **YouTube URL** | Download audio/video or extract transcript; inspect timestamps, pacing, and visual milestones; deliver pre-edit critique; extract high-res face-free screenshots for key UI moments. |
+| **GitHub Repo URL** | Deeply parse `README.md`, codebase architecture, configuration files, workflows, and terminal commands. Formulate an end-to-end tutorial explaining architecture, setup, code walk, and practical outcome. |
+
+---
+
+## Pinterest Motion Graphics Selection
+
+Before generating visual slides or videos:
+1. Search and identify a motion graphics design aesthetic from Pinterest matching the topic (e.g., kinetic typography, glowing cyber-dark cards, neo-brutalist data cards, smooth glassmorphic dashboard animations).
+2. Save the design reference URL, color palette, typography hierarchy, and animation easing specs into `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
+3. Apply this design language consistently across both video aspect ratios (16:9 and 9:16).
+
+---
+
+## Screen-Voiceover-Caption Synchronization Engine
+
+To completely prevent the issue where "voiceover is playing for some topic of the slide and the slide has already moved to next one", follow this exact step-by-step pipeline:
+
+```
+[Narration Script with Slide Boundaries]
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 1. Segmented Scripting & Slide Topic Mapping                │
+│    Assign explicit narration chunk to each slide i          │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 2. Discrete Voiceover Generation & Precision Probing        │
+│    Generate voiceover_slide_i.mp3 via ElevenLabs API        │
+│    Probe exact audio length: dur_audio_i = ffprobe(...)     │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 3. Dynamic Visual Display Duration Calculation              │
+│    slide_dur_i = max(dur_audio_i + 0.6s, min_slide_dur)    │
+│    Strictly enforce: slide_dur_i >= dur_audio_i             │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 4. Synchronized Captions & Timeline Manifest                │
+│    Map caption chunks strictly inside [slide_start, end]    │
+│    Generate sync-manifest.json                              │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 5. Automated Pre-Export Verification Pass                   │
+│    python3 scripts/verify-slide-sync.py sync-manifest.json   │
+│    Aborts export if any slide duration < audio duration     │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 6. Video Assembly (16:9 & 9:16) with Exact Timed Durations   │
+│    Slide i stays visible until voiceover i finishes         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Step 1: Scripting with Explicit Slide Boundaries
+Write the narration script partitioned into discrete, numbered video slide scenes:
+```text
+[SCENE 1: HOOK]
+Scene: 1
+Visual: Bold hook title + metric badge + neural mesh image
+Voiceover: Stop building AI workflows that break on edge cases. Here is the exact system architecture top engineering teams use.
+
+[SCENE 2: PROBLEM CONTEXT]
+Scene: 2
+Visual: Problem diagram vs brittle pipelines + server rack B-roll cutaway
+Voiceover: Most developers make the mistake of chaining raw API calls without state persistence or evaluation gates. When a service fails, the entire pipeline crashes.
+
+...
+
+[SCENE N: SUMMARY & CTA]
+Scene: N
+Visual: Actionable checklist + @devengoratela handle + architecture diagram
+Voiceover: Implement these three guardrails today to build bulletproof automations. Follow Deven Goratela for practical engineering blueprints.
+```
+
+### Step 2: Per-Slide Voiceover Generation & Measurement
+Generate speech audio per slide or extract precise timestamps:
+```python
+import os, requests, subprocess
+
+api_key = os.environ.get("ELEVENLABS_API_KEY")
+voice_id = "<LATEST_CLONED_VOICE_ID>"
+
+# Generate audio for each slide
+for idx, scene in enumerate(scenes, 1):
+    audio_path = f"YYYYMMDD-HHMMSS/assets/voiceover_slide_{idx}.mp3"
+    response = requests.post(
+        f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
+        headers={"xi-api-key": api_key, "Content-Type": "application/json"},
+        json={
+            "text": scene["voiceover"],
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {"stability": 0.5, "similarity_boost": 0.85, "style": 0.15}
+        }
+    )
+    with open(audio_path, "wb") as f:
+        f.write(response.content)
+
+    # Probe precise duration using ffprobe
+    cmd = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", audio_path]
+    scene["audio_duration"] = float(subprocess.check_output(cmd).decode().strip())
+```
+
+### Step 3: Dynamic Visual Display Duration Formula
+Calculate each slide's visible display time:
+$$\text{Slide Duration}_i = \text{Audio Duration}_i + \text{Transition Padding (0.6s)}$$
+
+If a slide has 7.4 seconds of voiceover narration:
+$$\text{Slide Duration} = 7.4\text{s} + 0.6\text{s} = 8.0\text{s}$$
+
+**The slide stays on screen for the full 8.0 seconds.** The transition to the next slide only starts at $t = 8.0\text{s}$. The next topic's slide only appears when the next topic's voiceover begins.
+
+### Step 4: Write `sync-manifest.json`
+Save the synchronized timeline manifest into the project folder, explicitly associating each slide with its slide-relevant image and B-roll assets:
+```json
+{
+  "project": "topic-slug",
+  "slides": [
+    {
+      "slide_index": 1,
+      "title": "Hook & System Architecture",
+      "image_file": "assets/images/slide_1_neural_mesh.jpg",
+      "broll_file": "assets/broll/slide_1_server_cluster.mp4",
+      "broll_cutaway_start": 2.5,
+      "broll_cutaway_duration": 2.5,
+      "audio_file": "assets/voiceover_slide_1.mp3",
+      "audio_duration": 5.4,
+      "duration": 6.0,
+      "transition": 0.6
+    },
+    {
+      "slide_index": 2,
+      "title": "The Flawed Approach vs State Machines",
+      "image_file": "assets/images/slide_2_broken_pipeline.jpg",
+      "broll_file": "assets/broll/slide_2_terminal_debug.mp4",
+      "broll_cutaway_start": 3.0,
+      "broll_cutaway_duration": 3.0,
+      "audio_file": "assets/voiceover_slide_2.mp3",
+      "audio_duration": 8.2,
+      "duration": 8.8,
+      "transition": 0.6
+    }
+  ],
+  "captions": [
+    {
+      "slide_index": 1,
+      "start": 0.2,
+      "end": 2.6,
+      "text": "Stop building AI workflows that break on edge cases."
+    },
+    {
+      "slide_index": 1,
+      "start": 2.7,
+      "end": 5.3,
+      "text": "Here is the exact system architecture top engineering teams use."
+    }
+  ]
+}
+```
+
+### Step 5: Automated Pre-Export Sync Verification Pass
+Run the sync verification script before rendering video:
+```bash
+python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json
+```
+If any slide display duration is less than its voiceover audio duration, the script fails immediately and prints the exact seconds of audio leakage. Fix timeline durations until the script exits with code 0.
+
+---
+
+## Video Specifications: 16:9 Landscape & 9:16 Vertical
+
+The skill generates **two broadcast-quality video deliverables**, both rendered at 1080p, MP4, H.264, 30 fps:
+
+| Specification | 16:9 Landscape Video | 9:16 Vertical Video (Reels / Shorts) |
+|---|---|---|
+| **Primary Platform** | YouTube Main Channel | YouTube Shorts, Instagram Reels, TikTok |
+| **Output Path** | `YYYYMMDD-HHMMSS/{slug}-16by9.mp4` | `YYYYMMDD-HHMMSS/{slug}-9by16.mp4` |
+| **Canvas Dimensions** | 1920 × 1080 px (16:9) | 1080 × 1920 px (9:16) |
+| **Target Runtime** | 3 to 6 minutes | 1 to 3 minutes |
+| **Visual Structure** | Wide hero graphics, code split-screens, architecture diagrams, and slide-relevant visuals | Portrait cards, kinetic callouts, bold stat pop-ins, and slide-relevant visuals |
+| **Slide-Relevant Images** | High-res copyright-free images (Unsplash/Pexels) strictly matching the concept of that slide | Mobile-framed copyright-free images strictly matching the concept of that slide |
+| **Slide-Relevant B-Roll** | 1.5–3.5s punchy cutaways from Pexels/Coverr/Mixkit illustrating the active spoken point | Rapid vertical B-roll cutaways directly illustrating the active spoken point |
+| **Motion Graphics** | Top animated gradient progress bar, glassmorphism section badges, diagram line reveals | Top progress bar, upper slide pills (`01 / 07`), kinetic counter cards |
+| **Captions** | Lower-third frosted pill, centered, active keyword yellow highlight (`#FCD34D`) | Safe-zone positioned (bottom 160px), frosted glass pill, active keyword highlight |
+| **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 |
+
+### Video Audio Mixing Command (FFmpeg)
+```bash
+ffmpeg -y \
+  -i visual_rendered.mp4 \
+  -i assets/voiceover.mp3 \
+  -stream_loop -1 -i scripts/youtube-shorts-bt-music.mp3 \
+  -filter_complex "[1:a]volume=1.0[voice];[2:a]volume=0.10,afade=in:st=0:d=1[bg];[voice][bg]amix=inputs=2:duration=first:dropout_transition=2[aout]" \
+  -map 0:v -map "[aout]" \
+  -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
+  -shortest -movflags +faststart \
+  output_video.mp4
+```
+
+---
+
+## Multi-Channel Content Deliverables (All Channels Roster)
+
+Generate the complete suite of deliverables for all channels directly into the date-wise folder `YYYYMMDD-HHMMSS/`:
+
+| Channel / Deliverable | Output File | Rules & Style Highlights (Zero Markdown Syntax) |
+|---|---|---|
+| **YouTube 16:9 Video** | `{slug}-16by9.mp4` | 1920×1080 widescreen, 3–6 mins, fully synchronized visuals, voiceover, and captions. |
+| **YouTube 9:16 Shorts** | `{slug}-9by16.mp4` | 1080×1920 vertical, 1–3 mins, high-energy mobile cut, fully synchronized. |
+| **YouTube Metadata** | `youtube.md` | 3 clickable titles (<60 chars), SEO description with hook, video timestamps, links, tags. Clean text. |
+| **LinkedIn Post** | `linkedin-post.md` | Mobile hook (<8 words), re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags. Clean text. |
+| **Cover Image & Prompt**| `cover.svg` & `cover-prompt.md` | 1200×627 SVG (1.91:1) with central 1000×500 safe zone, hero insight text, `@devengoratela` branding + AI prompt. |
+| **Skool Community** | `skool-post.md` | 30–40% shorter than LinkedIn, casual peer tone, tool/tip focus, zero hashtags, bold closing question. Clean text. |
+| **Instagram Post** | `instagram-post.md` | Visual hook (<10 words), curiosity hook extension, spaced paragraphs, emoji bullets, save/share CTA, 10–15 hashtags at bottom. Clean text. |
+| **Twitter / X** | `twitter-post.md` | Standalone tweet (<280 chars) PLUS full numbered thread (`1/` to `N/`), summary, follow + retweet CTA. Clean text. |
+| **Facebook Post** | `facebook-post.md` | Conversational, storytelling, short paragraphs, emoji anchors, discussion question, 0–2 hashtags. Clean text. |
+| **Pinterest Motion Style**| `pinterest-motion-design.md` | Reference URL, motion design breakdown, color palette, and transition specs. |
+| **Credits & Attribution**| `credits.md` | Image & B-roll sources, background music license, ElevenLabs voice profile. |
+
+---
+
+## Detailed Templates & Channel Specifications
+
+### 1. YouTube Metadata Package (`youtube.md`)
+**Role:** YouTube SEO & Audience Growth Specialist.
+**Format Rule:** 100% clean copy-paste text. No markdown bolding (`**`), no heading hashes (`#`).
+
+```text
+TITLE OPTIONS
+1. [Curiosity Title under 60 chars]
+2. [How-To / Search Title under 60 chars]
+3. [Contrarian / High-Impact Title under 60 chars]
+
+
+VIDEO DESCRIPTION
+[Hook and 2-sentence summary of the video topic — visible above the fold before clicking "...more"]
+
+In this video, we break down [core topic] and how you can implement it step by step.
+
+WHAT YOU WILL LEARN:
+• [Key learning 1]
+• [Key learning 2]
+• [Key learning 3]
+
+TIMESTAMPS:
+00:00 - Introduction
+00:45 - [The Problem / Core Challenge]
+02:15 - [Architecture & Step-by-Step Setup]
+04:30 - [Real-World Demonstration / Code]
+06:15 - [Common Mistakes to Avoid]
+07:40 - [Summary & Next Steps]
+
+RESOURCES & LINKS:
+• Practical AI Community: [Skool Community Link]
+• GitHub Repository: [Link or placeholder]
+• Connect on LinkedIn: https://www.linkedin.com/in/devengoratela/
+
+ABOUT DEVEN GORATELA:
+Sharing practical AI workflows, automation architectures, and agentic engineering patterns that save real hours.
+
+Subscribe for new AI tutorials and automation blueprints every week.
+
+
+TAGS
+[tag 1], [tag 2], [tag 3], [tag 4], [tag 5], [tag 6], [tag 7], [tag 8], [tag 9], [tag 10], [tag 11], [tag 12], [tag 13], [tag 14], [tag 15]
+```
+
+---
+
+### 2. LinkedIn Post (`linkedin-post.md`)
+**Role:** Senior LinkedIn Content Strategist.
+**Rules:** Line 1 hook <8 words. Line 2 re-hook. Short 1–2 sentence paragraphs. Emojis at sentence ends where natural. Soft CTA question. Mandatory ♻️ Repost and ➕ Follow lines. 3–5 hashtags.
+**Format Rule:** 100% clean text. ZERO markdown syntax (`**`, `#`, `---`, `[link](url)`).
+
+```text
+[Post Title with relevant emoji]
+
+[Hook line 1 — under 8 words]
+[Re-hook line 2 — punchy sentence earning the expand click]
+
+[Body paragraph 1 — 1 to 2 sentences with emoji]
+
+[Body paragraph 2 — 1 to 2 sentences with emoji]
+
+[Key takeaways using emoji bullets]
+• [Point 1]
+• [Point 2]
+• [Point 3]
+
+[Soft CTA — engaging question or invitation]
+
+♻️ [Repost line explaining why reader's network benefits from seeing this]
+➕ Follow Deven Goratela (https://www.linkedin.com/in/devengoratela/) for practical AI workflows and automation systems.
+
+#[Tag1] #[Tag2] #[Tag3] #[Tag4]
+```
+
+---
+
+### 3. Cover Image & Prompt (`cover.svg` & `cover-prompt.md`)
+**Role:** Senior Visual Designer.
+- **Dimensions:** 1200 × 627 px (1.91:1 widescreen).
+- **Safe Zone:** Central 1000 × 500 px.
+- **Hero Text:** Core insight in 6–12 words.
+- **Branding:** Subtle `@devengoratela` handle in bottom-left or corner. No author photo.
+- **Verification:** Must parse cleanly with Python XML parser.
+- **`cover-prompt.md`:** Detailed image generation prompt for Midjourney / DALL-E / Flux with composition, style, lighting, color palette, and negative prompt.
+
+---
+
+### 4. Skool Community Post (`skool-post.md`)
+**Role:** Practical AI Community Peer.
+**Rules:** Casual peer-to-peer tone ("here's what worked for me"). 30–40% shorter than LinkedIn. Tool/tip leads. Zero hashtags. Ends with one strong, open-ended question.
+**Format Rule:** 100% clean text. No markdown syntax.
+
+```text
+[Curiosity-driven hook line]
+
+[Body paragraph 1 — casual peer explanation of what happened or what was built]
+
+[Practical breakdown / what worked]
+• [Step or insight 1]
+• [Step or insight 2]
+• [Step or insight 3]
+
+[One strong open-ended question to spark community discussion]
+```
+
+---
+
+### 5. Instagram Post / Reel Caption (`instagram-post.md`)
+**Role:** Visual Platform Content Specialist.
+**Rules:** Hook <10 words. Hook extension. Spaced paragraphs. Bullet points with clean visual icons (`👉`, `⚡`). Save & Share CTA. 10–15 hashtags at bottom after spaced dot breaks.
+**Format Rule:** 100% clean text. No markdown syntax.
+
+```text
+[Hook line 1 — under 10 words]
+[Hook line 2 — curiosity-driven]
+
+[Body context — 1 to 2 lines]
+
+[Key insights or steps]
+👉 [Point 1]
+👉 [Point 2]
+👉 [Point 3]
+
+[Actionable takeaway or conclusion]
+
+Save this post so you can reference it later 📌
+Follow @devengoratela for practical AI workflows that actually save hours.
+
+.
+.
+.
+
+#[tag1] #[tag2] #[tag3] #[tag4] #[tag5] #[tag6] #[tag7] #[tag8] #[tag9] #[tag10] #[tag11] #[tag12]
+```
+
+---
+
+### 6. Twitter / X Post (`twitter-post.md`)
+**Role:** High-Signal Tech Writer.
+**Rules:** Dual format containing both a standalone tweet (<280 chars) AND a full numbered thread (`1/` to `N/`). One insight per tweet. Summary tweet with follow `@devengoratela` + retweet CTA.
+**Format Rule:** 100% clean text. No markdown syntax.
+
+```text
+SINGLE TWEET VARIANT
+--------------------
+[Punchy standalone tweet under 280 characters including hook, core insight, and quick takeaway]
+
+
+FULL THREAD VARIANT
+-------------------
+1/ [Hook tweet — sharp claim, problem, or proof that compels reader to click the thread]
+
+2/ [Core context or the big mistake most people make]
+
+3/ [Actionable step 1 or key insight]
+
+4/ [Actionable step 2 or key insight]
+
+5/ [Actionable step 3 or pro-tip]
+
+6/ SUMMARY:
+• [Takeaway 1]
+• [Takeaway 2]
+• [Takeaway 3]
+
+If you found this useful:
+1. Follow @devengoratela for practical AI and automation systems
+2. Repost the first tweet to share with your network
+```
+
+---
+
+### 7. Facebook Post (`facebook-post.md`)
+**Role:** Social Community Strategist.
+**Rules:** Conversational, relatable, storytelling/educational tone. Short paragraphs with natural whitespace. Bullet points using clean emoji anchors (`•`, `👉`, `🔹`). Low-friction discussion question. 0–2 hashtags maximum.
+**Format Rule:** 100% clean text. No markdown syntax.
+
+```text
+[Conversational hook line — relatable problem or interesting observation]
+
+[Context paragraph — 1 to 2 sentences explaining what happened or what was tested]
+
+[Core insights or practical takeaways]
+• [Key takeaway 1]
+• [Key takeaway 2]
+• [Key takeaway 3]
+
+[Short wrap-up or practical advice]
+
+[Friendly discussion question to spark comments]
+
+Drop your thoughts below 👇
+```
+
+---
+
+## Output Folder Structure
+
+All deliverables are saved in a unified date-wise folder in the current working directory:
+
+```
+YYYYMMDD-HHMMSS/
+├── {topic-slug}-16by9.mp4          ← 16:9 widescreen YouTube video (1080p, 3-6 mins, synced)
+├── {topic-slug}-9by16.mp4          ← 9:16 vertical video (YouTube Shorts / Reels, 1080p, 1-3 mins, synced)
+├── youtube.md                      ← YouTube metadata: 3 titles, SEO description, timestamps, tags
+├── linkedin-post.md                ← Clean copy-paste LinkedIn post (zero markdown)
+├── skool-post.md                   ← Clean copy-paste Skool community post (zero markdown)
+├── instagram-post.md               ← Clean copy-paste Instagram caption & hashtags (zero markdown)
+├── twitter-post.md                 ← Standalone tweet + numbered thread (zero markdown)
+├── facebook-post.md                ← Clean copy-paste Facebook post (zero markdown)
+├── cover.svg                       ← 1200×627 SVG cover image (1.91:1)
+├── cover-prompt.md                 ← AI image prompt for Midjourney / DALL-E / Flux
+├── pinterest-motion-design.md      ← Selected Pinterest motion graphics design URL & styling
+├── sync-manifest.json              ← Audio-visual-caption synchronization manifest
+├── captions.json                   ← High-contrast synchronized captions
+├── credits.md                      ← Free copyright-free images & B-roll sources and license log
+└── assets/
+    ├── voiceover.mp3               ← Full ElevenLabs cloned voiceover
+    ├── voiceover_slide_1.mp3       ← Per-slide audio segment for precise sync
+    ├── voiceover_slide_2.mp3
+    ├── screenshot-1.png            ← Face-free UI/architecture screenshots
+    ├── images/                     ← High-res copyright-free images strictly matching each slide
+    │   ├── slide_1_img.jpg
+    │   ├── slide_2_img.jpg
+    │   └── ...
+    ├── broll/                      ← Free copyright-free B-roll clips from Pexels/Pixabay/Mixkit
+    │   ├── slide_1_broll.mp4
+    │   ├── slide_2_broll.mp4
+    │   └── ...
+    └── review/                     ← Pre-edit timeline frames and contact sheets
+```
+
+---
+
+## Step-by-Step Execution Sequence
+
+When triggered, execute all stages sequentially without pausing for unnecessary permission prompts:
+
+1. **Intake & Source Evaluation:**
+   - Evaluate topic, video URL, YouTube URL, or GitHub repo.
+   - If video input: run pre-edit inspection pass (`ffprobe`, contact sheets, audio check) and output an upfront critique before editing.
+   - Compute timestamp folder `YYYYMMDD-HHMMSS/`.
+2. **Pinterest Motion Graphics Selection:**
+   - Select matching motion design style from Pinterest and document in `pinterest-motion-design.md`.
+3. **Scripting with Slide-Topic Boundaries:**
+   - Write structured narration chunks mapped 1:1 to visual slides/scenes.
+4. **Source Slide-Relevant Copyright-Free Images & B-Roll:**
+   - For each slide, search and download high-resolution copyright-free images (Unsplash/Pexels/Pixabay) and B-roll clips (Pexels/Mixkit/Coverr) that directly depict and reinforce that slide's specific topic.
+   - Verify zero watermarks and zero commercial restrictions. Save into `assets/images/` and `assets/broll/` mapped to slide numbers, and document sources in `credits.md`.
+5. **Voiceover Generation & Precision Probing:**
+   - Generate audio via ElevenLabs cloned voice for each slide segment.
+   - Probe exact audio durations using `ffprobe`.
+6. **Timeline Calculation & Synchronization Manifest:**
+   - Calculate slide display durations: $\text{Slide Duration} = \text{Audio Duration} + 0.6\text{s}$.
+   - Ensure every slide stays on screen for the full duration of its voiceover.
+   - Map image files, B-roll cutaway windows, and captions into `sync-manifest.json` and `captions.json`.
+7. **Pre-Export Sync Verification Pass:**
+   - Run `python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json`.
+   - Abort and adjust if any slide transitions before voiceover completes.
+8. **Render Videos (16:9 & 9:16):**
+   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) with Pinterest-styled motion graphics, slide-relevant images, B-roll cutaways, frosted captions, and ducked background music (10% volume).
+9. **Generate All Native Social Posts (Zero Markdown):**
+   - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
+10. **Final Verification & Reporting:**
+    - Verify all files exist in `YYYYMMDD-HHMMSS/`.
+    - Present a clean completion summary table to the user.
+
+---
+
+## Quality Control Checklist
+
+Before completing execution, verify:
+
+**Synchronization & Video Production (Mandatory):**
+- [ ] Visible screen is 100% in sync with voiceover and captions throughout both videos
+- [ ] No slide transitions to the next topic while voiceover is still speaking for the current topic
+- [ ] `verify-slide-sync.py` exits with code 0 (all slide durations $\ge$ audio durations) ✅
+- [ ] Both 16:9 (3–6 mins) and 9:16 (1–3 mins) MP4 videos generated at 1080p
+- [ ] User's latest cloned ElevenLabs voice used for voiceover narration (-16 LUFS)
+- [ ] Background music strictly ducked to low volume (10% / `volume=0.10`), voice crisp and audible
+- [ ] High-contrast captions rendered in frosted translucent pill with active keyword highlighting
+- [ ] Every slide has copyright-free images and B-roll strictly relevant to the content of that slide
+- [ ] Images and B-roll verified 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, or Coverr
+- [ ] All visual assets saved to `assets/images/` and `assets/broll/` and logged in `credits.md`
+
+**Pre-Edit Review (If Input is Video):**
+- [ ] Full video inspected end-to-end with contact sheets and transcript before editing
+- [ ] Critique report covering hook, pacing, dead air, visual fatigue, and improvement plan delivered
+
+**Visuals & Background Styling:**
+- [ ] Screenshots strictly face-free (focused on UI, code, terminal, architecture)
+- [ ] Every slide/scene has a different background color/gradient within a harmonious palette
+
+**Cross-Platform Social Formatting (Mandatory):**
+- [ ] ZERO raw markdown syntax (`**bold**`, `*italic*`, `###`, `---`, `[link](url)`) in social post files
+- [ ] NO outer code block fences (` ```markdown `) wrapping any output file
+- [ ] All channel deliverables generated into `YYYYMMDD-HHMMSS/`
