@@ -1,4 +1,5 @@
 2026*/*.md
 2026*/slides/*.svg
 *.html
+!youtube-video-generator/scripts/*.html
 *.svg

@@ -1,11 +1,11 @@
 ---
 name: youtube-video-generator
-description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with screen-voiceover-caption synchronization, ElevenLabs cloned voice, low-volume background music, high-density motion graphics, purpose-fit copyright-free images and selective B-roll used only when fitting the scene naturally, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
+description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with code-drawn motion graphics engine f(t), procedural Web Audio SFX sound kit, camera kicks, film grain, ElevenLabs cloned voice, low-volume background music, purpose-fit copyright-free images and selective B-roll, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
 ---
 
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **purpose-fit copyright-free images and selective B-roll used only when it naturally fits the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, and **purpose-fit copyright-free images and selective B-roll used only when naturally fitting the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill enforces professional video production standards, agency-grade motion graphics, strict zero-desync timing, and copy-paste-ready social post formats tailored natively to each platform.
 
@@ -57,9 +57,19 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 - Every slide or scene in the video sequence MUST have a **unique background color or gradient** within a harmonious palette progression (e.g., deep midnight navy → dark slate → abyssal blue → deep charcoal → cyber teal). Never use identical backgrounds on consecutive slides or across all slides.
 - Text and visual elements must maintain a high contrast ratio ($\ge 4.5:1$) against each slide's specific background.
 
-### 7. ElevenLabs Cloned Voiceover & Low-Volume Background Music
-- Synthesize narration using the user's latest cloned voice from ElevenLabs.
-- **Audio Ducking Rule:** Voiceover must be normalized to -16 LUFS (punchy, crisp, prominent). Background music (e.g., `youtube-shorts-bt-music.mp3`) must strictly be ducked down to **low volume** (10% volume / `volume=0.10`, approx -20dB to -24dB relative to speech). The voice must remain 100% intelligible and prominent throughout.
+### 7. Audio Architecture: Cloned Voiceover, Ducked Music & Procedural Web Audio SFX Kit
+- **ElevenLabs Cloned Voiceover:** Synthesize narration using the user's latest cloned voice from ElevenLabs, normalized to -16 LUFS (punchy, crisp, prominent).
+- **Background Music Ducking:** Background music (`youtube-shorts-bt-music.mp3`) must strictly be ducked down to **low volume** (10% volume / `volume=0.10`, approx -20dB to -24dB relative to speech). The voiceover must remain 100% intelligible and prominent throughout.
+- **Procedural Web Audio SFX Kit (Zero-Asset Sound Scoring):** Every visual motion milestone on the timeline triggers synchronized synthesized sound effects from the built-in `SFX` kit:
+  - **Headlines & Text Slams:** `slam` (tight sub-bass thump with a short papery crack)
+  - **Cards, Chips, Pills & Badges:** `pop` (frequency-swept sine wave, 500Hz–1200Hz)
+  - **Rolling Data Tickers & Benchmarks:** `tick` (high-frequency bandpass click, max 12/s)
+  - **Scene Cuts & Whip Pans:** `whoosh` (pink noise bandpass sweep with stereo panning) or `glitch` (square-wave cluster burst)
+  - **Highlighter Wipes:** `marker` (grainy felt-tip drag)
+  - **Mistakes & Wrong Ideas:** `strike` (bandpass slice) + `tapeStop` (sawtooth pitch deceleration) or `stamp`
+  - **Live Terminal & Code Typing:** `keys` (subtle mechanical keyboard click chatter)
+  - **Milestone & Number Locks:** `boom` (sub-bass drop with brown noise tail) + `shimmer` / `sparkle` (harmonic chime overtone)
+- **Unified Sync Muxing:** The visual timeline `TL` and sound score `scoreSound(k)` read the exact same event timestamps. Render SFX audio via `SFX.render(scoreSound, DURATION, 48000, { voiceover: true })` and mux with the ElevenLabs narration and ducked background music into the final video.
 
 ### 8. Purpose-Fit Copyright-Free Images & Selective B-Roll (Zero Forced B-Roll)
 > [!IMPORTANT]
@@ -132,84 +142,120 @@ Collect or evaluate the provided input:
 
 ---
 
-## Motion Graphics Architecture & Pinterest Reference Library Integration
+## Code-Drawn Motion Graphics Engine & Reference Library Integration
 
-High-production videos require continuous visual motion. Static slides or unmoving cards cause viewer disengagement. Every generated video must incorporate rich, multi-layered motion graphics modeled directly after the **curated reference videos stored in `pinterest-references/`**.
+High-production videos require continuous visual motion. Static slides, frozen images, or unmoving cards cause immediate viewer drop-off. Every generated video is powered by a **code-drawn HTML5 Canvas animation engine** where every frame is a pure mathematical function of time $f(t)$, combined with a **procedural Web Audio SFX kit**, **mathematical camera physics**, **cinematic finishing shaders**, and **style parameters extracted from local reference videos in `pinterest-references/`**.
 
 > [!IMPORTANT]
 > **Use Local Reference Videos (`pinterest-references/`) — Do NOT Search Pinterest Online:**
 > The skill provides a dedicated local reference repository containing 26 downloaded high-production Pinterest motion graphic videos in `pinterest-references/`.
-> **Never search or browse Pinterest on the web.** Always inspect and select reference video(s) directly from `pinterest-references/` to define the visual style, easing physics, typography layout, and animation layers.
-
-### 1. Mandatory Motion Graphics Density Rule (Zero Static Screen Policy)
-> [!IMPORTANT]
-> **Zero Static Screen Policy:**
-> Under no circumstances may a video display an unmoving, static screen. Every scene/slide MUST have **at least 2 to 3 active motion graphic layers** running simultaneously or in timed sequence:
-> - **Layer 1: Ambient Background Motion:** Continuous subtle gradient drift, particle dust, or slow 3D Ken Burns camera push/pan (`scale: 1.0 → 1.04`).
-> - **Layer 2: Core Kinetic Visual Component:** Animated system diagrams, self-typing terminal code windows, live-drawing flowcharts, or interactive floating UI cards.
-> - **Layer 3: Kinetic Text & Metric Accents:** Word-by-word headline reveals, live number counters ticking up, glowing underline reveals, or self-drawing checkmarks (`✓`).
-> - **Layer 4: Persistent Pacing Anchor:** Top continuous gradient progress bar (`0% → 100%`) running across the full video runtime.
+> **Never search or browse Pinterest on the web.** Always inspect and select reference video(s) directly from `pinterest-references/` using the 7-Point Style Card framework.
 
 ---
 
-### 2. The 6 Core Motion Graphics Categories
+### 1. The Code-Drawn Animation Framework (Pure $f(t)$ Engine)
 
-Every video must actively deploy elements from these six motion graphics systems:
-
-#### A. Kinetic Typography & Title Cards
-- **Staggered Word Entrances:** Headers and hook sentences reveal word-by-word with subtle vertical slide and opacity fade (`y: 20 → 0`, `opacity: 0 → 1`, stagger: `0.08s`, easing: `power3.out`).
-- **Keyword Highlighter & Glow Reveals:** Critical operative words receive animated highlight strokes (yellow `#FCD34D` or cyan `#38BDF8`) or pulse glow outlines synchronized to voiceover emphasis.
-- **Section & Category Badges:** Translucent glassmorphism pill badges (`SLIDE 01 / 07`, `KEY ARCHITECTURE`, `PRO TIP`) animate into the upper corner with a slide-and-bounce entrance (`back.out(1.4)`).
-
-#### B. Animated Architecture & Flow Diagrams
-- **Self-Drawing Connection Lines:** Arrows and pipelines between services animate using SVG path tracing (`stroke-dashoffset` from 100% to 0%), visually demonstrating data flow from source to destination.
-- **Pulsing Nodes & Laser Data Packets:** Micro-dots or glowing laser pulses travel along connection paths to show real-time message passing and API calls.
-- **Layered Service Cards:** Architecture blocks pop in sequentially (`scale: 0.85 → 1.0`, `0.4s` duration) with drop shadows and glowing neon borders.
-
-#### C. Live-Typing Terminal & Code Animations
-- **Simulated macOS Terminal Windows:** Realistic dark terminal windows with frosted glass chrome, macOS red/yellow/green control pills, and path headers.
-- **Character-by-Character Typewriter Execution:** Shell commands and code snippets type out in real time with a blinking cursor (`_`), followed by simulated execution outputs and loading spinners.
-- **Syntax Line Highlighting:** When discussing a specific code block, an animated glowing bracket or background highlight focuses viewer attention on that specific line.
-
-#### D. Dynamic Metric Counters & Data Visualizations
-- **Spring Number Tickers:** Numerical stats, benchmarks, and performance gains animate dynamically from zero to target value (e.g., `0% → +350%`, `12ms → 1.4ms`, `0 → 100,000 req/s`) with spring physics.
-- **Animated Bar & Progress Visuals:** Comparative benchmark bars sweep smoothly from width `0%` to their final percentage with glowing caps.
-- **Circular Progress Rings:** Radial metrics draw themselves clockwise (`0° → 360°`) to highlight completion rates or efficiency scores.
-
-#### E. Floating Glassmorphism & UI Mockups
-- **Multi-Layered Translucent Cards:** Information structured in frosted dark glass cards (`backdrop-filter: blur(16px)`, `border: 1px solid rgba(255, 255, 255, 0.18)`).
-- **Subtle Idle Floating / Parallax:** Cards maintain gentle, continuous floating motion (`y: -6px to +6px`, `sine.inOut`, loop: infinite) so the visual space never feels dead.
-- **Callout Pop-Ins:** Insight badges, warning pills, and tip boxes pop onto screen with a snappy spring (`scale: 0.7 → 1.0`, `back.out(1.5)`).
-
-#### F. Seamless Scene Transitions & Camera Moves
-- **Ken Burns Glides:** Every visual scene applies continuous slow camera motion: alternating between slow zoom-in (center push) and diagonal pan-out.
-- **Whip Zooms & Directional Slides:** Transitions between topics use dynamic directional glides (`0.5s` cross-dissolve with momentum push).
-- **Split-Screen Kinetic Reveals:** Smooth animated split screens pairing code/diagram on the left with relevant B-roll cutaway on the right.
+Animations are drawn programmatically on HTML5 Canvas using deterministic time calculation:
+- **Pure Function of Time:** Every frame is rendered as `drawFrame(ctx, t)` where `t` is the exact timeline timestamp in seconds. Randomness is strictly seeded (`CM.rng(seed)`, `CM.noise1(seed)`); never use `Math.random()`.
+- **Core Math & Easing Helpers (`CM`):**
+  - `clamp(v, a, b)`, `lerp(a, b, u)`, `span(t, a, b)`
+  - `rng(seed)`: xoshiro128** seeded PRNG with `.in(lo, hi)` and `.pick(arr)`
+  - `noise1(seed)`: Smooth 1D gradient value noise function
+  - `ez`: Easing library: `out3` (cubic out), `in3` (cubic in), `inout3`, `outExpo` (exponential settle), `back(u, s)` (overshoot pop), `spring(u)` (physics dampening)
+  - `layer(w, h)`: Creates offscreen scratch canvas buffers
 
 ---
 
-### 3. Local Reference Video Selection Workflow (`pinterest-references/`)
+### 2. Procedural 2D Drawing Primitives
 
-Before generating visual assets, motion timing, or scripts:
+The engine deploys signature procedural drawing primitives to eliminate static slides:
 
-1. **Inspect Curated Local Reference Library (`pinterest-references/`):**
-   - Review available motion design reference videos in `pinterest-references/`:
-     - **Kinetic Typography, 3D Text & Card Physics:** `Burzaev_studio_*.mp4`, `divyanshfx_*.mp4`, `dspatel7664_*.mp4`, `Rishabh_Verma13_*.mp4`, `rvxeditor52_*.mp4`.
-     - **SaaS UI, Modern Glassmorphism & Web Mockups:** `socialheavenio_*.mp4`, `solution_wagon_*.mp4`, `exar_digital_*.mp4`, `rovixstudios_*.mp4`, `saifeecreations_*.mp4`.
-     - **Technical Infographics, Flowcharts & System Diagrams:** `insiderforce_*.mp4`, `mostafaazv_*.mp4`, `creatingwithakash_*.mp4`, `thekulveer_*.mp4`.
-     - **Minimalist Editorial, Typography Scale & Smooth Transitions:** `Grace_Studio57_*.mp4`, `motiondesigners2d_*.mp4`, `mukithasan997_*.mp4`, `roykanti420_*.mp4`.
-2. **Select Matching Reference Video:**
-   - Select 1 or 2 specific reference files that best match the topic, visual tone, and energy of the video.
-   - If needed, sample frames or metadata to verify styling (`ffprobe` or `ffmpeg -ss 00:00:03 -i pinterest-references/<file>.mp4 -frames:v 1 preview.png`).
-3. **Document Motion Specs in `YYYYMMDD-HHMMSS/pinterest-motion-design.md`:**
-   - Document:
-     - **Reference Video Selected:** Relative path to the video inside `pinterest-references/` (e.g., `pinterest-references/Burzaev_studio_ssspin.io_1794547129.mp4`).
-     - **Core Aesthetic:** (e.g., Cyber-dark terminal with spring-loaded glass cards).
-     - **Color Tokens:** Background, Card Surface, Accent/Highlight, Text.
-     - **Motion Primitives Extracted:** Typography stagger timing, card entrance curves (`back.out(1.4)`), line drawing speed, and transition dynamics.
-     - **Scene Application Mapping:** How these patterns apply to each scene in the script.
-4. **Apply Uniformly Across Video Formats:**
-   - Enforce this extracted motion language consistently across both the 16:9 widescreen video and the 9:16 vertical video.
+#### A. Kinetic Word Slams (`slam`)
+- Words land one at a time on precise narration beats.
+- Scale drops from $1.45\times \to 1.0\times$ with `ez.outExpo` easing, combined with dynamic canvas motion blur (`filter = blur(Xpx)`) that snaps sharp upon landing.
+- Operative keywords receive a radiant glow (`shadowColor`, `shadowBlur: 35`).
+
+#### B. Dynamic Highlighter Swipes (`swipe` & `slamMarked`)
+- Procedural organic highlighter strokes sweep smoothly behind key emphasis words.
+- Uses `Path2D` with subtle edge jitter (`rng`) to simulate real marker strokes.
+- Inside the highlight path, text dynamically clips and renders in contrast dark ink (`slamMarked`).
+
+#### C. Rough Strike-Throughs & Rejection Stamps (`strike` & `stampLayer`)
+- Negative concepts, common misconceptions, or flawed architectures receive a rough angled red strike line (`col = #F87171`, `lineWidth = 14`, `tilt = -0.02`).
+- Flat rejections receive an ink-stamped `NO.` badge with procedural erosion specks.
+
+#### D. Organic Hand-Drawn Loops & Arrows (`scribble` & `handArrow`)
+- Important diagram nodes or callouts are circled using procedural multi-turn organic loops (`scribble`) modulated by 1D value noise (`noise1`).
+- Directional relationships and flows are indicated by quadratic Bézier hand-drawn arrows (`handArrow`) that trace themselves smoothly before popping an angled arrowhead.
+
+#### E. 3D Perspective Tilt Projection (`drawYaw`)
+- Flat 2D layers (browser mockups, code windows, architecture diagrams, chat screens) are rotated in 3D perspective along their vertical Y-axis.
+- Rendered on 2D canvas using vertical slice projection with distance scaling ($f / (f + Z)$), soft blurred ambient drop shadows, and diagonal glass reflection gradients.
+
+#### F. Live-Typing Terminal & Code Execution
+- Dark macOS-style terminal windows with frosted glass chrome and traffic-light control pills (`#FF5F57`, `#FEBC2E`, `#28C840`).
+- Shell commands and code snippets type out in real time with a blinking cursor (`_`), followed by simulated execution outputs and loading spinners.
+
+#### G. Dynamic Metric Counters & Progress Rings
+- Numerical metrics and benchmark percentages sweep smoothly from initial value to target with `ez.out3` or spring physics.
+- High-contrast green glow (`#34D399`) with trailing spark streaks when the number locks.
+
+---
+
+### 3. Dual-Orientation Canvas Architecture (16:9 Landscape & 9:16 Portrait)
+
+The engine natively supports both video aspect ratios from a shared timeline:
+
+| Aspect Ratio | Canvas Dimensions | Layout & Composition Strategy |
+|---|---|---|
+| **16:9 Landscape** | 1920 × 1080 px (or 1280 × 720 px) | Widescreen hero stage; horizontal multi-column splits (code/diagram on left, 3D yaw mockup or selective B-roll cutaway on right); wide headline rows; lateral whip cuts (`whip`). |
+| **9:16 Portrait** | 1080 × 1920 px (or 720 × 1280 px) | Vertical mobile stage; stacked information hierarchy; centered statement text; mobile-safe top progress bar; high-contrast stat cards; vertical whip cuts (`whipV`). |
+
+A continuous top gradient progress bar (`0% → 100%`) runs across the top edge throughout the full runtime on both formats.
+
+---
+
+### 4. Mathematical Camera System & Finishing Shaders
+
+High-energy visuals rely on camera kicks and film-finishing effects:
+
+#### A. Camera Dynamics (`camera`)
+- **Slow Push (`PUSH`):** Continuous subtle camera creep ($z: 1.0 \to 1.035$) across each scene so the picture never freezes.
+- **Punch Zooms (`PUNCH`):** Snappy scale pulses ($z += 0.03 \text{ to } 0.12$) triggered on the hardest spoken emphasis words, settling with exponential decay.
+- **Screen Shake (`SHAKE`):** Multi-axis jitter ($dx, dy, rot$) driven by 1D noise (`NX`, `NY`, `NR`) during explosions, errors, or heavy impacts.
+
+#### B. Finishing Shaders (`finishing`)
+- **Procedural Film Grain:** 4 seeded noise tiles cycled at 24 fps with `globalCompositeOperation = 'overlay'`, giving clean digital vector art an organic cinematic feel.
+- **Radial Vignette:** Subtle edge darkening ($r: 0.22W \to 0.65W$) focusing viewer attention toward the center.
+- **Dynamic Light Leaks (`LEAK`):** Warm golden/orange radial gradients sweeping diagonally across the canvas on milestone transitions.
+- **Flash Transitions (`FLASH`):** Fast single-frame white or colored flash cuts with exponential fade.
+
+#### C. Transition Compositor
+- **Directional Whip Pans (`whip` & `whipV`):** Multi-pass directional cross-slams with sinusoidal motion blur across horizontal or vertical axes.
+- **RGB Channel Split Glitch (`glitch`):** Separates red (`#FF0000`) and cyan (`#00FFFF`) channels with horizontal slice displacements and white scanlines.
+- **Flash Cuts:** High-contrast luminous white pops.
+
+---
+
+### 5. Curated Local Reference Library (`pinterest-references/`) & 7-Point Style Card
+
+The skill references 26 downloaded high-production motion design videos stored in `pinterest-references/`:
+- **Kinetic Typography, 3D Text & Card Physics:** `Burzaev_studio_*.mp4`, `divyanshfx_*.mp4`, `dspatel7664_*.mp4`, `Rishabh_Verma13_*.mp4`, `rvxeditor52_*.mp4`.
+- **SaaS UI, Modern Glassmorphism & Web Mockups:** `socialheavenio_*.mp4`, `solution_wagon_*.mp4`, `exar_digital_*.mp4`, `rovixstudios_*.mp4`, `saifeecreations_*.mp4`.
+- **Technical Infographics, Flowcharts & System Diagrams:** `insiderforce_*.mp4`, `mostafaazv_*.mp4`, `creatingwithakash_*.mp4`, `thekulveer_*.mp4`.
+- **Minimalist Editorial, Typography Scale & Smooth Transitions:** `Grace_Studio57_*.mp4`, `motiondesigners2d_*.mp4`, `mukithasan997_*.mp4`, `roykanti420_*.mp4`.
+
+#### The 7-Point Style Card Extraction Framework
+When preparing to generate a video:
+1. **Palette:** 4 to 7 exact hex tokens (Background `bg`, Panel `panel`, Border `line`, Text `ink`, Mute `dim`, Accent `hi`, Alert `red`, Success `green`).
+2. **Surface:** Background treatment, drifting grid size, ambient radial glow colors, film grain strength.
+3. **Typography:** Primary display font (e.g. Anton, Bebas Neue), serif accent (Instrument Serif italic), body & labels (Inter), mono/code (JetBrains Mono).
+4. **Shapes & Layout:** Corner radiuses, card paddings, stroke widths, safe zones for 16:9 and 9:16.
+5. **Emphasis:** How emphasis is highlighted (word slam scale, yellow highlighter swipe, hand-drawn scribble loop, red strike).
+6. **Motion:** Easing curves, card entrance physics (`ez.back`), camera punch/shake intensity, transition types (`whip`, `glitch`, `flash`).
+7. **Sound:** Mapping of timeline events to the procedural Web Audio SFX kit.
+
+Save the completed Style Card into `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
 
 ---
 
@@ -401,17 +447,18 @@ The skill generates **two broadcast-quality video deliverables**, both rendered 
 | **Visual Structure** | Wide hero graphics, code split-screens, architecture diagrams, and slide-relevant visuals | Portrait cards, kinetic callouts, bold stat pop-ins, and slide-relevant visuals |
 | **Slide-Relevant Images** | Purpose-fit copyright-free images (Unsplash/Pexels) matching the concept of that slide; omitted on pure diagram/code slides | Purpose-fit mobile-framed copyright-free images matching the concept of that slide; omitted on pure UI/terminal slides |
 | **Selective B-Roll (Non-Forced)** | Selective 1.5–3.5s cutaways from Pexels/Coverr/Mixkit/Wikimedia used ONLY when naturally enhancing context (never forced on code or architecture) | Selective rapid vertical B-roll cutaways used ONLY for hooks and transitions where fitting (never forced on terminal/diagram slides) |
-| **Motion Graphics (Continuous)** | 4-layer active motion: continuous top gradient progress bar, kinetic staggered typography, self-drawing architecture diagrams with pulsing laser lines, live-typing terminal windows with blinking cursor, spring data counters (`0 → +350%`), floating glassmorphic cards, and Ken Burns camera glides | 4-layer active motion: top progress bar, animated slide counter badges (`01 / 07`), kinetic pop-in stat cards, vertical code reveal typing, rapid metric counters, and dynamic split-screen transitions |
+| **Motion Graphics (Code-Drawn)** | Patil code-drawn Canvas engine: pure function f(t), kinetic typography slams, highlighter swipes, 3D perspective yaw mockups, live terminal typing, spring metric tickers, camera punch/shake, film grain, light leaks, and directional whip pans | Patil code-drawn Canvas engine: pure function f(t) in 9:16 vertical orientation, top progress bar, vertical stacked cards, rapid word slams, pop-in stat badges, vertical whip cuts (`whipV`), film grain, and camera punch zooms |
 | **Captions** | Lower-third frosted pill, centered, active keyword yellow highlight (`#FCD34D`) | Safe-zone positioned (bottom 160px), frosted glass pill, active keyword highlight |
-| **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS), background music looped at volume 0.10 |
+| **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS) + synthesized Web Audio SFX (slams, whooshes, ticks) + background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS) + synthesized Web Audio SFX (slams, pops, glitches) + background music looped at volume 0.10 |
 
-### Video Audio Mixing Command (FFmpeg)
+### Video Audio Mixing Command (FFmpeg with SFX Track)
 ```bash
 ffmpeg -y \
   -i visual_rendered.mp4 \
   -i assets/voiceover.mp3 \
+  -i assets/sfx.wav \
   -stream_loop -1 -i scripts/youtube-shorts-bt-music.mp3 \
-  -filter_complex "[1:a]volume=1.0[voice];[2:a]volume=0.10,afade=in:st=0:d=1[bg];[voice][bg]amix=inputs=2:duration=first:dropout_transition=2[aout]" \
+  -filter_complex "[1:a]volume=1.0[voice];[2:a]volume=0.85[sfx];[3:a]volume=0.10,afade=in:st=0:d=1[bg];[voice][sfx][bg]amix=inputs=3:duration=first:dropout_transition=2[aout]" \
   -map 0:v -map "[aout]" \
   -c:v copy -c:a aac -b:a 192k -ar 48000 -ac 2 \
   -shortest -movflags +faststart \
@@ -671,14 +718,15 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
    - Evaluate topic, video URL, YouTube URL, or GitHub repo.
    - If video input: run pre-edit inspection pass (`ffprobe`, contact sheets, audio check) and output an upfront critique before editing.
    - Compute timestamp folder `YYYYMMDD-HHMMSS/`.
-2. **Reference Video Selection from `pinterest-references/` & Motion Design Specification:**
+2. **Reference Video Selection from `pinterest-references/` & 7-Point Style Card Extraction:**
    - Inspect the downloaded reference videos in `pinterest-references/` (do NOT search Pinterest online).
    - Select the reference video that matches the topic and aesthetic (e.g., kinetic typography, SaaS glassmorphic UI, technical flowcharts, or minimalist editorial).
-   - Extract and document the chosen reference file, color palette tokens, typography scales, easing curves, and transition dynamics into `pinterest-motion-design.md`.
-   - Define the 4-layer motion graphics plan (ambient background drift, kinetic core visuals, text/counter accents, top progress bar).
+   - Extract the 7-Point Style Card: Palette (hex tokens), Surface (grain, vignette, glows), Typography (display, serif, body, mono), Shapes/Layout, Emphasis, Motion (easing curves, camera punch/shake), and Sound (SFX mapping).
+   - Save the Style Card into `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
+   - Configure the dual-orientation layout plans (16:9 Landscape widescreen and 9:16 Portrait mobile).
 3. **Scripting with Slide-Topic & Motion Graphics Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
-   - Explicitly assign motion graphic triggers (kinetic typography, terminal typewriter, animated diagram flow, metric counters) to each scene.
+   - Explicitly assign motion graphic triggers (kinetic typography slams, terminal typewriter, 3D yaw mockups, diagram flows, metric tickers) to each scene.
 4. **Selective Sourcing of Slide-Relevant Images & B-Roll (Context-Driven, Never Forced):**
    - Evaluate each scene: determine whether B-roll or photographic imagery genuinely enhances the scene, or if high-density motion graphics, live terminal code, or architecture diagrams are the primary visual focus.
    - **Zero Forced B-Roll:** Do NOT force B-roll onto every slide. Skip B-roll on slides where it would distract from code, commands, or data diagrams.
@@ -689,15 +737,19 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
 5. **Voiceover Generation & Precision Probing:**
    - Generate audio via ElevenLabs cloned voice for each slide segment.
    - Probe exact audio durations using `ffprobe`.
-6. **Timeline Calculation & Synchronization Manifest:**
+6. **Timeline Calculation, Manifest & Synthesized SFX Score:**
    - Calculate slide display durations: $\text{Slide Duration} = \text{Audio Duration} + 0.6\text{s}$.
    - Ensure every slide stays on screen for the full duration of its voiceover.
-   - Map image files, selective B-roll cutaway windows (or `null` when omitted), motion graphic triggers, and captions into `sync-manifest.json` and `captions.json`.
+   - Map image files, selective B-roll cutaway windows (or `null` when omitted), code-drawn visual animations, procedural SFX triggers (`slam`, `pop`, `tick`, `whoosh`, `marker`, `keys`, `boom`), and captions into `sync-manifest.json` and `captions.json`.
 7. **Pre-Export Sync Verification Pass:**
    - Run `python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json`.
    - Abort and adjust if any slide transitions before voiceover completes.
-8. **Render Videos (16:9 & 9:16) with Continuous High-Density Motion Graphics:**
-   - Render 16:9 widescreen video (`{slug}-16by9.mp4`) and 9:16 vertical video (`{slug}-9by16.mp4`) integrating all 4 motion graphics layers (continuous top gradient progress bar, self-drawing architecture lines, live-typing terminal windows, spring metric counters, floating glassmorphic cards, and Ken Burns camera glides), paired with selective context-fitting B-roll cutaways and ducked background music (10% volume).
+8. **Render Dual Videos (16:9 & 9:16) with Patil Code-Drawn Engine & Synthesized SFX:**
+   - Run the code-drawn Canvas motion graphics engine (`scripts/motion-engine-template.html` logic) in both orientations:
+     - 16:9 Landscape (`1920×1080` / `1280×720`) for YouTube main deep-dives.
+     - 9:16 Portrait (`1080×1920` / `720×1280`) for YouTube Shorts / Reels / TikTok.
+   - Synthesize the procedural Web Audio SFX track (`assets/sfx.wav`) via `SFX.render(scoreSound, DURATION, 48000, { voiceover: true })`.
+   - Mux visuals, ElevenLabs cloned voiceover (-16 LUFS), synthesized SFX track (volume 0.85), and ducked background music (10% volume) into `{slug}-16by9.mp4` and `{slug}-9by16.mp4`.
 9. **Generate All Native Social Posts (Zero Markdown):**
    - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
 10. **Automatic Intermediate File Cleanup:**
@@ -734,13 +786,16 @@ Before completing execution, verify:
 - [ ] Any images or B-roll used are strictly relevant to the active topic, 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons
 - [ ] Sources logged in `credits.md`
 
-**Motion Graphics Density (Zero Static Screen Policy - Mandatory):**
-- [ ] Motion graphics modeled directly after reference video(s) from `pinterest-references/` (no online Pinterest search) and documented in `pinterest-motion-design.md`
-- [ ] Every scene incorporates at least 2 to 3 active motion graphic layers running simultaneously (no static screens)
+**Motion Graphics & Code-Drawn Engine (Mandatory):**
+- [ ] 7-Point Style Card extracted from reference video in `pinterest-references/` and documented in `pinterest-motion-design.md`
+- [ ] Code-drawn Canvas animation engine used: pure function of time f(t), seeded PRNG, and mathematical easing
+- [ ] Visual primitives active: kinetic word slams, highlighter swipes, 3D perspective yaw mockups, live terminal typing, and spring metric tickers
+- [ ] Mathematical camera physics active: continuous slow push, punch zooms on emphasis words, screen shake on impacts
+- [ ] Finishing shaders applied: film grain stepped at 24fps, radial vignette, light leaks, and dynamic transitions (whip pans, glitches)
+- [ ] Dual aspect ratios generated: 16:9 widescreen ({slug}-16by9.mp4) and 9:16 vertical ({slug}-9by16.mp4)
+- [ ] Procedural Web Audio synthesized SFX track generated and mixed with ElevenLabs voiceover and ducked background music
 - [ ] Top continuous animated gradient progress bar spans full video runtime
-- [ ] Kinetic typography reveals (staggered words, active keyword highlights) synchronized with narration
-- [ ] Dynamic visual components active: animated architecture paths, live-typing terminal windows, spring data counters, or floating UI cards
-- [ ] Continuous ambient motion (subtle Ken Burns camera glide / background drift) active across every scene
+- [ ] Zero static screen policy enforced: every scene incorporates continuous motion layers without freezing
 
 **Pre-Edit Review (If Input is Video):**
 - [ ] Full video inspected end-to-end with contact sheets and transcript before editing

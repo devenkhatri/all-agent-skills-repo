@@ -1,6 +1,6 @@
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, featuring **purpose-fit copyright-free images and selective B-roll used only when it naturally fits the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, and **purpose-fit copyright-free images and selective B-roll used only when naturally fitting the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill provides broadcast-quality video generation and cross-platform social distribution with clean, copy-paste-ready formats and strict platform guardrails.
 
@@ -14,11 +14,11 @@ This skill provides broadcast-quality video generation and cross-platform social
 - **Dual Video Deliverables (1080p MP4):**
   - **16:9 Landscape:** 3 to 6 minutes long, designed for YouTube tutorials and deep-dives.
   - **9:16 Vertical:** 1 to 3 minutes long, designed for YouTube Shorts, Instagram Reels, and TikTok.
-- **ElevenLabs Cloned Voiceover:** High-presence narration (-16 LUFS) with background music strictly ducked down to 10% volume (`volume=0.10`).
-- **Automated B-Roll Downloading from the Internet (`download-broll.py`):** Automatically searches, downloads, trims (1.5s–3.5s), normalizes to 1080p, and strips audio from copyright-free B-roll clips from Pexels Videos, Pixabay Videos, and Wikimedia Commons (zero API key required for Wikimedia), logging full attribution into `credits.md`.
-- **Agency-Grade High-Density Motion Graphics (Modeled on Local References):** Motion design is modeled directly after the 26 curated reference videos stored in `pinterest-references/` (never searching Pinterest online). Enforces a Zero Static Screen Policy with at least 2 to 3 active motion graphic layers running simultaneously in every scene (ambient background motion, kinetic core visuals, text/counter accents, persistent gradient progress bar). Zero frozen or unmoving screens.
-- **6 Core Motion Graphics Categories:** Kinetic typography, animated architecture diagrams with laser pulse data packets, live-typing terminal code windows, dynamic spring metric counters, floating glassmorphic UI cards, and dynamic camera moves / seamless transitions.
-- **Selective, Purpose-Fit B-Roll (Zero Forced B-Roll):** B-roll video cutaways and photographic assets are deployed selectively—only when they naturally contextualize and fit the scene (hooks, transitions, physical hardware, real-world analogies). B-roll is never forced onto code walkthroughs, terminal demos, or architecture diagrams where high-density motion graphics deliver superior clarity. When used, all footage is copyright-free from Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons with zero watermarks.
+- **Code-Drawn Motion Graphics Engine ($f(t)$ Framework):** Animations are drawn mathematically on HTML5 Canvas where every frame is a pure function of time. Uses seeded PRNG (`CM.rng`), 1D value noise (`CM.noise1`), and easing curves (`ez`). Primitives include kinetic word slams (`slam`), highlighter swipes (`swipe`), 3D perspective yaw mockups (`drawYaw`), hand-drawn arrows (`handArrow`) and loops (`scribble`), rough strikes (`strike`), live terminal typewriter execution, and spring metric tickers.
+- **Procedural Web Audio SFX Kit:** Built-in synthesizer generating 16+ micro sound effects (`slam`, `boom`, `pop`, `tick`, `whoosh`, `glitch`, `marker`, `keys`, `tapeStop`, `shimmer`) mapped directly to timeline visual events, muxed alongside ElevenLabs cloned voiceover (-16 LUFS) and ducked background music (`volume=0.10`).
+- **Mathematical Camera & Finishing Shaders:** Camera punch zooms on emphasis words (`PUNCH`), screen shake with 1D noise (`SHAKE`), slow scene push (`PUSH`), procedural film grain stepped at 24fps, radial vignette, light leaks (`LEAK`), and directional whip pans (`whip`, `whipV`) with sinusoidal motion blur.
+- **7-Point Style Card from Local References (`pinterest-references/`):** Extracts Palette, Surface, Typography, Shapes/Layout, Emphasis, Motion, and Sound from 26 curated local reference videos—never searching Pinterest online.
+- **Selective, Purpose-Fit B-Roll (Zero Forced B-Roll):** B-roll video cutaways and photographic assets are deployed selectively—only when they naturally contextualize and fit the scene (hooks, transitions, physical hardware, real-world analogies). B-roll is never forced onto code walkthroughs, terminal demos, or architecture diagrams where high-density motion graphics deliver superior clarity. When used, all footage is copyright-free from Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons with zero watermarks (`download-broll.py`).
 - **Complete Multi-Channel Social Content:**
   - **YouTube:** 3 clickable title options, SEO video description with hook, chapters/timestamps matching the video, tags (`youtube.md`).
   - **LinkedIn:** Hook <8 words, punchy re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags (`linkedin-post.md`).
@@ -34,29 +34,34 @@ This skill provides broadcast-quality video generation and cross-platform social
 
 ---
 
-## Motion Graphics Architecture & Categories
+## Code-Drawn Motion Graphics Engine Architecture
 
-Generated videos enforce a **Zero Static Screen Policy** using a multi-layer composition pipeline modeled directly after the **curated reference videos in `pinterest-references/`** (never searching Pinterest online):
+Generated videos are built using a **code-drawn HTML5 Canvas engine** where every frame is a deterministic mathematical function of time $f(t)$ (`scripts/motion-engine-template.html`), eliminating static slides:
 
-1. **Layer 1: Ambient Background Motion** — Continuous subtle gradient drift, particle dust, or Ken Burns 3D camera pan/zoom (`scale: 1.0 → 1.04`).
-2. **Layer 2: Core Kinetic Visual Component** — Animated flow diagrams, self-typing terminal code windows, live-drawing architecture paths, or floating UI cards.
-3. **Layer 3: Kinetic Text & Metric Accents** — Staggered word reveals, live number counters ticking up with spring physics, glowing highlight strokes, and dynamic checkmark draws.
-4. **Layer 4: Persistent Pacing Anchor** — Continuous top gradient progress bar (`0% → 100%`) running across the full video runtime.
+1. **Pure Function of Time ($t$):** Renders dynamically on canvas using seeded PRNG (`CM.rng`) and 1D gradient noise (`CM.noise1`), guaranteeing zero desync and frame-accurate reproducibility.
+2. **Procedural 2D Drawing Primitives:**
+   - **Kinetic Word Slams (`slam`):** Words land with scale overshoot and motion blur (`blur(Xpx)`), settling with `ez.outExpo`.
+   - **Highlighter Swipes (`swipe`):** Dynamic marker paths sweeping behind text with clip paths that flip text to dark contrast ink (`slamMarked`).
+   - **Rough Strike-Throughs (`strike`):** Textured red strike lines crossing out negative concepts or pitfalls.
+   - **3D Perspective Yaw Mockups (`drawYaw`):** Rotates 2D UI layers, terminal windows, or dashboards along the vertical Y-axis with distance projection, soft shadows, and glass reflection sheens.
+   - **Organic Hand Loops & Arrows:** Procedural noise-modulated circles (`scribble`) and Bézier arrows (`handArrow`) highlighting key points.
+   - **Live Terminal & Code Execution:** Simulated macOS dark terminals with real-time character typing, blinking cursor, and output spinners.
+   - **Spring Metric Tickers:** Live number counters sweeping from zero to target with glowing lock milestones.
+3. **Mathematical Camera Dynamics & Finishing Shaders:**
+   - **Camera Physics (`camera`):** Scene-level slow push (`PUSH`), punch zooms on emphasis words (`PUNCH`), and screen shake driven by 1D noise (`SHAKE`).
+   - **Cinematic Shaders (`finishing`):** 4-tile procedural film grain stepped at 24fps, radial vignette, warm light leaks (`LEAK`), and flash transitions (`FLASH`).
+   - **Scene Transitions:** Multi-pass directional whip pans (`whip`, `whipV`) with sinusoidal motion blur, and RGB channel-split glitch (`glitch`).
+4. **Procedural Web Audio SFX Kit:** Synthesizes 16+ sound effects (`slam`, `boom`, `pop`, `tick`, `whoosh`, `glitch`, `marker`, `keys`) mapped to timeline visual events, muxed with ElevenLabs cloned voiceover (-16 LUFS) and ducked music (10% volume).
+5. **Dual-Orientation Engine (16:9 & 9:16):**
+   - **16:9 Landscape (`1920×1080`):** Widescreen stage, horizontal code/diagram split screens, lateral whip cuts.
+   - **9:16 Portrait (`1080×1920`):** Vertical mobile stage, stacked typography, centered hero statements, vertical whip cuts (`whipV`).
 
-### Curated Local Reference Library (`pinterest-references/`)
-Instead of browsing Pinterest on the web, motion graphics styles are chosen directly from the local `pinterest-references/` folder:
+### Curated Local Reference Library (`pinterest-references/`) & 7-Point Style Card
+Instead of searching Pinterest online, motion graphics styles are chosen directly from the local `pinterest-references/` folder and formalized into a 7-Point Style Card:
 - **Kinetic Typography & 3D Text:** `Burzaev_studio_*.mp4`, `divyanshfx_*.mp4`, `dspatel7664_*.mp4`, `Rishabh_Verma13_*.mp4`.
 - **SaaS UI & Glassmorphic Cards:** `socialheavenio_*.mp4`, `solution_wagon_*.mp4`, `exar_digital_*.mp4`, `rovixstudios_*.mp4`.
 - **Technical Infographics & Architecture:** `insiderforce_*.mp4`, `mostafaazv_*.mp4`, `creatingwithakash_*.mp4`.
 - **Minimalist Editorial & Smooth Glides:** `Grace_Studio57_*.mp4`, `motiondesigners2d_*.mp4`, `mukithasan997_*.mp4`.
-
-### The 6 Core Motion Graphics Categories:
-- **Kinetic Typography:** Staggered word entrances, voiceover-synchronized keyword glows, translucent glassmorphism badge pills.
-- **Animated Architecture Diagrams:** Self-drawing connection lines (`stroke-dashoffset`), pulsing nodes, and glowing laser data packets moving along paths.
-- **Live-Typing Terminal Windows:** Dark macOS terminal frames with real-time character typing, blinking cursor, and simulated execution outputs.
-- **Dynamic Metric Counters:** Spring number tickers (`0% → +350%`, `12ms → 1.4ms`), animated bar sweeps, and radial circular progress rings.
-- **Floating Glassmorphism & UI Mockups:** Frosted glass cards (`backdrop-filter: blur(16px)`), subtle 3D parallax tilting, and glowing neon borders.
-- **Dynamic Transitions & Camera Glides:** Whip pans, directional light sweeps, and continuous Ken Burns drift between visual scenes.
 
 ---
 

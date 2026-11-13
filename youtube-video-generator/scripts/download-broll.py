@@ -44,7 +44,11 @@ def log_credit(credits_file, item_title, source_url, license_type="Free / Copyri
 def download_file(url, target_path):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=30) as resp, open(target_path, "wb") as out:
-        out.write(resp.read())
+        while True:
+            chunk = resp.read(65536)
+            if not chunk:
+                break
+            out.write(chunk)
 
 def search_pexels(query, orientation="landscape"):
     api_key = os.environ.get("PEXELS_API_KEY") or os.environ.get("PEXELS_KEY")
@@ -128,6 +132,9 @@ def search_wikimedia(query):
                             for _, p in pages.items():
                                 img_info = p.get("imageinfo", [])
                                 if img_info and img_info[0].get("url"):
+                                    size_bytes = img_info[0].get("size", 0)
+                                    if size_bytes > 50 * 1024 * 1024:
+                                        continue
                                     return {
                                         "url": img_info[0]["url"],
                                         "source_page": f"https://commons.wikimedia.org/wiki/{urllib.parse.quote(title)}",
