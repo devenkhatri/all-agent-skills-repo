@@ -1,6 +1,6 @@
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, and **purpose-fit copyright-free images and selective B-roll used only when naturally fitting the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, **100% code-drawn procedural proof shots & UI mockups (zero external stock footage or B-roll downloads)**, and an **interactive HTML player artifact (`player.html`) with transport controls and scrub bar**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill provides broadcast-quality video generation and cross-platform social distribution with clean, copy-paste-ready formats and strict platform guardrails.
 
@@ -14,11 +14,23 @@ This skill provides broadcast-quality video generation and cross-platform social
 - **Dual Video Deliverables (1080p MP4):**
   - **16:9 Landscape:** 3 to 6 minutes long, designed for YouTube tutorials and deep-dives.
   - **9:16 Vertical:** 1 to 3 minutes long, designed for YouTube Shorts, Instagram Reels, and TikTok.
+- **Interactive HTML Player Artifact (`player.html` - Patil's Player System):** Single-file, self-contained interactive HTML5 Canvas & Web Audio player delivered directly in the output folder. Runs locally in Chrome, Safari, Edge, or Firefox without any server. Includes:
+  - Play / Pause transport toggle (with spacebar keyboard shortcut)
+  - Smooth scrub slider bar with instant frame-accurate canvas seek (`window.seek(t)`)
+  - Formatted elapsed & total timecode readout (`MM:SS / MM:SS`)
+  - Dual-Orientation Switcher: instantly toggles between 16:9 Landscape and 9:16 Portrait
+  - Synthesized SFX sound toggle (`🔊 SFX ON` / `🔇 SFX MUTED`)
+  - Loop toggle (`🔁 LOOP ON` / `➡️ ONCE`)
 - **Code-Drawn Motion Graphics Engine ($f(t)$ Framework):** Animations are drawn mathematically on HTML5 Canvas where every frame is a pure function of time. Uses seeded PRNG (`CM.rng`), 1D value noise (`CM.noise1`), and easing curves (`ez`). Primitives include kinetic word slams (`slam`), highlighter swipes (`swipe`), 3D perspective yaw mockups (`drawYaw`), hand-drawn arrows (`handArrow`) and loops (`scribble`), rough strikes (`strike`), live terminal typewriter execution, and spring metric tickers.
+- **100% Code-Drawn Procedural Proof Shots (Zero Stock B-Roll):** Real-world proof, software context, and technical demonstrations are never external stock video clips. Instead, all proof shots, device screens, and workflow demonstrations are 100% code-drawn procedural mockups on Canvas:
+  - 3D perspective browser mockups (`drawYaw` / `drawBrowserProof`) with macOS traffic lights, URL bar, tab strips, and 3D yaw tilt.
+  - Smartphone chat threads (`scenePhone`) with animated 3-dot typing indicators, message bubbles, and hand-drawn focus loops.
+  - macOS developer terminal windows (`drawTerminalProof`) with character typing, stdout streams, and success badges.
+  - Benchmark counters and latency charts (`drawMath`) with green glowing milestone numbers.
+  - Red rubber stamps (`STAMP`) and rough strikes (`strike`) for debunking flawed approaches.
 - **Procedural Web Audio SFX Kit:** Built-in synthesizer generating 16+ micro sound effects (`slam`, `boom`, `pop`, `tick`, `whoosh`, `glitch`, `marker`, `keys`, `tapeStop`, `shimmer`) mapped directly to timeline visual events, muxed alongside ElevenLabs cloned voiceover (-16 LUFS) and ducked background music (`volume=0.10`).
 - **Mathematical Camera & Finishing Shaders:** Camera punch zooms on emphasis words (`PUNCH`), screen shake with 1D noise (`SHAKE`), slow scene push (`PUSH`), procedural film grain stepped at 24fps, radial vignette, light leaks (`LEAK`), and directional whip pans (`whip`, `whipV`) with sinusoidal motion blur.
 - **7-Point Style Card from Local References (`pinterest-references/`):** Extracts Palette, Surface, Typography, Shapes/Layout, Emphasis, Motion, and Sound from 26 curated local reference videos—never searching Pinterest online.
-- **Selective, Purpose-Fit B-Roll (Zero Forced B-Roll):** B-roll video cutaways and photographic assets are deployed selectively—only when they naturally contextualize and fit the scene (hooks, transitions, physical hardware, real-world analogies). B-roll is never forced onto code walkthroughs, terminal demos, or architecture diagrams where high-density motion graphics deliver superior clarity. When used, all footage is copyright-free from Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons with zero watermarks (`download-broll.py`).
 - **Complete Multi-Channel Social Content:**
   - **YouTube:** 3 clickable title options, SEO video description with hook, chapters/timestamps matching the video, tags (`youtube.md`).
   - **LinkedIn:** Hook <8 words, punchy re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags (`linkedin-post.md`).
@@ -45,8 +57,8 @@ Generated videos are built using a **code-drawn HTML5 Canvas engine** where ever
    - **Rough Strike-Throughs (`strike`):** Textured red strike lines crossing out negative concepts or pitfalls.
    - **3D Perspective Yaw Mockups (`drawYaw`):** Rotates 2D UI layers, terminal windows, or dashboards along the vertical Y-axis with distance projection, soft shadows, and glass reflection sheens.
    - **Organic Hand Loops & Arrows:** Procedural noise-modulated circles (`scribble`) and Bézier arrows (`handArrow`) highlighting key points.
-   - **Live Terminal & Code Execution:** Simulated macOS dark terminals with real-time character typing, blinking cursor, and output spinners.
-   - **Spring Metric Tickers:** Live number counters sweeping from zero to target with glowing lock milestones.
+   - **Live Terminal & Code Execution (`drawTerminalProof`):** Simulated macOS dark terminals with real-time character typing, blinking cursor, and stdout stream.
+   - **Spring Metric Tickers (`drawMath`):** Live number counters sweeping from zero to target with glowing lock milestones.
 3. **Mathematical Camera Dynamics & Finishing Shaders:**
    - **Camera Physics (`camera`):** Scene-level slow push (`PUSH`), punch zooms on emphasis words (`PUNCH`), and screen shake driven by 1D noise (`SHAKE`).
    - **Cinematic Shaders (`finishing`):** 4-tile procedural film grain stepped at 24fps, radial vignette, warm light leaks (`LEAK`), and flash transitions (`FLASH`).
@@ -73,6 +85,7 @@ After the automated cleanup pass, the output folder strictly contains **ONLY the
 YYYYMMDD-HHMMSS/
 ├── {topic-slug}-16by9.mp4          # 16:9 widescreen YouTube video (1080p, 3-6 mins, synced)
 ├── {topic-slug}-9by16.mp4          # 9:16 vertical video (YouTube Shorts / Reels, 1080p, 1-3 mins, synced)
+├── player.html                     # Interactive HTML5 Canvas & Web Audio player artifact (scrub, aspect switcher, sound)
 ├── youtube.md                      # YouTube metadata: 3 titles, SEO description, timestamps, tags
 ├── linkedin-post.md                # Clean copy-paste LinkedIn post (zero markdown)
 ├── skool-post.md                   # Clean copy-paste Skool community post (zero markdown)
@@ -82,7 +95,7 @@ YYYYMMDD-HHMMSS/
 ├── cover.svg                       # 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md                 # AI image prompt for Midjourney / DALL-E / Flux
 ├── pinterest-motion-design.md      # Selected reference video from pinterest-references/ & motion specs
-└── credits.md                      # Free copyright-free images & B-roll sources and license log
+└── credits.md                      # Voiceover profile, fonts, procedural sound specs, and music license log
 ```
 
 > All intermediate files and scratch working directories (`assets/`, `slides_*`, `tmp*`, and temporary render fragments) are automatically purged after the final videos and posts are created. Permanent skill directories (`pinterest-references/` and `scripts/`) are preserved.
@@ -91,15 +104,9 @@ YYYYMMDD-HHMMSS/
 
 ## Scripts & Utilities
 
-- **Download Copyright-Free B-Roll from the Internet:**
-  ```bash
-  # Search & download by topic/query (landscape 16:9 or portrait 9:16)
-  python3 scripts/download-broll.py --query "server data center" --output YYYYMMDD-HHMMSS/assets/broll/slide_1_broll.mp4 --orientation landscape --duration 3.0
-
-  # Download from direct copyright-free video URL
-  python3 scripts/download-broll.py --url "https://..." --output YYYYMMDD-HHMMSS/assets/broll/slide_2_broll.mp4 --duration 3.0
-  ```
-- **Slide-Voiceover Synchronization Audit:**
+- **Interactive Motion Engine Template & Browser Player (`scripts/motion-engine-template.html`):**
+  Self-contained HTML5 Canvas and Web Audio template with transport controls, scrub slider, aspect ratio switcher, and procedural drawing primitives.
+- **Slide-Voiceover Synchronization Audit (`scripts/verify-slide-sync.py`):**
   ```bash
   python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json
   ```

@@ -1,11 +1,11 @@
 ---
 name: youtube-video-generator
-description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with code-drawn motion graphics engine f(t), procedural Web Audio SFX sound kit, camera kicks, film grain, ElevenLabs cloned voice, low-volume background music, purpose-fit copyright-free images and selective B-roll, and proper captions), plus native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
+description: Generate complete, multi-platform YouTube and social media content packages from a topic, video, YouTube URL, or GitHub repo. Produces synchronized 16:9 and 9:16 videos (with code-drawn motion graphics engine f(t), procedural Web Audio SFX sound kit, camera kicks, film grain, ElevenLabs cloned voice, low-volume background music, 100% code-drawn procedural proof shots and mockups, and proper captions), plus an interactive HTML player artifact (player.html) for browser scrubbing and review, alongside native content for all channels (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover image) with clean, copy-ready formats and strict platform guardrails.
 ---
 
 # YouTube Video Generator & Multi-Platform Content Suite
 
-Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, and **purpose-fit copyright-free images and selective B-roll used only when naturally fitting the scene (never forced)**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
+Generate complete, broadcast-quality YouTube videos (16:9 widescreen and 9:16 vertical shorts/reels) with **absolute synchronization between visible screen visuals, voiceover narration, and captions**, powered by a **code-drawn HTML5 Canvas motion graphics engine**, a **procedural Web Audio SFX synthesizer kit**, **100% code-drawn procedural proof shots & UI mockups (zero external stock footage or B-roll downloads)**, and an **interactive HTML player artifact (`player.html`) with transport controls and scrub bar**, alongside a full multi-channel distribution package across all social platforms (LinkedIn, Instagram, Twitter/X, Skool, Facebook, and Cover Images).
 
 This skill enforces professional video production standards, agency-grade motion graphics, strict zero-desync timing, and copy-paste-ready social post formats tailored natively to each platform.
 
@@ -18,7 +18,7 @@ This skill enforces professional video production standards, agency-grade motion
 > **Visible Screen Must Be in Exact Sync with Voiceover and Captions:**
 > It must **NEVER** happen that the voiceover is playing for a topic and the slide has already moved to the next one.
 >
-> - Every visual slide, diagram, UI screenshot, or B-roll segment MUST stay active on screen for the **entire duration** that its voiceover narration is speaking.
+> - Every visual slide, diagram, UI screenshot, or code-drawn proof mockup MUST stay active on screen for the **entire duration** that its voiceover narration is speaking.
 > - The duration of each slide is dynamically calculated from the exact audio length of its spoken narration:
 >   $$\text{Slide Display Duration} = \text{Audio Duration} + \text{Transition Padding (0.5s–1.0s)}$$
 > - Under NO circumstances may $\text{Slide Display Duration} < \text{Audio Duration}$.
@@ -46,7 +46,7 @@ Strictly avoid generic corporate AI buzzwords across all scripts, posts, caption
 When the source input is a video file or video/YouTube URL:
 - **Before you edit, watch the whole video and tell the user what can be done better.**
 - Programmatically inspect the full video end-to-end (probe stream metadata via `ffprobe`, sample timeline frames and generate contact sheets via `ffmpeg`, inspect transcript/audio).
-- Deliver an upfront critique covering: hook strength (first 3–5 seconds), pacing and dead air, talking-head visual fatigue, motion graphics opportunities, caption styling needs, and recommended B-roll cutaway spots before generating slides or edits.
+- Deliver an upfront critique covering: hook strength (first 3–5 seconds), pacing and dead air, talking-head visual fatigue, motion graphics opportunities, caption styling needs, and recommended procedural proof moments before generating slides or edits.
 
 ### 5. Face-Free Visuals & Screenshots Rule
 When extracting visual milestones or screenshots from source videos or GitHub repos:
@@ -71,60 +71,62 @@ When extracting visual milestones or screenshots from source videos or GitHub re
   - **Milestone & Number Locks:** `boom` (sub-bass drop with brown noise tail) + `shimmer` / `sparkle` (harmonic chime overtone)
 - **Unified Sync Muxing:** The visual timeline `TL` and sound score `scoreSound(k)` read the exact same event timestamps. Render SFX audio via `SFX.render(scoreSound, DURATION, 48000, { voiceover: true })` and mux with the ElevenLabs narration and ducked background music into the final video.
 
-### 8. Purpose-Fit Copyright-Free Images & Selective B-Roll (Zero Forced B-Roll)
+### 8. 100% Code-Drawn Procedural Proof Shots & UI Mockups (Patil's Engine - Zero Stock Footage)
 > [!IMPORTANT]
-> **Selective, Context-Driven B-Roll Rule (Never Force B-Roll):**
-> B-roll video cutaways must **NEVER be used forcefully or mechanically across every slide**. B-roll should be deployed selectively and purposefully—**only when it genuinely fits, contextualizes, and enhances the scene**.
->
-> - **When to Use B-Roll (Contextual Fit):**
->   - **High-level conceptual hooks and problem statements:** e.g., real-world infrastructure, physical servers/datacenters, developers collaborating, users on devices.
->   - **Real-world analogies:** e.g., traffic bottlenecks for network congestion, physical vaults for cryptographic security.
->   - **Pacing transitions:** A quick 1.5s–3.0s cutaway providing a mental breather between complex technical deep-dives.
-> - **When NOT to Use B-Roll (Prefer High-Density Motion Graphics & Direct UI):**
->   - **Code walkthroughs & terminal commands:** Forcing B-roll here distracts the viewer from reading the code. Use live-typing terminal animations and line-highlighting instead.
->   - **System architecture & data flows:** Motion graphics (self-drawing SVG paths, laser data pulses, pulsing service nodes) communicate architecture infinitely better than generic video clips.
->   - **Data benchmarks & metric comparisons:** Use spring number tickers, bar sweeps, and dynamic data cards.
-> - **Slide-by-Slide Content Matching (When B-Roll or Images ARE Used):**
->   - Every visual asset chosen must be **strictly relevant to that slide's specific technical point**. Generic, disconnected stock filler is strictly forbidden.
->   - If a slide covers "API Gateway Rate Limiting", any visual used must represent server routing, gateway topology, or traffic metrics.
->   - If a slide covers "Autonomous Agent Swarms", any visual must depict distributed node networks, multi-agent orchestrations, or execution graphs.
-> - **Verified Copyright-Free Sourcing Platforms on the Internet:**
->   - **Copyright-Free B-Roll Sites:** Sourced from **Pexels Videos** (`https://www.pexels.com/videos/`), **Pixabay Videos** (`https://pixabay.com/videos/`), **Coverr** (`https://coverr.co/`), **Mixkit** (`https://mixkit.co/`), or **Wikimedia Commons** (Open Video / CC0 / Public Domain).
->   - **Copyright-Free Images:** Sourced from **Unsplash** (`https://unsplash.com`), **Pexels** (`https://pexels.com`), **Pixabay** (`https://pixabay.com`), or **Wikimedia Commons**.
-> - **Automated B-Roll Downloading from the Internet (`scripts/download-broll.py`):**
->   - Download selective, slide-specific B-roll directly using the built-in downloader when a scene naturally calls for it:
->     ```bash
->     # Download by topic/query for 16:9 landscape:
->     python3 scripts/download-broll.py --query "server cluster data center" --output YYYYMMDD-HHMMSS/assets/broll/slide_1_broll.mp4 --orientation landscape --duration 3.0
->
->     # Download by topic/query for 9:16 vertical shorts/reels:
->     python3 scripts/download-broll.py --query "coding terminal software" --output YYYYMMDD-HHMMSS/assets/broll/slide_2_broll.mp4 --orientation portrait --duration 2.5
->
->     # Download from a direct copyright-free video URL:
->     python3 scripts/download-broll.py --url "https://..." --output YYYYMMDD-HHMMSS/assets/broll/slide_3_broll.mp4 --duration 3.0
->     ```
->   - The downloader automatically queries Pexels API (if `PEXELS_API_KEY` is present), Pixabay API (if `PIXABAY_API_KEY` is present), or Wikimedia Commons (zero API key required), downloads the highest-quality MP4, normalizes it to 1080p, strips any raw audio, trims it to the exact cutaway duration, and appends the source attribution and license to `credits.md`.
-> - **Strict License & Asset Integrity Rules:**
->   - **Zero Watermarks:** Strictly reject any footage or image containing watermarks, copyright badges, or stock agency logos.
->   - **100% Commercial-Safe:** Must be verified 100% royalty-free and copyright-free with zero commercial restrictions.
->   - **High Resolution:** Images at minimum 1920×1080 (or 2160×2160 for square/portrait crops); B-roll at 1080p minimum.
->   - **Punchy Pacing:** Trim B-roll into dynamic 1.5s–3.5s cutaway bursts or picture-in-picture demonstration cards; never let B-roll linger so long that it dilutes the educational message.
->   - **Asset Organization & Logging:** Store assets in `YYYYMMDD-HHMMSS/assets/images/` and `YYYYMMDD-HHMMSS/assets/broll/` mapped directly to their slide numbers (e.g. `slide_1_img.jpg`, `slide_1_broll.mp4`), and log all asset source URLs and licenses in `credits.md`.
+> **Patil's Zero-Stock-Footage Rule for Real-World Proof:**
+> Real-world context, technical evidence, and software demonstrations are **NEVER external stock video clips downloaded from the internet**.
+> 
+> Stock footage causes severe visual style clash, licensing ambiguity, watermark risks, and generic filler that detracts from technical authority. Instead, all proof shots, device screens, and workflow demonstrations are **100% code-drawn procedural mockups on Canvas**:
+> 
+> - **3D Perspective Browser Windows (`drawYaw` / `drawBrowserProof`):**
+>   - Realistic macOS-style dark/light browser windows with window controls (traffic light dots), address bar with lock icon, tab strips, and live-rendered web pages.
+>   - Tilted in 3D perspective space with horizontal yaw rotation ($\pm 10^\circ \text{ to } 18^\circ$), perspective depth scaling, soft ambient drop shadow (`shadowBlur: 48px`), and gentle floating idle motion.
+> - **Smartphone Chat Threads (`scenePhone` / mobile proof):**
+>   - Stylized mobile device chassis with conversational bubble threads (incoming gray/blue bubble, outgoing green/white bubble).
+>   - Animated 3-dot typing indicators bouncing in sync (`Math.sin(t * 8)`), message delivery checkmarks, avatar badges, and hand-drawn focus circles (`scribble`) circling the key reply.
+> - **macOS Developer Terminal Windows (`drawTerminalProof`):**
+>   - Dark slate terminal frame (`#0F172A`) with top traffic lights, monospace typography (JetBrains Mono), command prompt `$` with live character typewriter pacing, stdout logs streaming below, success badges (`OK 200`), and blinking rectangular cursors.
+> - **Interactive Dashboards & Rolling Counters (`drawMath` / benchmark proofs):**
+>   - Live-updating line charts, latency distribution bars, spring-interpolated rolling numbers locking on the beat with sub-bass drops (`boom`), and green pill percentage metrics (`+380%`).
+> - **System Architecture Pipelines & Circuit Laser Pulses:**
+>   - Self-drawing Bézier pipelines with laser pulses traversing microservice nodes, API gateways, queue buffers, and state machine graphs.
+> - **Stamp Overlays & Red Strikes:**
+>   - For debunking flawed approaches or legacy patterns: big red angled rubber stamp (`STAMP`) slamming down with scale overshoot (e.g., `"BRITTLE"` or `"SLOW"`), accompanied by rough red textured strike lines (`strike`) crossing out legacy code blocks.
+> - **Integrity & Generics:**
+>   - All mockups use invented, generic names, domain handles, and illustrative numbers. Label figures as examples when illustrative. Zero real personal credentials, real receipts, or private data.
 
-### 9. Proper Captions
+### 9. Interactive HTML5 Player Artifact (`player.html` - Patil's Player System)
+> [!TIP]
+> **Self-Contained Browser Player Artifact:**
+> Alongside the final MP4 video exports, the skill generates a single-file, self-contained **interactive HTML5 Canvas & Web Audio player** saved into `YYYYMMDD-HHMMSS/player.html`.
+>
+> - **Zero Dependencies:** Runs locally in Chrome, Safari, Edge, or Firefox by opening the file directly (no local web server or Node build step required).
+> - **Dark Editing-Suite Layout:**
+>   - Stage container automatically maintaining 16:9 Landscape or 9:16 Portrait aspect ratios with high-DPI retina canvas scaling.
+>   - Full transport control bar directly beneath the stage.
+> - **Interactive Controls & Keyboard Shortcuts:**
+>   - **Play / Pause Button:** Toggle playback with spacebar or click.
+>   - **Scrub Slider Bar:** Smooth drag-and-scrub with instantaneous canvas frame updates via `window.seek(t)`.
+>   - **Real-Time Timecode:** Formatted elapsed and total runtime readout (`MM:SS / MM:SS`).
+>   - **Dual-Orientation Switcher:** One-click toggle switching between `16:9 Landscape` and `9:16 Portrait` layouts in real time.
+>   - **Sound Toggle:** Toggle synthesized procedural SFX (`🔊 SFX ON` / `🔇 SFX MUTED`).
+>   - **Loop Toggle:** Switch between continuous loop and single play (`🔁 LOOP ON` / `➡️ ONCE`).
+> - **Exposed Developer APIs:** Exposes `window.seek(t)`, `window.DURATION`, `window.scoreSound(k)`, and `window.SFX` for automated headless video rendering and QA verification.
+
+### 10. Proper Captions
 - Render captions in a frosted dark translucent pill (`background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 22px;`).
 - Highlight active operative keywords in vibrant yellow (`#FCD34D`) or cyan (`#38BDF8`).
 - Position in the mobile safe zone (bottom 120px–180px) to clear platform UI overlays.
 
-### 10. Clean Final Deliverables Only (Zero Intermediate File Clutter)
+### 11. Clean Final Deliverables Only (Zero Intermediate File Clutter)
 > [!IMPORTANT]
 > **Automatic Purge of Intermediate & Scratch Files:**
 > Once video rendering and post generation are complete, the output folder must contain **ONLY the final generated output files**. All intermediate working files, scratch directories, frame dumps, temporary audio cuts, and raw video fragments created during generation MUST be automatically purged:
 > - Delete `assets/review/` (`thumb_*.png`, `contact_sheet.png`, `audio.mp3`)
 > - Delete intermediate slide frame folders (`slides_16by9/`, `slides_9by16/`, `tmp/`)
 > - Delete per-slide audio cuts (`assets/voiceover_slide_*.mp3`) and temporary render cuts (`visual_rendered.mp4`, `*_tmp.mp4`, `concat*.txt`)
-> - Delete intermediate asset staging folders (`assets/images/`, `assets/broll/`, `assets/screenshot-*.png`, `assets/voiceover.mp3`) once fully baked into the final MP4 video outputs
-> - The output folder must strictly contain only the final deliverables: the two MP4 videos (16:9 and 9:16), the 6 clean social post files, `cover.svg`, `cover-prompt.md`, `pinterest-motion-design.md`, and `credits.md`.
+> - Delete intermediate asset staging folders (`assets/images/`, `assets/screenshot-*.png`, `assets/voiceover.mp3`, `assets/sfx.wav`) once fully baked into the final MP4 video outputs
+> - The output folder must strictly contain only the final deliverables: the two MP4 videos (16:9 and 9:16), `player.html`, the 6 clean social post files, `cover.svg`, `cover-prompt.md`, `pinterest-motion-design.md`, and `credits.md`.
 > - **Permanent Skill Fixtures:** Never delete or purge `pinterest-references/` or `scripts/` — these are persistent local skill assets, not scratch output files.
 
 ---
@@ -208,7 +210,7 @@ The engine natively supports both video aspect ratios from a shared timeline:
 
 | Aspect Ratio | Canvas Dimensions | Layout & Composition Strategy |
 |---|---|---|
-| **16:9 Landscape** | 1920 × 1080 px (or 1280 × 720 px) | Widescreen hero stage; horizontal multi-column splits (code/diagram on left, 3D yaw mockup or selective B-roll cutaway on right); wide headline rows; lateral whip cuts (`whip`). |
+| **16:9 Landscape** | 1920 × 1080 px (or 1280 × 720 px) | Widescreen hero stage; horizontal multi-column splits (code/diagram on left, 3D yaw mockup or procedural dashboard on right); wide headline rows; lateral whip cuts (`whip`). |
 | **9:16 Portrait** | 1080 × 1920 px (or 720 × 1280 px) | Vertical mobile stage; stacked information hierarchy; centered statement text; mobile-safe top progress bar; high-contrast stat cards; vertical whip cuts (`whipV`). |
 
 A continuous top gradient progress bar (`0% → 100%`) runs across the top edge throughout the full runtime on both formats.
@@ -317,7 +319,7 @@ Voiceover: Stop building AI workflows that break on edge cases. Here is the exac
 
 [SCENE 2: PROBLEM CONTEXT]
 Scene: 2
-Visual: Problem diagram vs brittle pipelines + server rack B-roll cutaway
+Visual: Problem diagram vs brittle pipelines + 3D yaw server mockup and red STAMP strike
 Voiceover: Most developers make the mistake of chaining raw API calls without state persistence or evaluation gates. When a service fails, the entire pipeline crashes.
 
 ...
@@ -366,7 +368,7 @@ $$\text{Slide Duration} = 7.4\text{s} + 0.6\text{s} = 8.0\text{s}$$
 **The slide stays on screen for the full 8.0 seconds.** The transition to the next slide only starts at $t = 8.0\text{s}$. The next topic's slide only appears when the next topic's voiceover begins.
 
 ### Step 4: Write `sync-manifest.json`
-Save the synchronized timeline manifest into the project folder, explicitly associating each slide with its slide-relevant image and B-roll assets:
+Save the synchronized timeline manifest into the project folder, explicitly associating each slide with its code-drawn procedural proof shot and motion graphic components:
 ```json
 {
   "project": "topic-slug",
@@ -374,10 +376,12 @@ Save the synchronized timeline manifest into the project folder, explicitly asso
     {
       "slide_index": 1,
       "title": "Hook & System Architecture",
-      "image_file": "assets/images/slide_1_neural_mesh.jpg",
-      "broll_file": "assets/broll/slide_1_server_cluster.mp4",
-      "broll_cutaway_start": 2.5,
-      "broll_cutaway_duration": 2.5,
+      "proof_shot": {
+        "type": "browser_3d_yaw",
+        "title": "Distributed Pipeline Dashboard",
+        "yaw_deg": 14,
+        "trigger_offset": 2.2
+      },
       "motion_graphics": [
         {"type": "animated_badge", "text": "SYSTEM ARCHITECTURE", "position": "top_left", "animation": "slide_bounce"},
         {"type": "kinetic_typography", "target": "title", "style": "stagger_words", "stagger": 0.08},
@@ -392,13 +396,14 @@ Save the synchronized timeline manifest into the project folder, explicitly asso
     {
       "slide_index": 2,
       "title": "Live Terminal Execution & Retry Logic",
-      "image_file": null,
-      "broll_file": null,
-      "broll_cutaway_start": null,
-      "broll_cutaway_duration": null,
+      "proof_shot": {
+        "type": "terminal_macos",
+        "command": "curl -X POST https://api.prod/stream",
+        "stdout": "✓ Stream connected (200 OK)",
+        "trigger_offset": 0.5
+      },
       "motion_graphics": [
         {"type": "animated_badge", "text": "CODE WALKTHROUGH", "position": "top_left", "animation": "slide_bounce"},
-        {"type": "terminal_code_typing", "command": "curl -X POST https://api.prod/stream", "trigger_offset": 0.5},
         {"type": "highlight_line", "target": "error_catch_block", "trigger_offset": 3.2},
         {"type": "callout_card", "text": "Zero Retries = 40% Dropoff", "animation": "pop_in_spring", "trigger_offset": 4.5}
       ],
@@ -444,9 +449,8 @@ The skill generates **two broadcast-quality video deliverables**, both rendered 
 | **Output Path** | `YYYYMMDD-HHMMSS/{slug}-16by9.mp4` | `YYYYMMDD-HHMMSS/{slug}-9by16.mp4` |
 | **Canvas Dimensions** | 1920 × 1080 px (16:9) | 1080 × 1920 px (9:16) |
 | **Target Runtime** | 3 to 6 minutes | 1 to 3 minutes |
-| **Visual Structure** | Wide hero graphics, code split-screens, architecture diagrams, and slide-relevant visuals | Portrait cards, kinetic callouts, bold stat pop-ins, and slide-relevant visuals |
-| **Slide-Relevant Images** | Purpose-fit copyright-free images (Unsplash/Pexels) matching the concept of that slide; omitted on pure diagram/code slides | Purpose-fit mobile-framed copyright-free images matching the concept of that slide; omitted on pure UI/terminal slides |
-| **Selective B-Roll (Non-Forced)** | Selective 1.5–3.5s cutaways from Pexels/Coverr/Mixkit/Wikimedia used ONLY when naturally enhancing context (never forced on code or architecture) | Selective rapid vertical B-roll cutaways used ONLY for hooks and transitions where fitting (never forced on terminal/diagram slides) |
+| **Visual Structure** | Wide hero stage, code split-screens, architecture diagrams, and 100% code-drawn proof mockups | Vertical mobile stage, kinetic callouts, bold stat pop-ins, and stacked proof cards |
+| **Procedural Proof Shots (Zero Stock B-Roll)** | 100% code-drawn 3D perspective browser mockups (`drawYaw`), macOS terminal windows (`drawTerminalProof`), live metric charts. Zero external stock video downloads. | 100% code-drawn smartphone chat threads (`scenePhone`), vertical terminal windows, stacked metric tickers, pop-in badges. Zero external stock video downloads. |
 | **Motion Graphics (Code-Drawn)** | Patil code-drawn Canvas engine: pure function f(t), kinetic typography slams, highlighter swipes, 3D perspective yaw mockups, live terminal typing, spring metric tickers, camera punch/shake, film grain, light leaks, and directional whip pans | Patil code-drawn Canvas engine: pure function f(t) in 9:16 vertical orientation, top progress bar, vertical stacked cards, rapid word slams, pop-in stat badges, vertical whip cuts (`whipV`), film grain, and camera punch zooms |
 | **Captions** | Lower-third frosted pill, centered, active keyword yellow highlight (`#FCD34D`) | Safe-zone positioned (bottom 160px), frosted glass pill, active keyword highlight |
 | **Audio Mix** | ElevenLabs voiceover at volume 1.0 (-16 LUFS) + synthesized Web Audio SFX (slams, whooshes, ticks) + background music looped at volume 0.10 | ElevenLabs voiceover at volume 1.0 (-16 LUFS) + synthesized Web Audio SFX (slams, pops, glitches) + background music looped at volume 0.10 |
@@ -475,6 +479,7 @@ Generate the complete suite of deliverables for all channels directly into the d
 |---|---|---|
 | **YouTube 16:9 Video** | `{slug}-16by9.mp4` | 1920×1080 widescreen, 3–6 mins, fully synchronized visuals, voiceover, and captions. |
 | **YouTube 9:16 Shorts** | `{slug}-9by16.mp4` | 1080×1920 vertical, 1–3 mins, high-energy mobile cut, fully synchronized. |
+| **Interactive Player Artifact** | `player.html` | Self-contained HTML5 Canvas & Web Audio player with scrub bar, dual-orientation switcher, timecode, and sound controls. Opens locally in any browser. |
 | **YouTube Metadata** | `youtube.md` | 3 clickable titles (<60 chars), SEO description with hook, video timestamps, links, tags. Clean text. |
 | **LinkedIn Post** | `linkedin-post.md` | Mobile hook (<8 words), re-hook, 1–2 sentence paragraphs, emojis, soft CTA, ♻️ Repost, ➕ Follow Deven Goratela, 3–5 hashtags. Clean text. |
 | **Cover Image & Prompt**| `cover.svg` & `cover-prompt.md` | 1200×627 SVG (1.91:1) with central 1000×500 safe zone, hero insight text, `@devengoratela` branding + AI prompt. |
@@ -483,7 +488,7 @@ Generate the complete suite of deliverables for all channels directly into the d
 | **Twitter / X** | `twitter-post.md` | Standalone tweet (<280 chars) PLUS full numbered thread (`1/` to `N/`), summary, follow + retweet CTA. Clean text. |
 | **Facebook Post** | `facebook-post.md` | Conversational, storytelling, short paragraphs, emoji anchors, discussion question, 0–2 hashtags. Clean text. |
 | **Pinterest Motion Style**| `pinterest-motion-design.md` | Selected reference video from pinterest-references/, motion design breakdown, color palette tokens, and transition specs. |
-| **Credits & Attribution**| `credits.md` | Image & B-roll sources, background music license, ElevenLabs voice profile. |
+| **Credits & Attribution**| `credits.md` | Voiceover profile, fonts, procedural sound specs, and background music license log. |
 
 ---
 
@@ -693,6 +698,7 @@ After the automated cleanup pass, the output folder strictly contains **ONLY the
 YYYYMMDD-HHMMSS/
 ├── {topic-slug}-16by9.mp4          ← Final 16:9 widescreen YouTube video (1080p, 3-6 mins, synced)
 ├── {topic-slug}-9by16.mp4          ← Final 9:16 vertical video (YouTube Shorts / Reels, 1080p, 1-3 mins, synced)
+├── player.html                     ← Interactive HTML5 Canvas & Web Audio player artifact (transport, scrub, aspect switcher)
 ├── youtube.md                      ← YouTube metadata: 3 titles, SEO description, timestamps, tags
 ├── linkedin-post.md                ← Clean copy-paste LinkedIn post (zero markdown)
 ├── skool-post.md                   ← Clean copy-paste Skool community post (zero markdown)
@@ -702,11 +708,11 @@ YYYYMMDD-HHMMSS/
 ├── cover.svg                       ← 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md                 ← AI image prompt for Midjourney / DALL-E / Flux
 ├── pinterest-motion-design.md      ← Selected reference video from pinterest-references/ & motion specs
-└── credits.md                      ← Free copyright-free images & B-roll sources and license log
+└── credits.md                      ← Voiceover profile, fonts, procedural sound specs, and music license log
 ```
 
 > [!NOTE]
-> All intermediate scratch files and working directories (such as `assets/review/`, `assets/broll/`, `assets/images/`, `slides_16by9/`, `slides_9by16/`, `tmp/`, per-slide voiceover segments, and temporary render cuts) are automatically removed upon completion so the folder strictly holds the final generated deliverables. (Note: Permanent skill fixtures `pinterest-references/` and `scripts/` are never deleted).
+> All intermediate scratch files and working directories (such as `assets/review/`, `assets/images/`, `slides_16by9/`, `slides_9by16/`, `tmp/`, per-slide voiceover segments, and temporary render cuts) are automatically removed upon completion so the folder strictly holds the final generated deliverables. (Note: Permanent skill fixtures `pinterest-references/` and `scripts/` are never deleted).
 
 ---
 
@@ -727,33 +733,33 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
 3. **Scripting with Slide-Topic & Motion Graphics Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
    - Explicitly assign motion graphic triggers (kinetic typography slams, terminal typewriter, 3D yaw mockups, diagram flows, metric tickers) to each scene.
-4. **Selective Sourcing of Slide-Relevant Images & B-Roll (Context-Driven, Never Forced):**
-   - Evaluate each scene: determine whether B-roll or photographic imagery genuinely enhances the scene, or if high-density motion graphics, live terminal code, or architecture diagrams are the primary visual focus.
-   - **Zero Forced B-Roll:** Do NOT force B-roll onto every slide. Skip B-roll on slides where it would distract from code, commands, or data diagrams.
-   - For scenes that naturally call for real-world context, physical infrastructure, conceptual hooks, or section transitions: search and download high-resolution copyright-free images (Unsplash/Pexels) and B-roll video clips (Pexels, Pixabay, Coverr, Mixkit, Wikimedia Commons) directly matching that specific topic.
-   - Run `python3 scripts/download-broll.py --query "<slide topic>" --output YYYYMMDD-HHMMSS/assets/broll/slide_{i}_broll.mp4 --orientation <landscape|portrait> --duration 3.0` (or download from direct copyright-free video URLs).
-   - Ensure all B-roll clips are normalized (1080p, H.264, audio-stripped, trimmed to 1.5s–3.5s).
-   - Verify zero watermarks and zero commercial restrictions. Save into `assets/images/` and `assets/broll/` mapped to slide numbers, and log all asset source URLs and licenses in `credits.md`.
+4. **100% Code-Drawn Procedural Proof Shots & UI Mockups Setup (Zero Stock Footage):**
+   - Configure code-drawn proof mockups for each technical concept:
+     - 3D perspective browser mockups (`drawYaw` / `drawBrowserProof`) for web dashboards, SaaS interfaces, and documentation.
+     - Smartphone conversational chat threads (`scenePhone`) for messaging flows, notifications, and mobile interactions.
+     - macOS developer terminal windows (`drawTerminalProof`) with character typing, stdout streams, and success badges for code walkthroughs.
+     - Benchmark counters and latency charts (`drawMath`) with green glowing milestone numbers for metrics.
+   - Zero stock video downloading (no external B-roll dependencies, zero watermarks, zero license issues).
 5. **Voiceover Generation & Precision Probing:**
    - Generate audio via ElevenLabs cloned voice for each slide segment.
    - Probe exact audio durations using `ffprobe`.
 6. **Timeline Calculation, Manifest & Synthesized SFX Score:**
    - Calculate slide display durations: $\text{Slide Duration} = \text{Audio Duration} + 0.6\text{s}$.
    - Ensure every slide stays on screen for the full duration of its voiceover.
-   - Map image files, selective B-roll cutaway windows (or `null` when omitted), code-drawn visual animations, procedural SFX triggers (`slam`, `pop`, `tick`, `whoosh`, `marker`, `keys`, `boom`), and captions into `sync-manifest.json` and `captions.json`.
+   - Map code-drawn proof shots, visual animations, procedural SFX triggers (`slam`, `pop`, `tick`, `whoosh`, `marker`, `keys`, `boom`), and captions into `sync-manifest.json` and `captions.json`.
 7. **Pre-Export Sync Verification Pass:**
    - Run `python3 scripts/verify-slide-sync.py YYYYMMDD-HHMMSS/sync-manifest.json`.
    - Abort and adjust if any slide transitions before voiceover completes.
-8. **Render Dual Videos (16:9 & 9:16) with Patil Code-Drawn Engine & Synthesized SFX:**
-   - Run the code-drawn Canvas motion graphics engine (`scripts/motion-engine-template.html` logic) in both orientations:
-     - 16:9 Landscape (`1920×1080` / `1280×720`) for YouTube main deep-dives.
-     - 9:16 Portrait (`1080×1920` / `720×1280`) for YouTube Shorts / Reels / TikTok.
+8. **Build Interactive `player.html` Artifact & Render Dual Videos (16:9 & 9:16):**
+   - Assemble the self-contained interactive browser player artifact `YYYYMMDD-HHMMSS/player.html` built on Patil's reference player architecture (`scripts/motion-engine-template.html`):
+     - Interactive stage supporting real-time switching between 16:9 Landscape and 9:16 Portrait.
+     - Full transport controls: Play/Pause button (spacebar toggle), scrub slider bar (`window.seek(t)`), timecode readout, sound mute/unmute, and loop toggle.
    - Synthesize the procedural Web Audio SFX track (`assets/sfx.wav`) via `SFX.render(scoreSound, DURATION, 48000, { voiceover: true })`.
-   - Mux visuals, ElevenLabs cloned voiceover (-16 LUFS), synthesized SFX track (volume 0.85), and ducked background music (10% volume) into `{slug}-16by9.mp4` and `{slug}-9by16.mp4`.
+   - Render 1080p video frames from the Canvas engine, and mux with ElevenLabs cloned voiceover (-16 LUFS), synthesized SFX track (volume 0.85), and ducked background music (10% volume) into `{slug}-16by9.mp4` and `{slug}-9by16.mp4`.
 9. **Generate All Native Social Posts (Zero Markdown):**
    - Write `youtube.md`, `linkedin-post.md`, `skool-post.md`, `instagram-post.md`, `twitter-post.md`, `facebook-post.md`, `cover.svg`, and `cover-prompt.md`.
 10. **Automatic Intermediate File Cleanup:**
-    - Purge all scratch directories, temporary render files, frame dumps, and intermediate audio/video cuts:
+    - Purge all scratch directories, temporary render files, frame dumps, and intermediate audio/video cuts while strictly retaining `player.html`:
       ```bash
       rm -rf YYYYMMDD-HHMMSS/assets \
              YYYYMMDD-HHMMSS/slides_* \
@@ -765,7 +771,7 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
              YYYYMMDD-HHMMSS/concat*.txt
       ```
 11. **Final Verification & Reporting:**
-    - Verify that only the final generated output files exist in `YYYYMMDD-HHMMSS/`.
+    - Verify that only the final generated output files (including `player.html`) exist in `YYYYMMDD-HHMMSS/`.
     - Present a clean completion summary table to the user.
 
 ---
@@ -782,9 +788,8 @@ Before completing execution, verify:
 - [ ] User's latest cloned ElevenLabs voice used for voiceover narration (-16 LUFS)
 - [ ] Background music strictly ducked to low volume (10% / `volume=0.10`), voice crisp and audible
 - [ ] High-contrast captions rendered in frosted translucent pill with active keyword highlighting
-- [ ] B-roll used selectively and contextually where it naturally fits the scene (never forced onto code walkthroughs, terminal demos, or architecture diagrams)
-- [ ] Any images or B-roll used are strictly relevant to the active topic, 100% watermark-free from Unsplash, Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons
-- [ ] Sources logged in `credits.md`
+- [ ] Real-world proof and demonstrations are 100% code-drawn on Canvas (3D perspective browser mockups, mobile chat threads, macOS terminals, live metric tickers) with zero external stock footage or B-roll downloads
+- [ ] Interactive player artifact `player.html` generated with working transport bar, real-time scrub slider, timecode, orientation switcher, and sound toggle
 
 **Motion Graphics & Code-Drawn Engine (Mandatory):**
 - [ ] 7-Point Style Card extracted from reference video in `pinterest-references/` and documented in `pinterest-motion-design.md`
@@ -812,4 +817,4 @@ Before completing execution, verify:
 
 **Folder Cleanliness & Intermediate Cleanup (Mandatory):**
 - [ ] All intermediate files and scratch working directories (`assets/`, `slides_*`, `tmp*`, raw video fragments) purged
-- [ ] Output folder contains ONLY the final generated deliverables (videos, social posts, cover files, design spec, and credits.md)
+- [ ] Output folder contains ONLY the final generated deliverables (videos, player.html, social posts, cover files, design spec, and credits.md)
