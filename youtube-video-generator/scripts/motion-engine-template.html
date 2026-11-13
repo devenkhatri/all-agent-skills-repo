@@ -2,86 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Code-Drawn Motion Graphics Engine & Player</title>
+<title>Code-Drawn Motion Graphics Engine</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=block">
 <style>
-  :root {
-    color-scheme: dark;
-    --bg: #09090b;
-    --panel: #141417;
-    --line: #27272a;
-    --ink: #f4f4f5;
-    --dim: #a1a1aa;
-    --accent: #ffd60a;
-    --blue: #38bdf8;
-    --display: "Anton", sans-serif;
-    --body: "Inter", system-ui, sans-serif;
-    --serif: "Instrument Serif", Georgia, serif;
-    --mono: "JetBrains Mono", monospace;
-  }
-  * { box-sizing: border-box; }
-  html, body { height: 100%; margin: 0; }
-  body {
-    background: var(--bg); color: var(--ink); font-family: var(--body);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 16px; overflow: hidden;
-  }
-  .wrap { width: 100%; max-width: 1280px; display: grid; gap: 12px; }
-  .top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; }
-  .name { font-family: var(--display); font-size: 28px; letter-spacing: 0.02em; text-transform: uppercase; margin: 0; line-height: 1; }
-  .name em { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 1.15em; }
-  .meta { color: var(--dim); font-size: 13px; margin: 0; }
-  .stage-wrap {
-    position: relative; width: 100%; display: flex; align-items: center; justify-content: center;
-    background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--line);
-    max-height: 72vh;
-  }
-  .stage-wrap.mode-16by9 { aspect-ratio: 16 / 9; }
-  .stage-wrap.mode-9by16 { aspect-ratio: 9 / 16; max-height: 75vh; }
-  canvas { width: 100%; height: 100%; display: block; object-fit: contain; }
-  .bar {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px;
-  }
-  button, select {
-    font: 600 13px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line);
-    border-radius: 6px; padding: 7px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
-  }
-  button:hover, select:hover { border-color: var(--dim); }
-  button[aria-pressed="true"] { background: var(--accent); color: #09090b; border-color: var(--accent); }
-  #play { min-width: 78px; justify-content: center; background: var(--ink); color: #09090b; border-color: var(--ink); font-weight: 700; }
-  #scrub { flex: 1 1 200px; min-width: 0; accent-color: var(--accent); cursor: pointer; }
-  #time { font: 600 13px var(--body); font-variant-numeric: tabular-nums; color: var(--dim); min-width: 90px; text-align: right; }
+  :root { color-scheme: dark; --bg: #09090b; --ink: #f4f4f5; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+  #canvas-container { position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); border-radius: 12px; overflow: hidden; border: 1px solid #27272a; }
+  canvas { display: block; }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="top">
-    <h1 class="name">Code-Drawn <em>Motion</em> Graphics</h1>
-    <p class="meta" id="status-meta">Interactive Player · Pure f(t) Canvas · Synthesized Web Audio SFX</p>
-  </div>
-  <div class="stage-wrap mode-16by9" id="stage-box">
-    <canvas id="stage" width="1920" height="1080"></canvas>
-  </div>
-  <div class="bar">
-    <button id="play" type="button">Play</button>
-    <input id="scrub" type="range" min="0" max="30" step="0.01" value="0" aria-label="Scrub timeline">
-    <span id="time">0.00 / 30.00</span>
-    <button id="sound" type="button" aria-pressed="true">Sound on</button>
-    <button id="loop" type="button" aria-pressed="true">Loop</button>
-    <select id="aspect" aria-label="Aspect Ratio">
-      <option value="16by9" selected>16:9 Landscape</option>
-      <option value="9by16">9:16 Portrait</option>
-    </select>
-  </div>
+<div id="canvas-container">
+  <canvas id="stage" width="1920" height="1080"></canvas>
 </div>
 
 <script>
 // =====================================================================================================
-// CODE-DRAWN MOTION GRAPHICS ENGINE & INTERACTIVE PLAYER
+// CODE-DRAWN MOTION GRAPHICS ENGINE (16:9 Landscape & 9:16 Portrait)
 // Every frame is a pure mathematical function of time t. Seeded PRNG. Dual orientation.
 // =====================================================================================================
 
@@ -182,6 +122,7 @@ const SFX = (() => {
     }
     function duck(t, depth = 0.5, hold = 0.25) { DUCKS.push({ t, depth, hold }); }
 
+    // 16+ Synthesized Sounds
     const S = {
       slam: (t, o) => { voice(t, { f: [[0, 150], [0.12, 52]], dur: 0.2, gain: 0.42 * o.g, pan: o.pan, soft: o.soft }); hiss(t, { dur: 0.07, filter: 'lowpass', ff: 2600, gain: 0.22 * o.g, pan: o.pan, soft: o.soft }); hiss(t, { dur: 0.012, filter: 'highpass', ff: 5000, gain: 0.12 * o.g, pan: o.pan, soft: o.soft }); },
       boom: (t, o) => { voice(t, { f: [[0, 90], [0.08, 52], [1.6, 34]], dur: 1.7, gain: 0.7 * o.g, a: 0.006, hold: 0.12 }); hiss(t, { color: 'brown', dur: 0.6, filter: 'lowpass', ff: [[0, 600], [0.5, 90]], gain: 0.35 * o.g, verb: 0.3 }); duck(t, 0.7, 0.35); },
@@ -208,11 +149,6 @@ const SFX = (() => {
     }
     return { play, voice, hiss, finish, hz, vo: VO };
   }
-  function live(score, from, opts = {}) {
-    const ac = new (window.AudioContext || window.webkitAudioContext)();
-    const k = kit(ac, Object.assign({}, opts, { from: from || 0, lead: 0.04 })); score(k); k.finish();
-    return () => { try { ac.close(); } catch (e) {} };
-  }
   async function render(score, dur, sr = 48000, opts = {}) {
     const len = Math.ceil(dur * sr), ac = new OfflineAudioContext(2, len, sr);
     const k = kit(ac, Object.assign({}, opts, { from: 0 })); score(k); k.finish();
@@ -220,10 +156,10 @@ const SFX = (() => {
     let peak = 0; for (let i = 0; i < len; i++) { inter[2 * i] = L[i]; inter[2 * i + 1] = R[i]; peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i])); }
     return { inter, peak, sr, frames: len };
   }
-  return { kit, live, render, hz };
+  return { kit, render, hz };
 })();
 
-// --- 3. DUAL-ORIENTATION CANVAS ENGINE ---
+// --- 3. DUAL-ORIENTATION CANVAS ENGINE (16:9 Landscape / 9:16 Portrait) ---
 const Orientation = {
   LANDSCAPE: { W: 1920, H: 1080, name: '16by9' },
   PORTRAIT: { W: 1080, H: 1920, name: '9by16' }
@@ -235,12 +171,10 @@ let W = currentMode.W, H = currentMode.H;
 function setOrientation(mode) {
   currentMode = mode; W = mode.W; H = mode.H;
   const cvs = document.getElementById('stage');
-  const box = document.getElementById('stage-box');
   cvs.width = W; cvs.height = H;
-  box.className = 'stage-wrap mode-' + mode.name;
 }
 
-// --- 4. DESIGN TOKENS ---
+// --- 4. DESIGN TOKENS (Extracted via 7-Point Style Card) ---
 const C = {
   bg: '#09090b',
   panel: '#141417',
@@ -265,7 +199,7 @@ const inter = (px, w = 600) => `${w} ${px}px ${F.body}`;
 const serif = (px) => `italic ${px}px ${F.serif}`;
 const mono = (px, w = 500) => `${w} ${px}px ${F.mono}`;
 
-// --- 5. PROCEDURAL 2D DRAWING PRIMITIVES & PROOF SHOTS ---
+// --- 5. PROCEDURAL 2D DRAWING PRIMITIVES ---
 const { clamp, lerp, span, rng, noise1, ez } = CM;
 
 const word = (s, t, font, color, extra) => Object.assign({ s, t, font, color: color || C.ink }, extra || {});
@@ -281,6 +215,7 @@ function row(c, items, x, y, gap, align = 'center') {
 
 function rr(c, x, y, w, h, r) { c.beginPath(); c.roundRect(x, y, w, h, r); }
 
+// Kinetic Word Slam with Scale Overshoot & Motion Blur
 function slam(c, it, t, o = {}) {
   if (t < it.t) return;
   const u = span(t, it.t, it.t + (o.dur || 0.22)), e = ez.outExpo(u), s = lerp(o.from || 1.45, 1, e);
@@ -293,6 +228,7 @@ function slam(c, it, t, o = {}) {
   c.restore();
 }
 
+// Highlighter Swipe with Dark Text Clip
 function swipe(c, it, t, t0, dur, o = {}) {
   const p = ez.out3(span(t, t0, t0 + dur)); if (p <= 0) return null;
   const px = parseFloat(/(\d+)px/.exec(it.font)[1]), h = (o.h || 0.8) * px, pad = o.pad || 20, y = it.y + (o.dy || 0) - h / 2;
@@ -310,12 +246,14 @@ function slamMarked(c, it, t, path, o = {}) {
   c.save(); c.clip(path); slam(c, it, t, Object.assign({}, o, { color: '#09090b', glow: null })); c.restore();
 }
 
+// Rough Red Strike-Through
 function strike(c, x0, x1, y, p, col = C.red, w = 14, tilt = -0.02) {
   if (p <= 0) return; const e = ez.out3(clamp(p)), x = lerp(x0, x1, e);
   c.save(); c.strokeStyle = col; c.lineWidth = w; c.lineCap = 'round'; c.shadowColor = col; c.shadowBlur = 14;
   c.beginPath(); c.moveTo(x0, y); c.lineTo(x, y + (x - x0) * tilt); c.stroke(); c.restore();
 }
 
+// Organic Hand-Drawn Circular Loop
 function scribble(c, cx, cy, rx, ry, p, col, w, seed) {
   if (p <= 0) return; const n = noise1(seed), N = 96, turns = 1.15, a0 = -2.4, m = Math.max(2, Math.ceil(N * clamp(p)));
   c.save(); c.strokeStyle = col; c.lineWidth = w; c.lineCap = 'round'; c.lineJoin = 'round'; c.beginPath();
@@ -323,6 +261,7 @@ function scribble(c, cx, cy, rx, ry, p, col, w, seed) {
   c.stroke(); c.restore();
 }
 
+// Hand-Drawn Quadratic Bézier Arrow
 function handArrow(c, p0, q, p1, p, col, w) {
   if (p <= 0) return; const N = 32, m = Math.max(2, Math.round(N * clamp(p))), pts = [];
   for (let i = 0; i <= m; i++) { const u = i / N, v = 1 - u; pts.push([v * v * p0[0] + 2 * v * u * q[0] + u * u * p1[0], v * v * p0[1] + 2 * v * u * q[1] + u * u * p1[1]]); }
@@ -332,7 +271,7 @@ function handArrow(c, p0, q, p1, p, col, w) {
   c.restore();
 }
 
-// 3D Perspective Tilt via Vertical Slice Projection (Proof Shot Mockup)
+// 3D Perspective Tilt via Vertical Slice Projection
 function drawYaw(c, src, cx, cy, w, h, yaw, alpha) {
   const f = 1600, cs = Math.cos(yaw), sn = Math.sin(yaw);
   const proj = (x) => { const X = x * cs, Z = x * sn, k = f / (f + Z); return { x: cx + X * k, k }; };
@@ -350,61 +289,7 @@ function drawYaw(c, src, cx, cy, w, h, yaw, alpha) {
   c.restore();
 }
 
-// Procedural Proof Shot: Code-Drawn Terminal Window
-function drawTerminalProof(c, x, y, w, h, title, command, outputText, p) {
-  c.save(); c.translate(x, y);
-  c.fillStyle = '#0f0f13'; rr(c, 0, 0, w, h, 14); c.fill();
-  c.strokeStyle = '#27272a'; c.lineWidth = 1.5; rr(c, 0, 0, w, h, 14); c.stroke();
-  // Chrome bar
-  c.fillStyle = '#18181b'; rr(c, 0, 0, w, 40, [14, 14, 0, 0]); c.fill();
-  [['#ff5f57', 24], ['#febc2e', 44], ['#28c840', 64]].forEach(([col, cx]) => {
-    c.fillStyle = col; c.beginPath(); c.arc(cx, 20, 6, 0, 7); c.fill();
-  });
-  c.fillStyle = '#71717a'; c.font = mono(14, 500); c.textAlign = 'center'; c.fillText(title, w / 2, 25);
-  // Code execution
-  c.textAlign = 'left'; c.font = mono(18, 500); c.fillStyle = '#38bdf8';
-  c.fillText('❯', 24, 78);
-  const cmdLen = Math.floor(command.length * clamp(p * 2));
-  c.fillStyle = '#f4f4f5'; c.fillText(command.slice(0, cmdLen), 46, 78);
-  if (p < 0.6) {
-    c.fillStyle = '#ffd60a'; c.fillText('_', 46 + c.measureText(command.slice(0, cmdLen)).width + 2, 78);
-  } else if (p >= 0.65) {
-    c.fillStyle = '#34d399'; c.font = mono(16, 400);
-    const outLines = outputText.split('\n');
-    outLines.forEach((line, idx) => {
-      c.fillText(line, 24, 114 + idx * 26);
-    });
-  }
-  c.restore();
-}
-
-// Procedural Proof Shot: Code-Drawn Browser Mockup
-let BR = null;
-function drawBrowserProof(t, B = { cards: [0.5, 1.0, 1.5], click: 2.0 }) {
-  if (!BR) BR = CM.layer(780, 520); const x = BR.getContext('2d'); const w = 780, h = 520;
-  x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, w, h);
-  x.fillStyle = '#f4f2ee'; rr(x, 0, 0, w, h, 18); x.fill();
-  x.save(); rr(x, 0, 0, w, h, 18); x.clip();
-  x.fillStyle = '#e4e1db'; x.fillRect(0, 0, w, 52);
-  ['#ff5f57', '#febc2e', '#28c840'].forEach((col, i) => { x.fillStyle = col; x.beginPath(); x.arc(28 + i * 22, 26, 7, 0, 7); x.fill(); });
-  x.fillStyle = '#ffffff'; rr(x, 120, 12, 420, 28, 14); x.fill(); x.fillStyle = '#6d6a64'; x.font = inter(16, 600); x.textBaseline = 'middle'; x.fillText('cloud.system.dev/architecture', 140, 27);
-  x.fillStyle = '#121214'; x.font = disp(52); x.textBaseline = 'alphabetic'; x.fillText('SYSTEM NODES', 40, 130);
-  x.fillStyle = '#8b877f'; x.font = inter(20, 600); x.fillText('Autonomous multi-agent orchestration flow', 40, 162);
-  const cols = [['#38bdf8', '#0284c7'], ['#ffd60a', '#d97706'], ['#34d399', '#059669']], names = ['Gateway API', 'Vector Index', 'Agent Core'];
-  B.cards.forEach((t0, i) => {
-    if (t < t0) return; const p = ez.back(span(t, t0, t0 + 0.3), 1.8), cx = 40 + i * 236, cy = 192, cw = 214, ch = 282;
-    x.save(); x.translate(cx, cy);
-    x.fillStyle = '#ffffff'; rr(x, 0, 0, cw, ch, 14); x.fill();
-    const g = x.createLinearGradient(0, 0, cw, 140); g.addColorStop(0, cols[i][0]); g.addColorStop(1, cols[i][1]); x.fillStyle = g; rr(x, 10, 10, cw - 20, 140, 10); x.fill();
-    x.fillStyle = '#18181a'; x.font = inter(22, 700); x.textBaseline = 'middle'; x.fillText(names[i], 16, 185);
-    x.fillStyle = '#d9d6cf'; rr(x, 16, 210, cw - 50, 10, 5); x.fill(); rr(x, 16, 230, cw - 90, 10, 5); x.fill();
-    x.restore();
-  });
-  x.restore();
-  return BR;
-}
-
-// --- 6. BACKGROUND, CAMERA & FINISHING ---
+// --- 6. BACKGROUND, CAMERA & FINISHING (Patil's Engine) ---
 function background(c, t) {
   c.fillStyle = C.bg; c.fillRect(0, 0, W, H);
   const glow = (x, y, r, col) => { const g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, col); g.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = g; c.fillRect(0, 0, W, H); };
@@ -438,6 +323,7 @@ function finishing(c, t, LEAK = [], FLASH = []) {
   c.globalAlpha = 0.03; c.globalCompositeOperation = 'source-over'; c.fillRect(0, 0, W, H); c.restore();
 }
 
+// Persistent Top Pacing Bar
 function topProgressBar(c, t, duration) {
   const p = clamp(t / duration);
   c.save();
@@ -448,220 +334,33 @@ function topProgressBar(c, t, duration) {
   c.restore();
 }
 
-// --- 7. DEMO SCENES & COMPOSITOR ---
-const DURATION = 24.0;
-const TL = {
-  s1: { w1: [0.2, 0.45], w2: [0.8, 1.1], hl: 1.4, yaw: 1.5 },
-  s2: { w: [6.2, 6.4, 6.6], term: 6.8, strike: 9.2 },
-  s3: { w: [12.2, 12.5], cnt: [13.0, 15.5], lock: 15.5 },
-  s4: { w: [18.2, 18.5, 18.8], take: 20.0 }
-};
-
-const PUNCH = [{ t: 1.1, a: 0.08 }, { t: 9.2, a: 0.09 }, { t: 15.5, a: 0.12 }, { t: 20.0, a: 0.08 }];
-const SHAKE = [{ t: 1.1, a: 10 }, { t: 9.2, a: 14 }, { t: 15.5, a: 18 }];
-const FLASH = [{ t: 6.0, a: 0.4 }, { t: 12.0, a: 0.5 }, { t: 15.5, a: 0.6 }];
-const LEAK = [1.1, 15.5];
-const PUSH = [[0, 6.0], [6.0, 12.0], [12.0, 18.0], [18.0, 24.0]];
-
-function renderScene(ctx, t) {
-  const isLandscape = currentMode === Orientation.LANDSCAPE;
-  if (t < 6.0) {
-    // Scene 1: Hook & 3D Perspective Browser Proof Shot
-    const r1 = [word('STOP', TL.s1.w1[0], disp(isLandscape ? 120 : 96), C.ink), word('BUILDING', TL.s1.w1[1], disp(isLandscape ? 120 : 96), C.ink)];
-    const r2 = [word('BRITTLE', TL.s1.w2[0], disp(isLandscape ? 150 : 110), C.accent), word('SYSTEMS.', TL.s1.w2[1], disp(isLandscape ? 150 : 110), C.ink)];
-    row(ctx, r1, isLandscape ? W * 0.32 : W * 0.5, isLandscape ? 240 : 280, 24);
-    row(ctx, r2, isLandscape ? W * 0.32 : W * 0.5, isLandscape ? 390 : 410, 26);
-    [...r1, ...r2].forEach((it) => slam(ctx, it, t));
-    const path = swipe(ctx, r2[0], t, TL.s1.hl, 0.25);
-    slamMarked(ctx, r2[0], t, path);
-    // Proof shot: 3D browser layer rotated in yaw
-    if (t > TL.s1.yaw) {
-      const enter = ez.outExpo(span(t, TL.s1.yaw, TL.s1.yaw + 0.6));
-      if (isLandscape) {
-        drawYaw(ctx, drawBrowserProof(t - TL.s1.yaw), 1360 + (1 - enter) * 400, 560, 680, 440, -0.42, enter);
-      } else {
-        drawYaw(ctx, drawBrowserProof(t - TL.s1.yaw), W / 2, 880 + (1 - enter) * 300, 680, 440, -0.25, enter);
-      }
-    }
-  } else if (t < 12.0) {
-    // Scene 2: Live Code & Terminal Proof Shot with Strike
-    const h = [word('EXECUTING', TL.s2.w[0], disp(isLandscape ? 110 : 86)), word('WITHOUT', TL.s2.w[1], disp(isLandscape ? 110 : 86)), word('RETRIES?', TL.s2.w[2], disp(isLandscape ? 110 : 86), C.red)];
-    row(ctx, h, W / 2, isLandscape ? 220 : 260, 22);
-    h.forEach((it) => slam(ctx, it, t));
-    strike(ctx, W * 0.2, W * 0.8, isLandscape ? 220 : 260, span(t, TL.s2.strike, TL.s2.strike + 0.2), C.red, 16);
-    // Terminal window proof shot
-    const tw = isLandscape ? 960 : W * 0.88, th = isLandscape ? 480 : 640;
-    const tx = (W - tw) / 2, ty = isLandscape ? 360 : 420;
-    drawTerminalProof(ctx, tx, ty, tw, th, 'deploy_agent.sh', 'curl -X POST https://api.prod/swarm/execute', 'STATUS: 504 GATEWAY TIMEOUT\nERR: Connection pool exhausted (0 retries remaining)\nFAIL: Pipeline failed at node #4', span(t, TL.s2.term, TL.s2.term + 3.0));
-  } else if (t < 18.0) {
-    // Scene 3: High-Speed Benchmark Math & Green Lock
-    const r = [word('PIPELINE', TL.s3.w[0], disp(isLandscape ? 115 : 90)), word('RELIABILITY', TL.s3.w[1], disp(isLandscape ? 115 : 90), C.accent)];
-    row(ctx, r, W / 2, isLandscape ? 240 : 280, 24);
-    r.forEach((it) => slam(ctx, it, t));
-    const cntProgress = ez.out3(span(t, TL.s3.cnt[0], TL.s3.cnt[1]));
-    const val = (cntProgress * 99.9).toFixed(1) + '%';
-    ctx.save(); ctx.translate(W / 2, isLandscape ? 560 : 700);
-    ctx.font = disp(isLandscape ? 240 : 180); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = C.green;
-    if (t > TL.s3.lock) { ctx.shadowColor = 'rgba(52,211,153,0.6)'; ctx.shadowBlur = 60; }
-    ctx.fillText(val, 0, 0);
-    ctx.restore();
-    if (t > TL.s3.lock) {
-      scribble(ctx, W / 2, isLandscape ? 560 : 700, isLandscape ? 420 : 320, isLandscape ? 180 : 130, span(t, TL.s3.lock, TL.s3.lock + 0.35), C.accent, 8, 12);
-    }
-  } else {
-    // Scene 4: Actionable Takeaway
-    const t1 = [word('ARCHITECT', TL.s4.w[0], disp(isLandscape ? 130 : 100)), word('FOR', TL.s4.w[1], disp(isLandscape ? 130 : 100)), word('SCALE.', TL.s4.w[2], disp(isLandscape ? 130 : 100), C.accent)];
-    row(ctx, t1, W / 2, isLandscape ? 380 : 500, 26);
-    t1.forEach((it) => slam(ctx, it, t));
-    if (t > TL.s4.take) {
-      const u = ez.out3(span(t, TL.s4.take, TL.s4.take + 0.4));
-      ctx.save(); ctx.globalAlpha = u;
-      ctx.font = inter(isLandscape ? 38 : 32, 600); ctx.fillStyle = C.dim; ctx.textAlign = 'center';
-      ctx.fillText('Follow @devengoratela for production AI architectures', W / 2, isLandscape ? 560 : 700);
-      ctx.restore();
-    }
-  }
-}
-
-function scoreSound(k) {
-  // Scene 1 hits
-  k.play('slam', TL.s1.w1[0], { gain: 0.6 });
-  k.play('slam', TL.s1.w2[0], { gain: 0.8 });
-  k.play('boom', TL.s1.w2[1], { gain: 0.6 });
-  k.play('marker', TL.s1.hl, { dur: 0.25, gain: 0.7 });
-  k.play('whoosh', TL.s1.yaw, { dur: 0.5, gain: 0.7 });
-
-  // Scene 2 hits
-  k.play('whoosh', 6.0, { dur: 0.35, gain: 1.0 });
-  k.play('slam', TL.s2.w[0], { gain: 0.6 });
-  k.play('keys', TL.s2.term, { dur: 1.8, gain: 0.8 });
-  k.play('strike', TL.s2.strike, { gain: 1.0 });
-  k.play('tapeStop', TL.s2.strike + 0.05, { gain: 0.8 });
-
-  // Scene 3 hits
-  k.play('whoosh', 12.0, { dur: 0.35, gain: 1.0 });
-  k.play('slam', TL.s3.w[0], { gain: 0.6 });
-  for (let t = TL.s3.cnt[0]; t < TL.s3.cnt[1]; t += 0.12) {
-    k.play('tick', t, { gain: 0.4, soft: true });
-  }
-  k.play('boom', TL.s3.lock, { gain: 1.2 });
-  k.play('shimmer', TL.s3.lock + 0.05, { gain: 0.8 });
-  k.play('marker', TL.s3.lock + 0.1, { dur: 0.35, gain: 0.7 });
-
-  // Scene 4 hits
-  k.play('whoosh', 18.0, { dur: 0.35, gain: 1.0 });
-  k.play('slam', TL.s4.w[0], { gain: 0.7 });
-  k.play('slam', TL.s4.w[2], { gain: 1.0 });
-  k.play('boom', TL.s4.take, { gain: 0.9 });
-}
-
-// --- 8. COMPOSITOR & TIMELINE SEEK ---
-const cvs = document.getElementById('stage');
-const ctx = cvs.getContext('2d');
-
-function explainer(t) {
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  background(ctx, t);
-  const si = t < 6.0 ? 0 : t < 12.0 ? 1 : t < 18.0 ? 2 : 3;
-  ctx.save();
-  applyCam(ctx, camera(t, si, PUNCH, SHAKE, PUSH));
-  renderScene(ctx, t);
-  ctx.restore();
-  topProgressBar(ctx, t, DURATION);
-  finishing(ctx, t, LEAK, FLASH);
-}
-
-window.seek = (t) => explainer(clamp(t, 0, DURATION));
-window.DURATION = DURATION;
-window.scoreSound = scoreSound;
+// Export engine hooks for headless Chrome render
+window.CM = CM;
 window.SFX = SFX;
 window.setOrientation = setOrientation;
 window.Orientation = Orientation;
-
-// --- 9. INTERACTIVE TRANSPORT CONTROLS ---
-const ui = {
-  play: document.getElementById('play'),
-  scrub: document.getElementById('scrub'),
-  time: document.getElementById('time'),
-  sound: document.getElementById('sound'),
-  loop: document.getElementById('loop'),
-  aspect: document.getElementById('aspect'),
-  status: document.getElementById('status-meta')
-};
-
-let T = 0, playing = false, last = 0, soundOn = true, loopOn = true, stopSound = null;
-const fmt = (t) => t.toFixed(2) + ' / ' + DURATION.toFixed(2);
-
-function draw() {
-  window.seek(T);
-  ui.scrub.value = T;
-  ui.time.textContent = fmt(T);
-}
-
-function startAudio() {
-  stopAudio();
-  if (!playing || !soundOn) return;
-  stopSound = SFX.live(scoreSound, T, { voiceover: false });
-}
-
-function stopAudio() {
-  if (stopSound) { stopSound(); stopSound = null; }
-}
-
-function setPlaying(p) {
-  playing = p;
-  ui.play.textContent = p ? 'Pause' : 'Play';
-  last = performance.now();
-  if (p) startAudio(); else stopAudio();
-}
-
-function tick(now) {
-  if (playing) {
-    T += (now - last) / 1000;
-    last = now;
-    if (T >= DURATION) {
-      if (loopOn) { T = 0; startAudio(); } else { T = DURATION; setPlaying(false); }
-    }
-    draw();
-  }
-  requestAnimationFrame(tick);
-}
-
-ui.play.addEventListener('click', () => {
-  if (!playing && T >= DURATION) T = 0;
-  setPlaying(!playing);
-});
-ui.scrub.addEventListener('input', () => {
-  T = parseFloat(ui.scrub.value);
-  draw();
-  if (playing) startAudio();
-});
-ui.sound.addEventListener('click', () => {
-  soundOn = !soundOn;
-  ui.sound.setAttribute('aria-pressed', soundOn);
-  ui.sound.textContent = soundOn ? 'Sound on' : 'Sound off';
-  if (playing) startAudio();
-});
-ui.loop.addEventListener('click', () => {
-  loopOn = !loopOn;
-  ui.loop.setAttribute('aria-pressed', loopOn);
-});
-ui.aspect.addEventListener('change', () => {
-  setOrientation(ui.aspect.value === '9by16' ? Orientation.PORTRAIT : Orientation.LANDSCAPE);
-  draw();
-});
-
-(async () => {
-  try {
-    await Promise.all([
-      '60px "Anton"', 'italic 60px "Instrument Serif"', '600 30px "Inter"', '700 30px "Inter"', '800 30px "Inter"'
-    ].map((f) => document.fonts.load(f, 'AaZz09')));
-    await document.fonts.ready;
-  } catch (e) {}
-  T = 0; draw();
-  requestAnimationFrame((n) => { last = n; tick(n); });
-})();
+window.background = background;
+window.camera = camera;
+window.applyCam = applyCam;
+window.finishing = finishing;
+window.topProgressBar = topProgressBar;
+window.slam = slam;
+window.swipe = swipe;
+window.slamMarked = slamMarked;
+window.strike = strike;
+window.scribble = scribble;
+window.handArrow = handArrow;
+window.drawYaw = drawYaw;
+window.rr = rr;
+window.row = row;
+window.word = word;
+window.C = C;
+window.F = F;
+window.disp = disp;
+window.inter = inter;
+window.serif = serif;
+window.mono = mono;
 </script>
 </body>
 </html>
+
