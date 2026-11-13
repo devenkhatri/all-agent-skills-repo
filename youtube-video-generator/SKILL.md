@@ -115,6 +115,7 @@ When extracting visual milestones or screenshots from source videos or GitHub re
 > - Delete per-slide audio cuts (`assets/voiceover_slide_*.mp3`) and temporary render cuts (`visual_rendered.mp4`, `*_tmp.mp4`, `concat*.txt`)
 > - Delete intermediate asset staging folders (`assets/images/`, `assets/broll/`, `assets/screenshot-*.png`, `assets/voiceover.mp3`) once fully baked into the final MP4 video outputs
 > - The output folder must strictly contain only the final deliverables: the two MP4 videos (16:9 and 9:16), the 6 clean social post files, `cover.svg`, `cover-prompt.md`, `pinterest-motion-design.md`, and `credits.md`.
+> - **Permanent Skill Fixtures:** Never delete or purge `pinterest-references/` or `scripts/` — these are persistent local skill assets, not scratch output files.
 
 ---
 
@@ -131,9 +132,14 @@ Collect or evaluate the provided input:
 
 ---
 
-## Motion Graphics Architecture & Pinterest Style Integration
+## Motion Graphics Architecture & Pinterest Reference Library Integration
 
-High-production videos require continuous visual motion. Static slides or unmoving cards cause viewer disengagement. Every generated video must incorporate rich, multi-layered motion graphics inspired by top-tier motion studios and Pinterest visual designs.
+High-production videos require continuous visual motion. Static slides or unmoving cards cause viewer disengagement. Every generated video must incorporate rich, multi-layered motion graphics modeled directly after the **curated reference videos stored in `pinterest-references/`**.
+
+> [!IMPORTANT]
+> **Use Local Reference Videos (`pinterest-references/`) — Do NOT Search Pinterest Online:**
+> The skill provides a dedicated local reference repository containing 26 downloaded high-production Pinterest motion graphic videos in `pinterest-references/`.
+> **Never search or browse Pinterest on the web.** Always inspect and select reference video(s) directly from `pinterest-references/` to define the visual style, easing physics, typography layout, and animation layers.
 
 ### 1. Mandatory Motion Graphics Density Rule (Zero Static Screen Policy)
 > [!IMPORTANT]
@@ -182,11 +188,28 @@ Every video must actively deploy elements from these six motion graphics systems
 
 ---
 
-### 3. Pinterest Motion Graphics Selection Workflow
-Before generating visual assets or scripts:
-1. Search and select a cutting-edge motion graphics design style from Pinterest matching the video topic (e.g., kinetic cyber-dark, Swiss neo-brutalism, glowing glassmorphic UI, or minimalist technical lines).
-2. Document the reference URL, color palette tokens, typography scales, motion curves, and transition types in `YYYYMMDD-HHMMSS/pinterest-motion-design.md`.
-3. Apply this design language consistently across both video aspect ratios (16:9 widescreen and 9:16 vertical).
+### 3. Local Reference Video Selection Workflow (`pinterest-references/`)
+
+Before generating visual assets, motion timing, or scripts:
+
+1. **Inspect Curated Local Reference Library (`pinterest-references/`):**
+   - Review available motion design reference videos in `pinterest-references/`:
+     - **Kinetic Typography, 3D Text & Card Physics:** `Burzaev_studio_*.mp4`, `divyanshfx_*.mp4`, `dspatel7664_*.mp4`, `Rishabh_Verma13_*.mp4`, `rvxeditor52_*.mp4`.
+     - **SaaS UI, Modern Glassmorphism & Web Mockups:** `socialheavenio_*.mp4`, `solution_wagon_*.mp4`, `exar_digital_*.mp4`, `rovixstudios_*.mp4`, `saifeecreations_*.mp4`.
+     - **Technical Infographics, Flowcharts & System Diagrams:** `insiderforce_*.mp4`, `mostafaazv_*.mp4`, `creatingwithakash_*.mp4`, `thekulveer_*.mp4`.
+     - **Minimalist Editorial, Typography Scale & Smooth Transitions:** `Grace_Studio57_*.mp4`, `motiondesigners2d_*.mp4`, `mukithasan997_*.mp4`, `roykanti420_*.mp4`.
+2. **Select Matching Reference Video:**
+   - Select 1 or 2 specific reference files that best match the topic, visual tone, and energy of the video.
+   - If needed, sample frames or metadata to verify styling (`ffprobe` or `ffmpeg -ss 00:00:03 -i pinterest-references/<file>.mp4 -frames:v 1 preview.png`).
+3. **Document Motion Specs in `YYYYMMDD-HHMMSS/pinterest-motion-design.md`:**
+   - Document:
+     - **Reference Video Selected:** Relative path to the video inside `pinterest-references/` (e.g., `pinterest-references/Burzaev_studio_ssspin.io_1794547129.mp4`).
+     - **Core Aesthetic:** (e.g., Cyber-dark terminal with spring-loaded glass cards).
+     - **Color Tokens:** Background, Card Surface, Accent/Highlight, Text.
+     - **Motion Primitives Extracted:** Typography stagger timing, card entrance curves (`back.out(1.4)`), line drawing speed, and transition dynamics.
+     - **Scene Application Mapping:** How these patterns apply to each scene in the script.
+4. **Apply Uniformly Across Video Formats:**
+   - Enforce this extracted motion language consistently across both the 16:9 widescreen video and the 9:16 vertical video.
 
 ---
 
@@ -412,7 +435,7 @@ Generate the complete suite of deliverables for all channels directly into the d
 | **Instagram Post** | `instagram-post.md` | Visual hook (<10 words), curiosity hook extension, spaced paragraphs, emoji bullets, save/share CTA, 10–15 hashtags at bottom. Clean text. |
 | **Twitter / X** | `twitter-post.md` | Standalone tweet (<280 chars) PLUS full numbered thread (`1/` to `N/`), summary, follow + retweet CTA. Clean text. |
 | **Facebook Post** | `facebook-post.md` | Conversational, storytelling, short paragraphs, emoji anchors, discussion question, 0–2 hashtags. Clean text. |
-| **Pinterest Motion Style**| `pinterest-motion-design.md` | Reference URL, motion design breakdown, color palette, and transition specs. |
+| **Pinterest Motion Style**| `pinterest-motion-design.md` | Selected reference video from pinterest-references/, motion design breakdown, color palette tokens, and transition specs. |
 | **Credits & Attribution**| `credits.md` | Image & B-roll sources, background music license, ElevenLabs voice profile. |
 
 ---
@@ -631,12 +654,12 @@ YYYYMMDD-HHMMSS/
 ├── facebook-post.md                ← Clean copy-paste Facebook post (zero markdown)
 ├── cover.svg                       ← 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md                 ← AI image prompt for Midjourney / DALL-E / Flux
-├── pinterest-motion-design.md      ← Selected Pinterest motion graphics design URL & styling
+├── pinterest-motion-design.md      ← Selected reference video from pinterest-references/ & motion specs
 └── credits.md                      ← Free copyright-free images & B-roll sources and license log
 ```
 
 > [!NOTE]
-> All intermediate scratch files and working directories (such as `assets/review/`, `assets/broll/`, `assets/images/`, `slides_16by9/`, `slides_9by16/`, `tmp/`, per-slide voiceover segments, and temporary render cuts) are automatically removed upon completion so the folder strictly holds the final generated deliverables.
+> All intermediate scratch files and working directories (such as `assets/review/`, `assets/broll/`, `assets/images/`, `slides_16by9/`, `slides_9by16/`, `tmp/`, per-slide voiceover segments, and temporary render cuts) are automatically removed upon completion so the folder strictly holds the final generated deliverables. (Note: Permanent skill fixtures `pinterest-references/` and `scripts/` are never deleted).
 
 ---
 
@@ -648,8 +671,10 @@ When triggered, execute all stages sequentially without pausing for unnecessary 
    - Evaluate topic, video URL, YouTube URL, or GitHub repo.
    - If video input: run pre-edit inspection pass (`ffprobe`, contact sheets, audio check) and output an upfront critique before editing.
    - Compute timestamp folder `YYYYMMDD-HHMMSS/`.
-2. **Pinterest Motion Graphics Selection & Design Specification:**
-   - Select matching cutting-edge motion design aesthetic from Pinterest and document in `pinterest-motion-design.md`.
+2. **Reference Video Selection from `pinterest-references/` & Motion Design Specification:**
+   - Inspect the downloaded reference videos in `pinterest-references/` (do NOT search Pinterest online).
+   - Select the reference video that matches the topic and aesthetic (e.g., kinetic typography, SaaS glassmorphic UI, technical flowcharts, or minimalist editorial).
+   - Extract and document the chosen reference file, color palette tokens, typography scales, easing curves, and transition dynamics into `pinterest-motion-design.md`.
    - Define the 4-layer motion graphics plan (ambient background drift, kinetic core visuals, text/counter accents, top progress bar).
 3. **Scripting with Slide-Topic & Motion Graphics Boundaries:**
    - Write structured narration chunks mapped 1:1 to visual slides/scenes.
@@ -710,6 +735,7 @@ Before completing execution, verify:
 - [ ] Sources logged in `credits.md`
 
 **Motion Graphics Density (Zero Static Screen Policy - Mandatory):**
+- [ ] Motion graphics modeled directly after reference video(s) from `pinterest-references/` (no online Pinterest search) and documented in `pinterest-motion-design.md`
 - [ ] Every scene incorporates at least 2 to 3 active motion graphic layers running simultaneously (no static screens)
 - [ ] Top continuous animated gradient progress bar spans full video runtime
 - [ ] Kinetic typography reveals (staggered words, active keyword highlights) synchronized with narration

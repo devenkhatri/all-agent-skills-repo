@@ -26,7 +26,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+USER_AGENT = "VideoGeneratorBot/1.0 (https://github.com/devenkhatri; deven@dhimahitechnolabs.com)"
 
 def log_credit(credits_file, item_title, source_url, license_type="Free / Copyright-Free"):
     if not credits_file:

@@ -16,7 +16,7 @@ This skill provides broadcast-quality video generation and cross-platform social
   - **9:16 Vertical:** 1 to 3 minutes long, designed for YouTube Shorts, Instagram Reels, and TikTok.
 - **ElevenLabs Cloned Voiceover:** High-presence narration (-16 LUFS) with background music strictly ducked down to 10% volume (`volume=0.10`).
 - **Automated B-Roll Downloading from the Internet (`download-broll.py`):** Automatically searches, downloads, trims (1.5s–3.5s), normalizes to 1080p, and strips audio from copyright-free B-roll clips from Pexels Videos, Pixabay Videos, and Wikimedia Commons (zero API key required for Wikimedia), logging full attribution into `credits.md`.
-- **Agency-Grade High-Density Motion Graphics (Zero Static Screen Policy):** Strict policy requiring at least 2 to 3 active motion graphic layers running simultaneously in every scene (ambient background motion, kinetic core visuals, text/counter accents, persistent gradient progress bar). Zero frozen or unmoving screens.
+- **Agency-Grade High-Density Motion Graphics (Modeled on Local References):** Motion design is modeled directly after the 26 curated reference videos stored in `pinterest-references/` (never searching Pinterest online). Enforces a Zero Static Screen Policy with at least 2 to 3 active motion graphic layers running simultaneously in every scene (ambient background motion, kinetic core visuals, text/counter accents, persistent gradient progress bar). Zero frozen or unmoving screens.
 - **6 Core Motion Graphics Categories:** Kinetic typography, animated architecture diagrams with laser pulse data packets, live-typing terminal code windows, dynamic spring metric counters, floating glassmorphic UI cards, and dynamic camera moves / seamless transitions.
 - **Selective, Purpose-Fit B-Roll (Zero Forced B-Roll):** B-roll video cutaways and photographic assets are deployed selectively—only when they naturally contextualize and fit the scene (hooks, transitions, physical hardware, real-world analogies). B-roll is never forced onto code walkthroughs, terminal demos, or architecture diagrams where high-density motion graphics deliver superior clarity. When used, all footage is copyright-free from Pexels, Pixabay, Mixkit, Coverr, or Wikimedia Commons with zero watermarks.
 - **Complete Multi-Channel Social Content:**
@@ -36,12 +36,19 @@ This skill provides broadcast-quality video generation and cross-platform social
 
 ## Motion Graphics Architecture & Categories
 
-Generated videos enforce a **Zero Static Screen Policy** using a multi-layer composition pipeline:
+Generated videos enforce a **Zero Static Screen Policy** using a multi-layer composition pipeline modeled directly after the **curated reference videos in `pinterest-references/`** (never searching Pinterest online):
 
 1. **Layer 1: Ambient Background Motion** — Continuous subtle gradient drift, particle dust, or Ken Burns 3D camera pan/zoom (`scale: 1.0 → 1.04`).
 2. **Layer 2: Core Kinetic Visual Component** — Animated flow diagrams, self-typing terminal code windows, live-drawing architecture paths, or floating UI cards.
 3. **Layer 3: Kinetic Text & Metric Accents** — Staggered word reveals, live number counters ticking up with spring physics, glowing highlight strokes, and dynamic checkmark draws.
 4. **Layer 4: Persistent Pacing Anchor** — Continuous top gradient progress bar (`0% → 100%`) running across the full video runtime.
+
+### Curated Local Reference Library (`pinterest-references/`)
+Instead of browsing Pinterest on the web, motion graphics styles are chosen directly from the local `pinterest-references/` folder:
+- **Kinetic Typography & 3D Text:** `Burzaev_studio_*.mp4`, `divyanshfx_*.mp4`, `dspatel7664_*.mp4`, `Rishabh_Verma13_*.mp4`.
+- **SaaS UI & Glassmorphic Cards:** `socialheavenio_*.mp4`, `solution_wagon_*.mp4`, `exar_digital_*.mp4`, `rovixstudios_*.mp4`.
+- **Technical Infographics & Architecture:** `insiderforce_*.mp4`, `mostafaazv_*.mp4`, `creatingwithakash_*.mp4`.
+- **Minimalist Editorial & Smooth Glides:** `Grace_Studio57_*.mp4`, `motiondesigners2d_*.mp4`, `mukithasan997_*.mp4`.
 
 ### The 6 Core Motion Graphics Categories:
 - **Kinetic Typography:** Staggered word entrances, voiceover-synchronized keyword glows, translucent glassmorphism badge pills.
@@ -52,6 +59,8 @@ Generated videos enforce a **Zero Static Screen Policy** using a multi-layer com
 - **Dynamic Transitions & Camera Glides:** Whip pans, directional light sweeps, and continuous Ken Burns drift between visual scenes.
 
 ---
+
+## Deliverables in Output Folder (`YYYYMMDD-HHMMSS/`)
 
 After the automated cleanup pass, the output folder strictly contains **ONLY the final generated deliverables**:
 
@@ -67,11 +76,11 @@ YYYYMMDD-HHMMSS/
 ├── facebook-post.md                # Clean copy-paste Facebook post (zero markdown)
 ├── cover.svg                       # 1200×627 SVG cover image (1.91:1)
 ├── cover-prompt.md                 # AI image prompt for Midjourney / DALL-E / Flux
-├── pinterest-motion-design.md      # Selected Pinterest motion graphics design URL & styling
+├── pinterest-motion-design.md      # Selected reference video from pinterest-references/ & motion specs
 └── credits.md                      # Free copyright-free images & B-roll sources and license log
 ```
 
-> All intermediate files and scratch working directories (`assets/`, `slides_*`, `tmp*`, and temporary render fragments) are automatically purged after the final videos and posts are created.
+> All intermediate files and scratch working directories (`assets/`, `slides_*`, `tmp*`, and temporary render fragments) are automatically purged after the final videos and posts are created. Permanent skill directories (`pinterest-references/` and `scripts/`) are preserved.
 
 ---
 
